@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import easyocr
+import tensorflow_hub as hub
+
+from tensorflowhelper import run_detector
 
 image_path = 'herb_images/largetest.jpg'
 
@@ -11,7 +14,7 @@ test_image = test_image.convert('L')
 # (x1, y1) is the top-left corner, and (x2, y2) is the bottom-right corner of the region
 x1, y1 = 4000, 7000  # example coordinates
 x2, y2 = 6500, 9200  # example coordinates
-
+"""
 # Crop the image to the specified region
 cropped_image = test_image.crop((x1, y1, x2, y2))
 cropped_image = np.array(cropped_image)
@@ -41,5 +44,9 @@ for detection in result:
 # Show the image with bounding boxes
 plt.axis('off')
 plt.show()
+"""
+module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
 
-### Pipeline steps begin here??? ###
+detector = hub.load(module_handle).signatures['default']
+
+run_detector(detector, image_path)
