@@ -1,52 +1,63 @@
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 from PIL import Image
 import numpy as np
 import easyocr
-import tensorflow_hub as hub
+import cv2
 
-from tensorflowhelper import run_detector
+from label_extractor import getNineLabels, runAgain
 
-image_path = 'herb_images/largetest.jpg'
+test_image_path = "exp5"
 
-test_image = Image.open(image_path) # Update path to your own data set location
-test_image = test_image.convert('L')
-# Define the coordinates of the region you want to zoom in on
-# (x1, y1) is the top-left corner, and (x2, y2) is the bottom-right corner of the region
-x1, y1 = 4000, 7000  # example coordinates
-x2, y2 = 6500, 9200  # example coordinates
-"""
-# Crop the image to the specified region
-cropped_image = test_image.crop((x1, y1, x2, y2))
-cropped_image = np.array(cropped_image)
-print(type(cropped_image))
+### LETS GET THE TXT ###
+parent_directory = "runs"
 
-plt.imshow(cropped_image, cmap="gray")
-plt.show()
+#SÆT TIL TRUE HVIS DU VIL KØRE ALLE BILLEDER SÅ RUNS MAPPE BLIVER LAVET
+#SÆT TIL FALSE HVIS DU HAR RUNS MAPPERNE
+runAgain(doImages=False)
 
-reader = easyocr.Reader(['en', 'da'])
-result = reader.readtext(cropped_image)
-print(result)
+# FOLDER_PATH = KUN KØR FOR EN I STEDET FOR ALLE, F.EKS. folder_path=test_image_path
+# Vil du køre alle billederne skal du bare ikke specificere folder_path
+data_with_digit_9 = getNineLabels(parent_directory, folder_path=test_image_path)
+print(data_with_digit_9)
 
-# Create a Matplotlib figure and axis
-plt.figure(figsize=(10, 10))
-plt.imshow(cropped_image, cmap='gray')
+for data in data_with_digit_9:
+    image_path = 'herb_images/' + data[1]
+    # Load the image using OpenCV
+    image = cv2.imread(image_path)
 
-# Plot bounding boxes on the image
-for detection in result:
-    # Extract the bounding box coordinates
-    box = detection[0]  # The bounding box information is usually at index 1
-    x1, y1 = box[0]
-    x2, y2 = box[1]
-    x3, y3 = box[2]
-    x4, y4 = box[3]
+    # Check if the image is loaded properly
+    if image is None:
+        print(f"Failed to load image from {image_path}")
+        continue
 
-    plt.plot([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], 'r', linewidth=2)
-# Show the image with bounding boxes
-plt.axis('off')
-plt.show()
-"""
-module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
+    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image_size = image_gray.shape[::-1]
+    coordinates = data[0][1:5]
+    print(coordinates)
 
-detector = hub.load(module_handle).signatures['default']
+    # YOLOv5-style coordinates: x, y, w, h
+    x_center = float(coordinates[0]) * image_size[0]
+    y_center = float(coordinates[1]) * image_size[1]
+    box_width = float(coordinates[2]) * image_size[0]
+    box_height = float(coordinates[3]) * image_size[1]
 
-run_detector(detector, image_path)
+    # Calculate top-left and bottom-right coordinates of the bounding box
+    x1 = int(x_center - (box_width / 2))
+    y1 = int(y_center - (box_height / 2))
+    x2 = int(x_center + (box_width / 2))
+    y2 = int(y_center + (box_height / 2))
+
+    # Draw bounding box on the image
+    cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+    # Resize the image
+    scale_percent = 10  # percent of original size
+    width = int(image.shape[1] * scale_percent / 100)
+    height = int(image.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    resized_image = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+
+    # Display the resized image with the bounding box using OpenCV
+    cv2.imshow('Image with Bounding Box', resized_image)
+    cv2.waitKey(0)  # Wait until a key is pressed
+    cv2.destroyAllWindows()  # Close the OpenCV window after a key is pressed
