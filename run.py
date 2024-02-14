@@ -2,6 +2,7 @@ from label_extractor import getInstituteLabels, predictLabels
 from helperfuncs import resize_image
 import easyocr
 import cv2
+import pygbif.species as gb
 
 def load_and_preprocess_image(image_path):
     """Load and preprocess the image."""
@@ -79,6 +80,33 @@ def process_image_data(institute_label_data):
     
     return ocr_results
 
+def findNames(search_images):
+    """Identify the real plant names of the OCR results"""
+
+    identified_image_names = []
+
+    for ocr_res in search_images:
+        image_name = ocr_res[0]
+        image_text = ocr_res[1]
+
+        best_match = "none"
+        best_score = 0
+        for text_elm in image_text:
+            lookup = gb.name_backbone(name=text_elm, kingdom="plants")
+
+            if 'scientificName' in lookup:
+  
+                current_conf = lookup['confidence']
+                current_name = lookup['scientificName']
+
+                if current_conf >= best_score:
+                    best_score = current_conf
+                    best_match = current_name
+        
+        identified_image_names.append((image_name, best_match, best_score))
+    
+    return identified_image_names
+
 def main():
     parent_directory = "runs"
     test_image_path = "exp"
@@ -86,18 +114,22 @@ def main():
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    #predictLabels(doImages=False)
+    predictLabels(doImages=False)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
-    institute_label_data = getInstituteLabels(parent_directory, folder_path=test_image_path)
+    institute_label_data = getInstituteLabels(parent_directory)
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
     processed_images = process_image_data(institute_label_data)
 
-    print(processed_images)
+    ### LÆS: GBIF TEST STUFF BELOW ###
+
+    found_plant_names = findNames(processed_images)
+
+    print(found_plant_names)
 
 if __name__ == "__main__":
     main()
