@@ -1,4 +1,4 @@
-from label_extractor import getNineLabels, runAgain
+from label_extractor import getInstituteLabels, predictLabels
 from helperfuncs import resize_image
 import easyocr
 import cv2
@@ -13,6 +13,7 @@ def load_and_preprocess_image(image_path):
 
     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image_size = image_gray.shape[::-1]
+
     return image, image_size
 
 def calculate_coordinates(image_size, coordinates):
@@ -44,16 +45,21 @@ def process_cropped_image(image, bbox):
 
     reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=False)
     result = reader.readtext(cropped_image, detail=0)
-    print(result)
 
-    resized_cropped_image = resize_image(cropped_image, scale=35)
-    cv2.imshow('Cropped Image', resized_cropped_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # UNCOMMENT IF YOU WANT TO SEE THE CROPPED RESULT
+    #resized_cropped_image = resize_image(cropped_image, scale=35)
+    #cv2.imshow('Cropped Image', resized_cropped_image)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
-def process_image_data(data_with_digit_9):
+    return result
+
+def process_image_data(institute_label_data):
     """Process image data."""
-    for data in data_with_digit_9:
+
+    ocr_results = []
+
+    for data in institute_label_data:
         image_path = 'herb_images/' + data[1]
         image, image_size = load_and_preprocess_image(image_path)
 
@@ -63,23 +69,35 @@ def process_image_data(data_with_digit_9):
         coordinates = data[0][1:5]
         bbox = calculate_coordinates(image_size, coordinates)
 
-        display_image_with_bbox(image, bbox)
+        # UNCOMMENT IF YOU WANT TO SEE THE DRAWN BOUNDING BOX
+        #display_image_with_bbox(image, bbox)
 
-        process_cropped_image(image, bbox)
+        text = process_cropped_image(image, bbox)
+        processed_image_info = (data[1], text)
+        
+        ocr_results.append(processed_image_info)
+    
+    return ocr_results
 
 def main():
     parent_directory = "runs"
-    test_image_path = "exp73"
+    test_image_path = "exp"
 
-    #SÆT TIL TRUE HVIS DU VIL KØRE ALLE BILLEDER SÅ RUNS MAPPE BLIVER LAVET
-    #SÆT TIL FALSE HVIS DU HAR RUNS MAPPERNE
-    runAgain(doImages=False)
+    ### PIPELINE step 1: Identify bounding boxes ###
+    # Set doImages to True to predict labels of all images in herb_images
+    # Set to false to skip this step, if you already have the "runs" results
+    #predictLabels(doImages=False)
 
-    # FOLDER_PATH = KUN KØR FOR EN I STEDET FOR ALLE, F.EKS. folder_path=test_image_path
-    # Vil du køre alle billederne skal du bare ikke specificere folder_path
-    data_with_digit_9 = getNineLabels(parent_directory, folder_path=test_image_path)
-    
-    process_image_data(data_with_digit_9)
+    ### PIPELINE step 2: Find label location in images ###
+    # Set folder_path to specific exp folder to get label location of only one image
+    # To run on all images, do not set the folder_path parameter
+    institute_label_data = getInstituteLabels(parent_directory, folder_path=test_image_path)
+
+    ### PIPELINE step 3: Extract text from images ###
+    # Performs OCR on cropped images according to the predicted bounding box locations
+    processed_images = process_image_data(institute_label_data)
+
+    print(processed_images)
 
 if __name__ == "__main__":
     main()

@@ -1,23 +1,21 @@
-from yolov5.detect import run, parse_opt, main
-
-# import required module
+from yolov5.detect import run
 from pathlib import Path
  
 # get the path/directory
 folder_dir = 'herb_images'
  
-# iterate over files in
-# that directory
-# Get a list of all JPEG files in the directory
+# Iterate over files in that directory
+# Get a list of all JPEG files found
 images = list(Path(folder_dir).glob('*.jpg'))
 
 # Now, 'images' contains the filenames sorted numerically
-def runAgain(doImages=False):
+def predictLabels(doImages=False):
     if doImages:
         for image in images:
             run(
             weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
             source=image,
+            #source="herb_images/728989.jpg",
             conf_thres=0.4,
             imgsz=(416, 416),
             nosave = False,
@@ -26,7 +24,7 @@ def runAgain(doImages=False):
             project = 'runs'
             )
 
-def getNineLabels(parent_directory, folder_pattern="exp*", folder_path=None, image_file_name=None):
+def getInstituteLabels(parent_directory, folder_pattern="exp*", folder_path=None, image_file_name=None):
     # Initialize the list to store data from all label files
     all_data_with_digit_9 = []
 
