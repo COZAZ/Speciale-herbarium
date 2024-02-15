@@ -126,7 +126,7 @@ def main():
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    #predictLabels(doImages=False)
+    predictLabels(doImages=True)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
@@ -135,11 +135,11 @@ def main():
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
-    processed_images = process_image_data(institute_label_data)
+    processed_images_data = process_image_data(institute_label_data)
 
     ### GBIF STUFF BELOW ###
 
-    found_plant_names = findNames(processed_images)
+    found_plant_names = findNames(processed_images_data)
     match_rate = compute_name_precision(found_plant_names)
 
     print(found_plant_names)
