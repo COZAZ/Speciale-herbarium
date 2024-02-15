@@ -107,14 +107,26 @@ def findNames(search_images):
     
     return identified_image_names
 
+def compute_name_precision(image_names):
+    """Compute correct name match rate"""
+    matches = 0
+
+    for tup in image_names:
+        if tup[1] != "none":
+            matches += 1
+    
+    match_rate = matches / len(image_names)
+
+    return match_rate 
+
 def main():
     parent_directory = "runs"
-    test_image_path = ["exp100", "exp101"]
+    test_image_path = ["exp", "exp2"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    predictLabels(doImages=False)
+    #predictLabels(doImages=False)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
@@ -125,11 +137,13 @@ def main():
     # Performs OCR on cropped images according to the predicted bounding box locations
     processed_images = process_image_data(institute_label_data)
 
-    ### LÆS: GBIF TEST STUFF BELOW ###
+    ### GBIF STUFF BELOW ###
 
     found_plant_names = findNames(processed_images)
+    match_rate = compute_name_precision(found_plant_names)
 
     print(found_plant_names)
+    print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
 
 if __name__ == "__main__":
     main()
