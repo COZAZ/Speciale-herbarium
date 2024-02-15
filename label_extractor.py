@@ -24,14 +24,13 @@ def predictLabels(doImages=False):
             project = 'runs'
             )
 
-def getInstituteLabels(parent_directory, folder_pattern="exp*", folder_path=None, image_file_name=None):
+def getInstituteLabels(parent_directory, folder_pattern="exp*", folder_paths=None, image_file_name=None):
     # Initialize the list to store data from all label files
     all_data_with_digit_9 = []
 
-    # Determine the folder to iterate over
-    if folder_path:
-        parent_folder = Path(parent_directory)
-        folders = [parent_folder / folder_path]
+    # Determine the folders to iterate over
+    if folder_paths:
+        folders = [Path(parent_directory) / folder_path for folder_path in folder_paths]
     else:
         folders = Path(parent_directory).glob(folder_pattern)
 
