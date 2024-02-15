@@ -109,7 +109,7 @@ def findNames(search_images):
 
 def main():
     parent_directory = "runs"
-    test_image_path = "exp"
+    test_image_path = ["exp100", "exp101"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
@@ -119,7 +119,7 @@ def main():
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
-    institute_label_data = getInstituteLabels(parent_directory)
+    institute_label_data = getInstituteLabels(parent_directory, folder_paths=test_image_path)
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
