@@ -61,7 +61,7 @@ def process_image_data(institute_label_data):
     ocr_results = []
 
     for data in institute_label_data:
-        image_path = 'herb_images/' + data[1]
+        image_path = "../herb_images/" + data[1]
         image, image_size = load_and_preprocess_image(image_path)
 
         if image is None:
@@ -126,7 +126,7 @@ def main():
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    predictLabels(doImages=True)
+    predictLabels(doImages=False)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
@@ -136,6 +136,8 @@ def main():
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
     processed_images_data = process_image_data(institute_label_data)
+
+    print(processed_images_data)
 
     ### GBIF STUFF BELOW ###
 

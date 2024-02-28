@@ -1,8 +1,8 @@
 from yolov5.detect import run
 from pathlib import Path
- 
+
 # get the path/directory
-folder_dir = 'herb_images'
+folder_dir = "../herb_images"
  
 # Iterate over files in that directory
 # Get a list of all JPEG files found
@@ -15,7 +15,8 @@ def predictLabels(doImages=False):
             run(
             weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
             source=image,
-            #source="herb_images/728989.jpg",
+            #source="../herb_images/728989.jpg",
+            #source="../herb_images/697008.jpg",
             conf_thres=0.4,
             imgsz=(416, 416),
             nosave = False,
