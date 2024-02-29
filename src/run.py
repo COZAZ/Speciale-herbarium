@@ -1,8 +1,9 @@
 from label_extractor import getInstituteLabels, predictLabels
 from helperfuncs import resize_image
-import easyocr
+from label_detection_score import compute_bounding_box_score
+#import easyocr
 import cv2
-import pygbif.species as gb
+#import pygbif.species as gb
 
 def load_and_preprocess_image(image_path):
     """Load and preprocess the image."""
@@ -126,26 +127,51 @@ def main():
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    predictLabels(doImages=False)
+    #predictLabels(doImages=True)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
     institute_label_data = getInstituteLabels(parent_directory, folder_paths=test_image_path)
 
+    box_score = compute_bounding_box_score(institute_label_data)
+
+    print("Label prediction score:", box_score)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
-    processed_images_data = process_image_data(institute_label_data)
+    #processed_images_data = process_image_data(institute_label_data)
 
-    print(processed_images_data)
+    #print(processed_images_data)
 
     ### GBIF STUFF BELOW ###
 
-    found_plant_names = findNames(processed_images_data)
-    match_rate = compute_name_precision(found_plant_names)
+    #found_plant_names = findNames(processed_images_data)
+    #match_rate = compute_name_precision(found_plant_names)
 
-    print(found_plant_names)
-    print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
+    #print(found_plant_names)
+    #print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
 
 if __name__ == "__main__":
     main()
