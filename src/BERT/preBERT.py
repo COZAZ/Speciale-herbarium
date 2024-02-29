@@ -11,6 +11,18 @@ model = AutoModelForPreTraining.from_pretrained("Maltehb/danish-bert-botxo")
 dataset = [
     {"tokens": ["hej", ",", "mit", "navn", "er", "john", "."], "labels": ["O", "O", "O", "O", "O", "B-PERSON", "O"]},
     # Add more sentences here
+    # Image: 697718.jpg    
+    # TODO: TIL BULUT
+    G.B.U. 508
+    Museum Botanicum Hauniense
+    Grønlands Botaniske Undersøgelse Plantae Groenlandicae
+    E.3.
+    Woodsia ilvensis (L.) R. Br.
+    Angmagssalik distr: Sieraq
+    65° 56' N. lat. 37° 09' W. long. 
+    27. Juli 1970
+    Leg.: Mette Astrup Lars Kliim Nielsen
+    Det.:
 ]
 
 ## Encoing the examples
