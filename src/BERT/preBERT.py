@@ -13,16 +13,16 @@ dataset = [
     # Add more sentences here
     # Image: 697718.jpg    
     # TODO: TIL BULUT
-    G.B.U. 508
-    Museum Botanicum Hauniense
-    Grønlands Botaniske Undersøgelse Plantae Groenlandicae
-    E.3.
-    Woodsia ilvensis (L.) R. Br.
-    Angmagssalik distr: Sieraq
-    65° 56' N. lat. 37° 09' W. long. 
-    27. Juli 1970
-    Leg.: Mette Astrup Lars Kliim Nielsen
-    Det.:
+    {"tokens": ["G.B.U.", "508"], "labels": ["O", "O"]},
+    {"tokens": ["Museum", "Botanicum", "Hauniense"], "labels": ["O", "O", "O"]},
+    {"tokens": ["Grønlands", "Botaniske", "Undersøgelse", "Plantae", "Groenlandicae"], "labels": ["O", "O", "O", "O", "O"]},
+    {"tokens": ["E.3."], "labels": ["O"]},
+    {"tokens": ["Woodsia", "ilvensis", "(L.)", "R.", "Br."], "labels": ["B-SPECIMEN", "B-SPECIMEN", "B-SPECIMEN", "B-SPECIMEN", "B-SPECIMEN"]},
+    {"tokens": ["Angmagssalik", "distr:", "Sieraq"], "labels": ["B-LOCATION", "B-LOCATION", "B-LOCATION"]},
+    {"tokens": ["65°", "56'", "N.", "lat.", "37°", "09'", "W.", "long."], "labels": ["O", "O", "O", "O", "O", "O", "O", "O"]},
+    {"tokens": ["27.", "Juli", "1970"], "labels": ["B-DATE", "B-DATE", "B-DATE"]},
+    {"tokens": ["Leg.:", "Mette", "Astrup", "Lars", "Kliim", "Nielsen"], "labels": ["O", "B-PERSON", "B-PERSON", "I-PERSON", "I-PERSON", "I-PERSON"]},
+    {"tokens": ["Det.:"], "labels": ["O"]}
 ]
 
 ## Encoing the examples
