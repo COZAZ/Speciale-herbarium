@@ -1,7 +1,7 @@
 import glob as g
 import numpy as np
 
-def compute_bounding_box_score(label_data):
+def Evaluate_label_detection_performance(label_data, detail=False):
 
     correct_boxes = 0
 
@@ -9,16 +9,16 @@ def compute_bounding_box_score(label_data):
     # This means that a correctly predicted box is within 5% of the true box location
     tolerance = 0.05
 
-    for label_object in label_data:
+    for predicted_box in label_data:
 
         # ID name of image
-        im_name = (label_object[1])[:-4]
+        im_name = (predicted_box[1])[:-4]
 
         # Predicted bounding box coordinates from YOLO model
-        predicted_coordiantes = np.array((label_object[0])[1:]).astype(float)
+        predicted_coordiantes = np.array((predicted_box[0])[1:]).astype(float)
 
         # Create a pattern to match all .txt files in the folder
-        file_pattern = "../linas_true_annotations/" + im_name + ".txt"
+        file_pattern = "../linas_annotations/" + im_name + ".txt"
         file_paths = g.glob(file_pattern)
 
         if not file_paths:
@@ -28,38 +28,41 @@ def compute_bounding_box_score(label_data):
 
             # Read the matching .txt file with the true box location
             with open(f_path, 'r') as file:
-                content = ((file.read())[1:]).split()
-                true_coordinates = (np.array(content)).astype(float)
+                content = np.array(file.readlines())
+                content = np.array(list(map(lambda x: np.array(((x[2:-1]).split())).astype(float), content)))
 
-                #print("({0}) True box cooridnates:".format(im_name))
-                #print(true_coordinates)
+                ### Coordinate-related computations to compare predicted box with true boxes ###
+                true_coordinates = content[:, :4]
+                true_center_point = true_coordinates[:, :2]
+                predicted_center_point = predicted_coordiantes[:2]
 
-                #print("({0}) YOLO prediction coordinates:".format(im_name))
-                #print(predicted_coordiantes)
-
-                ### Computation of coordinate differences ###
-                true_center_point = np.array([true_coordinates[0], true_coordinates[1]])
-                predicted_center_point = np.array([predicted_coordiantes[0], predicted_coordiantes[1]])
-
-                true_width = true_coordinates[2]
+                true_width = true_coordinates[:, 2]
                 predicted_width = predicted_coordiantes[2]
 
-                true_height = true_coordinates[3]
+                true_height = true_coordinates[:, 3]
                 predicted_height = predicted_coordiantes[3]
 
-                center_dist = np.linalg.norm(true_center_point - predicted_center_point)
+                center_dist = np.linalg.norm(true_center_point - predicted_center_point, axis=1)
+
+                center_checks = center_dist <= tolerance
+                width_checks = np.abs(true_width - predicted_width) < tolerance
+                height_checks = np.abs(true_height - predicted_height) < tolerance
+
+                true_box_checks = np.all([center_checks, width_checks, height_checks], axis=0)
+
                 ###
 
-                #print("center diff:", center_dist)
-
-                # Accept YOLO predicted box if within 5% of true box
-                if ((center_dist < tolerance)
-                    and (np.abs(true_width - predicted_width) < tolerance)
-                    and (np.abs(true_height - predicted_height) < tolerance)):
-
+                if detail:
+                    print("Processing predicted box for image:", im_name + ".jpg")
+                    print("Center match:", center_checks)
+                    print("Width match:", width_checks)
+                    print("Height match:", height_checks)
+                    print("True box match:", true_box_checks)
+                    print("\n")
+                
+                if np.any(true_box_checks):
                     correct_boxes += 1
 
-    # Final YOLO performance score
-    score = (correct_boxes / len(label_data)) * 100
+    accuracy = (correct_boxes / len(label_data)) * 100
 
-    return score
+    return accuracy

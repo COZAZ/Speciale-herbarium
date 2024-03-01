@@ -1,6 +1,6 @@
 from label_extractor import getInstituteLabels, predictLabels
 from helperfuncs import resize_image
-from label_detection_score import compute_bounding_box_score
+from label_detection_score import Evaluate_label_detection_performance
 import easyocr
 import cv2
 import pygbif.species as gb
@@ -122,41 +122,20 @@ def compute_name_precision(image_names):
 
 def main():
     parent_directory = "runs"
-    test_image_path = ["exp", "exp2", "exp3"]
+    test_image_path = ["exp", "exp2", "exp3", "exp4", "exp5"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    #predictLabels(doImages=True)
+    predictLabels(doImages=False)
 
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
     institute_label_data = getInstituteLabels(parent_directory, folder_paths=test_image_path)
-    box_score = compute_bounding_box_score(institute_label_data)
+    box_score = Evaluate_label_detection_performance(institute_label_data)
 
-    print("Label prediction score:", box_score)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print("\nLabel prediction score: {0}%".format(box_score))
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
