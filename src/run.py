@@ -1,9 +1,8 @@
-from label_extractor import getInstituteLabels, predictLabels
-from helperfuncs import resize_image
-from label_detection_score import Evaluate_label_detection_performance
 import easyocr
 import cv2
 import pygbif.species as gb
+from label_detection import getInstituteLabels, predictLabels, Evaluate_label_detection_performance
+from helperfuncs import resize_image
 
 def load_and_preprocess_image(image_path):
     """Load and preprocess the image."""
