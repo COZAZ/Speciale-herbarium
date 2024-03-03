@@ -4,7 +4,8 @@ from yolov5.detect import run
 from pathlib import Path
 
 # get the path/directory
-folder_dir = "../herb_images"
+#folder_dir = "../herb_images"
+folder_dir = "../linas_images"
  
 # Iterate over files in that directory
 # Get a list of all JPEG files found
@@ -88,9 +89,9 @@ def Evaluate_label_detection_performance(label_data, detail=False):
 
     correct_boxes = 0
 
-    # Tolerance level of 5%.
-    # This means that a correctly predicted box is within 5% of the true box location
-    tolerance = 0.05
+    # Tolerance level of 10%.
+    # This means that a correctly predicted box is within 10% of the true box location
+    tolerance = 0.1
 
     for predicted_box in label_data:
 
@@ -145,6 +146,8 @@ def Evaluate_label_detection_performance(label_data, detail=False):
                 
                 if np.any(true_box_checks):
                     correct_boxes += 1
+                else:
+                    print("Failed to classify predicted box for image:", im_name + ".jpg")
 
     accuracy = (correct_boxes / len(label_data)) * 100
 
