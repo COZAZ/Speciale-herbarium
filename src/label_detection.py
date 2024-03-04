@@ -30,61 +30,149 @@ def predictLabels(doImages=False):
             project = 'runs'
             )
 
-def getInstituteLabels(parent_directory, folder_pattern="exp*", folder_paths=None, image_file_name=None):
-    # Initialize the list to store data from all label files
+def getLabelInfo(parent_directory, folder_pattern="exp*", folder_paths=None, image_file_name=None):
     all_data_with_digit_9 = []
+    all_data_with_digit_3 = []
 
-    # Determine the folders to iterate over
     if folder_paths:
         folders = [Path(parent_directory) / folder_path for folder_path in folder_paths]
     else:
         folders = Path(parent_directory).glob(folder_pattern)
 
-    # Iterate through each folder
     for folder in folders:
-        print(f"Processing folder: {folder}")
-        # Access the 'labels' folder within the folder
         labels_folder = folder / "labels"
         
-        # Check if the 'labels' folder exists
         if labels_folder.exists() and labels_folder.is_dir():
-            print(f"Labels folder found: {labels_folder}")
-            # Find the label file within the 'labels' folder
             label_files = list(labels_folder.glob('*.txt'))
-            print(f"Label files: {label_files}")
 
-            # Process each label file
             for label_file in label_files:
-                # Read the contents of the label file
                 with open(label_file, 'r') as file:
                     lines = file.readlines()
 
-                # Extract data where the first column is a digit 9
                 data_with_digit_9 = []
+                data_with_digit_3 = []
+
                 for line in lines:
-                    # Split the line by spaces assuming it's in a format like '9 x y width height'
                     columns = line.strip().split()
-                    if len(columns) > 0 and columns[0] == '9':
-                        # If image_file_name is provided, use it
-                        if image_file_name:
-                            image_file = labels_folder.parent / image_file_name
-                        else:
-                            # Otherwise, try to find any image file in the parent folder
-                            image_files = list(labels_folder.parent.glob('*.jpg'))
-                            if image_files:
-                                image_file = image_files[0]
-                            else:
-                                print(f"No image file found in {labels_folder.parent}")
-                                continue
+                    if columns:
+                        image_file = labels_folder.parent / (image_file_name or next(labels_folder.parent.glob('*.jpg'), None))
+                        if image_file:
+                            if columns[0] == '9':
+                                data_with_digit_9.append((columns, image_file.name))
+                            elif columns[0] == '3':
+                                data_with_digit_3.append((columns, image_file.name))
 
-                        # Append a tuple containing the coordinates and the image file name
-                        data_with_digit_9.append((columns, image_file.name))
-
-                # Append data from this label file to the list
                 all_data_with_digit_9.extend(data_with_digit_9)
+                all_data_with_digit_3.extend(data_with_digit_3)
 
-    return all_data_with_digit_9
+    return all_data_with_digit_9, all_data_with_digit_3
 
+
+### This function demonstrates why Finn is the biggest goon evarrrr ###
+def Evaluate_label_detection_performance(institute_data, annotation_data, detail=True):
+
+    institute_label_data = institute_data
+    annotation_label_data = annotation_data
+
+    #print("Institute stuff:", institute_label_data)
+    #print("annotation stuff:", annotation_label_data)
+
+    # Type "i": institution boxes will be compared
+    # Type "a": annotation boxes will be compared
+    institute_accuracy = Compare_bounding_boxes(institute_label_data, label_type="i")
+    #annotation_accuracy = compare_bounding_boxes(annotation_label_data)
+    annotation_accuracy = None
+
+    if detail:
+        print("Finn is a goon")
+
+    return institute_accuracy, annotation_accuracy
+
+def Compare_bounding_boxes(label_data, label_type = None):
+
+    correct_boxes = 0
+
+    for predicted_box in label_data:
+
+         # ID name of image
+        im_name = (predicted_box[1])[:-4]
+
+        # Predicted bounding box coordinates from YOLO model
+        predicted_coordiantes = np.array((predicted_box[0])[1:]).astype(float)
+
+        # Create a pattern to match all .txt files in the folder
+        file_pattern = "../linas_annotations/" + im_name + ".txt"
+        file_paths = g.glob(file_pattern)
+
+        if not file_paths:
+            print("No files found for ID: {0}".format(im_name))
+        else:
+            f_path = file_paths[0]
+
+            # Read the matching .txt file with the true box location
+            with open(f_path, 'r') as file:
+
+                #if label_type == "i" <-- så læs kun instituion labels fra txt fil og omvendt med "a"
+                content = np.array(file.readlines())
+                true_boxes = np.array(list(map(lambda x: np.array(((x[2:-1]).split())).astype(float), content)))
+
+                pred_box_coords = Extract_corner_points(predicted_coordiantes)
+
+                for t_box in true_boxes:
+                    true_box_coords = Extract_corner_points(t_box)
+                    print("True box coords: ", true_box_coords)
+                    print("Predicted box coords: ", pred_box_coords)
+
+                    iou = Intersection_over_union(pred_box_coords, true_box_coords)
+                    print("pred_box_coords: ", pred_box_coords)
+                    print("true_box_coords: ", true_box_coords)                       
+                    print("IOU: ", iou)
+
+                    if iou >= 0.50:
+                        correct_boxes += 1
+
+    return (correct_boxes / len(label_data)) * 100
+
+def Intersection_over_union(boxA, boxB):
+    # Determine the (x, y)-coordinates of the intersection rectangle
+    xA = max(boxA[0][0], boxB[0][0])
+    yA = max(boxA[0][1], boxB[0][1])
+    xB = min(boxA[3][0], boxB[3][0])
+    yB = min(boxA[3][1], boxB[3][1])
+    
+    # Compute the area of intersection rectangle
+    interArea = max(0, xB - xA) * max(0, yB - yA)
+    
+    # Compute the area of both the boxes
+    boxAArea = abs(boxA[1][0] - boxA[0][0]) * abs(boxA[2][1] - boxA[0][1])
+    boxBArea = abs(boxB[1][0] - boxB[0][0]) * abs(boxB[2][1] - boxB[0][1])
+    
+    # Compute the intersection over union
+    iou = interArea / float(boxAArea + boxBArea - interArea)
+    
+    return iou
+
+def Extract_corner_points(coords_set):
+    center_x = coords_set[0]
+    center_y = coords_set[1]
+    width = coords_set[2]
+    height = coords_set[3]
+
+    # Calculate half-width and half-height
+    half_width = width / 2
+    half_height = height / 2
+
+    # Calculate corner points
+    top_left = (center_x - half_width, center_y - half_height)
+    top_right = (center_x + half_width, center_y - half_height)
+    bottom_left = (center_x - half_width, center_y + half_height)
+    bottom_right = (center_x + half_width, center_y + half_height)
+
+    box_coords = [top_left, top_right, bottom_left, bottom_right]
+
+    return box_coords
+
+'''
 def Evaluate_label_detection_performance(label_data, detail=False):
 
     correct_boxes = 0
@@ -152,3 +240,4 @@ def Evaluate_label_detection_performance(label_data, detail=False):
     accuracy = (correct_boxes / len(label_data)) * 100
 
     return accuracy
+'''

@@ -1,7 +1,7 @@
 import easyocr
 import cv2
 import pygbif.species as gb
-from label_detection import getInstituteLabels, predictLabels, Evaluate_label_detection_performance
+from label_detection import getLabelInfo, predictLabels, Evaluate_label_detection_performance
 from helperfuncs import resize_image
 
 def load_and_preprocess_image(image_path):
@@ -55,12 +55,12 @@ def process_cropped_image(image, bbox):
 
     return result
 
-def process_image_data(institute_label_data):
+def process_image_data(institute_label_data, annotation_label_data):
     """Process image data."""
 
     ocr_results = []
 
-    for data in institute_label_data:
+    for data in institute_label_data, annotation_label_data:
         image_path = "../herb_images/" + data[1]
         image, image_size = load_and_preprocess_image(image_path)
 
@@ -121,25 +121,25 @@ def compute_name_precision(image_names):
 
 def main():
     parent_directory = "runs"
-    test_image_path = ["exp", "exp2", "exp3", "exp4", "exp5"]
+    test_image_path = ["exp", "exp1", "exp2", "exp3", "exp4"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
     predictLabels(doImages=False)
-
+    
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
-    institute_label_data = getInstituteLabels(parent_directory, folder_paths=test_image_path)
-    box_score = Evaluate_label_detection_performance(institute_label_data)
+    institute_label_data, annotation_label_data = getLabelInfo(parent_directory)
+    institute_accuracy, annotation_accuracy = Evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
-    print("\nLabel prediction score: {0}%".format(box_score))
+    print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
+    print("\nAnnotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
-    #processed_images_data = process_image_data(institute_label_data)
-
+    #processed_images_data = process_image_data(institute_label_data, annotation_label_data)
     #print(processed_images_data)
 
     ### GBIF STUFF BELOW ###
