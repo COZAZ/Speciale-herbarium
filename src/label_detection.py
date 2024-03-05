@@ -70,38 +70,30 @@ def getLabelInfo(parent_directory, folder_pattern="exp*", folder_paths=None, ima
 
 ### This function demonstrates why Finn is the biggest goon evarrrr ###
 def Evaluate_label_detection_performance(institute_data, annotation_data, detail=True):
-
     institute_label_data = institute_data
     annotation_label_data = annotation_data
-
-    #print("Institute stuff:", institute_label_data)
-    #print("annotation stuff:", annotation_label_data)
 
     # Type "i": institution boxes will be compared
     # Type "a": annotation boxes will be compared
     institute_accuracy = Compare_bounding_boxes(institute_label_data, label_type="i")
-    #annotation_accuracy = compare_bounding_boxes(annotation_label_data)
-    annotation_accuracy = None
-
-    if detail:
-        print("Finn is a goon")
+    annotation_accuracy = Compare_bounding_boxes(annotation_label_data, label_type="a")
 
     return institute_accuracy, annotation_accuracy
 
-def Compare_bounding_boxes(label_data, label_type = None):
+def Compare_bounding_boxes(label_data, label_type=None):
 
     correct_boxes = 0
 
     for predicted_box in label_data:
 
-         # ID name of image
-        im_name = (predicted_box[1])[:-4]
+        # ID name of image
+        im_name = predicted_box[1][:-4]
 
         # Predicted bounding box coordinates from YOLO model
-        predicted_coordiantes = np.array((predicted_box[0])[1:]).astype(float)
+        predicted_coordiantes = np.array(predicted_box[0][1:]).astype(float)
 
         # Create a pattern to match all .txt files in the folder
-        file_pattern = "../linas_annotations/" + im_name + ".txt"
+        file_pattern = "../true_annotations/" + im_name + ".txt"
         file_paths = g.glob(file_pattern)
 
         if not file_paths:
@@ -111,22 +103,29 @@ def Compare_bounding_boxes(label_data, label_type = None):
 
             # Read the matching .txt file with the true box location
             with open(f_path, 'r') as file:
+                content = file.readlines()
 
-                #if label_type == "i" <-- så læs kun instituion labels fra txt fil og omvendt med "a"
-                content = np.array(file.readlines())
-                true_boxes = np.array(list(map(lambda x: np.array(((x[2:-1]).split())).astype(float), content)))
+                if label_type is not None:
+                    if label_type == "i":
+                        # Filter lines starting with 0 (institutional labels)
+                        content = [line for line in content if line.startswith('0')]
+                    elif label_type == "a":
+                        # Filter lines starting with 1 (annotation labels)
+                        content = [line for line in content if line.startswith('1')]
+
+                true_boxes = np.array([np.array(line.strip().split()[1:]).astype(float) for line in content])
 
                 pred_box_coords = Extract_corner_points(predicted_coordiantes)
 
-                for t_box in true_boxes:
-                    true_box_coords = Extract_corner_points(t_box)
-                    print("True box coords: ", true_box_coords)
-                    print("Predicted box coords: ", pred_box_coords)
+                for true_box in true_boxes:
+                    true_box_coords = Extract_corner_points(true_box)
+                    print("True box coords:", true_box_coords)
+                    print("Predicted box coords:", pred_box_coords)
 
                     iou = Intersection_over_union(pred_box_coords, true_box_coords)
-                    print("pred_box_coords: ", pred_box_coords)
-                    print("true_box_coords: ", true_box_coords)                       
-                    print("IOU: ", iou)
+                    print("pred_box_coords:", pred_box_coords)
+                    print("true_box_coords:", true_box_coords)                       
+                    print("IOU:", iou)
 
                     if iou >= 0.50:
                         correct_boxes += 1
@@ -171,73 +170,3 @@ def Extract_corner_points(coords_set):
     box_coords = [top_left, top_right, bottom_left, bottom_right]
 
     return box_coords
-
-'''
-def Evaluate_label_detection_performance(label_data, detail=False):
-
-    correct_boxes = 0
-
-    # Tolerance level of 10%.
-    # This means that a correctly predicted box is within 10% of the true box location
-    tolerance = 0.1
-
-    for predicted_box in label_data:
-
-        # ID name of image
-        im_name = (predicted_box[1])[:-4]
-
-        # Predicted bounding box coordinates from YOLO model
-        predicted_coordiantes = np.array((predicted_box[0])[1:]).astype(float)
-
-        # Create a pattern to match all .txt files in the folder
-        file_pattern = "../linas_annotations/" + im_name + ".txt"
-        file_paths = g.glob(file_pattern)
-
-        if not file_paths:
-            print("No files found for the current ID.")
-        else:
-            f_path = file_paths[0]
-
-            # Read the matching .txt file with the true box location
-            with open(f_path, 'r') as file:
-                content = np.array(file.readlines())
-                content = np.array(list(map(lambda x: np.array(((x[2:-1]).split())).astype(float), content)))
-
-                ### Coordinate-related computations to compare predicted box with true boxes ###
-                true_coordinates = content[:, :4]
-                true_center_point = true_coordinates[:, :2]
-                predicted_center_point = predicted_coordiantes[:2]
-
-                true_width = true_coordinates[:, 2]
-                predicted_width = predicted_coordiantes[2]
-
-                true_height = true_coordinates[:, 3]
-                predicted_height = predicted_coordiantes[3]
-
-                center_dist = np.linalg.norm(true_center_point - predicted_center_point, axis=1)
-
-                center_checks = center_dist <= tolerance
-                width_checks = np.abs(true_width - predicted_width) < tolerance
-                height_checks = np.abs(true_height - predicted_height) < tolerance
-
-                true_box_checks = np.all([center_checks, width_checks, height_checks], axis=0)
-
-                ###
-
-                if detail:
-                    print("Processing predicted box for image:", im_name + ".jpg")
-                    print("Center match:", center_checks)
-                    print("Width match:", width_checks)
-                    print("Height match:", height_checks)
-                    print("True box match:", true_box_checks)
-                    print("\n")
-                
-                if np.any(true_box_checks):
-                    correct_boxes += 1
-                else:
-                    print("Failed to classify predicted box for image:", im_name + ".jpg")
-
-    accuracy = (correct_boxes / len(label_data)) * 100
-
-    return accuracy
-'''
