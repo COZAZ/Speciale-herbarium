@@ -1,7 +1,7 @@
 import easyocr
 import cv2
 import pygbif.species as gb
-from label_detection import getLabelInfo, predictLabels, Evaluate_label_detection_performance
+from label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from helperfuncs import resize_image
 
 def load_and_preprocess_image(image_path):
@@ -80,7 +80,7 @@ def process_image_data(institute_label_data, annotation_label_data):
     
     return ocr_results
 
-def findNames(search_images):
+def find_names(search_images):
     """Identify the real plant names of the OCR results"""
 
     identified_image_names = []
@@ -121,21 +121,21 @@ def compute_name_precision(image_names):
 
 def main():
     parent_directory = "runs"
-    test_image_path = ["exp", "exp1", "exp2", "exp3", "exp4"]
+    test_image_path = ["exp", "exp2", "exp7"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    predictLabels(doImages=False)
+    #predictLabels(doImages=False)
     
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
-    institute_label_data, annotation_label_data = getLabelInfo(parent_directory)
-    institute_accuracy, annotation_accuracy = Evaluate_label_detection_performance(institute_label_data, annotation_label_data)
+    institute_label_data, annotation_label_data = get_label_info(parent_directory)
+    institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
     print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
-    print("\nAnnotation label prediction accuracy: {0}%".format(annotation_accuracy))
+    print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations

@@ -12,7 +12,7 @@ folder_dir = "../linas_images"
 images = list(Path(folder_dir).glob('*.jpg'))
 
 # Now, 'images' contains the filenames sorted numerically
-def predictLabels(doImages=False):
+def predict_labels(doImages=False):
     if doImages:
         for image in images:
             run(
@@ -30,7 +30,7 @@ def predictLabels(doImages=False):
             project = 'runs'
             )
 
-def getLabelInfo(parent_directory, folder_pattern="exp*", folder_paths=None, image_file_name=None):
+def get_label_info(parent_directory, folder_pattern="exp*", folder_paths=None, image_file_name=None):
     all_data_with_digit_9 = []
     all_data_with_digit_3 = []
 
@@ -67,20 +67,18 @@ def getLabelInfo(parent_directory, folder_pattern="exp*", folder_paths=None, ima
 
     return all_data_with_digit_9, all_data_with_digit_3
 
-
-### This function demonstrates why Finn is the biggest goon evarrrr ###
-def Evaluate_label_detection_performance(institute_data, annotation_data, detail=True):
+def evaluate_label_detection_performance(institute_data, annotation_data, detail=True):
     institute_label_data = institute_data
     annotation_label_data = annotation_data
 
     # Type "i": institution boxes will be compared
     # Type "a": annotation boxes will be compared
-    institute_accuracy = Compare_bounding_boxes(institute_label_data, label_type="i")
-    annotation_accuracy = Compare_bounding_boxes(annotation_label_data, label_type="a")
+    institute_accuracy = compare_bounding_boxes(institute_label_data, label_type="i")
+    annotation_accuracy = compare_bounding_boxes(annotation_label_data, label_type="a")
 
     return institute_accuracy, annotation_accuracy
 
-def Compare_bounding_boxes(label_data, label_type=None):
+def compare_bounding_boxes(label_data, label_type=None):
 
     correct_boxes = 0
 
@@ -115,24 +113,24 @@ def Compare_bounding_boxes(label_data, label_type=None):
 
                 true_boxes = np.array([np.array(line.strip().split()[1:]).astype(float) for line in content])
 
-                pred_box_coords = Extract_corner_points(predicted_coordiantes)
+                pred_box_coords = extract_corner_points(predicted_coordiantes)
 
                 for true_box in true_boxes:
-                    true_box_coords = Extract_corner_points(true_box)
-                    print("True box coords:", true_box_coords)
-                    print("Predicted box coords:", pred_box_coords)
+                    true_box_coords = extract_corner_points(true_box)
+                    #print("True box coords:", true_box_coords)
+                    #print("Predicted box coords:", pred_box_coords)
 
-                    iou = Intersection_over_union(pred_box_coords, true_box_coords)
-                    print("pred_box_coords:", pred_box_coords)
-                    print("true_box_coords:", true_box_coords)                       
-                    print("IOU:", iou)
+                    iou = get_intersection_over_union(pred_box_coords, true_box_coords)
+                    #print("pred_box_coords:", pred_box_coords)
+                    #print("true_box_coords:", true_box_coords)                       
+                    #print("IOU:", iou)
 
                     if iou >= 0.50:
                         correct_boxes += 1
 
     return (correct_boxes / len(label_data)) * 100
 
-def Intersection_over_union(boxA, boxB):
+def get_intersection_over_union(boxA, boxB):
     # Determine the (x, y)-coordinates of the intersection rectangle
     xA = max(boxA[0][0], boxB[0][0])
     yA = max(boxA[0][1], boxB[0][1])
@@ -151,7 +149,7 @@ def Intersection_over_union(boxA, boxB):
     
     return iou
 
-def Extract_corner_points(coords_set):
+def extract_corner_points(coords_set):
     center_x = coords_set[0]
     center_y = coords_set[1]
     width = coords_set[2]
