@@ -9,7 +9,7 @@ import re
 # Finetune
 
 # load initial dataset
-df = pd.read_csv("greenland.csv")
+df = pd.read_csv("../greenland.csv")
 
 date = "1,10.collectingevent.startDate"
 spec = "1,9-determinations.collectionobject.determinations"

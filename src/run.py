@@ -145,7 +145,6 @@ def main():
     #processed_images_data = process_image_data(institute_label_data, annotation_label_data)
     #print(processed_images_data)
 
-
     ### PIPELINE step 4: Parse text results from OCR ###
     # Generate text for training BERT model
     synth_text = synthesize_text_data()
