@@ -121,7 +121,7 @@ def compute_name_precision(image_names):
 
 def main():
     parent_directory = "runs"
-    test_image_path = ["exp", "exp2", "exp7"]
+    test_specific_paths = ["680916.txt", "681364.txt", "681483.txt"]
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
