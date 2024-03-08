@@ -1,7 +1,10 @@
 import easyocr
 import cv2
 import pygbif.species as gb
+
 from label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
+from BERT.text_data_synthesizer import synthesize_text_data
+
 from helperfuncs import resize_image
 
 def load_and_preprocess_image(image_path):
@@ -141,6 +144,13 @@ def main():
     # Performs OCR on cropped images according to the predicted bounding box locations
     #processed_images_data = process_image_data(institute_label_data, annotation_label_data)
     #print(processed_images_data)
+
+
+    ### PIPELINE step 4: Parse text results from OCR ###
+    # Generate text for training BERT model
+    synth_text = synthesize_text_data()
+
+    print("\nText test for BERT:", synth_text[50])
 
     ### GBIF STUFF BELOW ###
 
