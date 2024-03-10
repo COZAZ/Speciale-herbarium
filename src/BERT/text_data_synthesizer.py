@@ -8,48 +8,53 @@ import re
 # Fix filler tokens
 # Finetune
 
-# load initial dataset
-df = pd.read_csv("../greenland.csv")
+def load_text_data():
+  # load initial dataset
+  df = pd.read_csv("../greenland.csv")
 
-date = "1,10.collectingevent.startDate"
-spec = "1,9-determinations.collectionobject.determinations"
-det = "1,9-determinations,5-determiner.determination.determiner"
-loc = "1,10,2.locality.localityName"
-leg = "1,10,30-collectors.collectingevent.collectors"
-lat = "1,10,2.locality.lat1text"
-lon = "1,10,2.locality.long1text"
+  date = "1,10.collectingevent.startDate"
+  spec = "1,9-determinations.collectionobject.determinations"
+  det = "1,9-determinations,5-determiner.determination.determiner"
+  loc = "1,10,2.locality.localityName"
+  leg = "1,10,30-collectors.collectingevent.collectors"
+  lat = "1,10,2.locality.lat1text"
+  lon = "1,10,2.locality.long1text"
 
-# Extract columns we are interested in
-dates = df[date].dropna().to_numpy()
-species = df[spec].dropna().to_numpy()
-dets = df[det].dropna().to_numpy()
-locations = df[loc].dropna().to_numpy()
-legs = df[leg].dropna().to_numpy()
-# TODO: Fix coordinates - Done??
-lats = df[lat].dropna().to_numpy()
-longs = df[lon].dropna().to_numpy()
-filtered_lats = lats[["°" in lat for lat in lats]]
-filtered_longs = longs[["°" in lon for lon in longs]]
+  # Extract columns we are interested in
+  dates = df[date].dropna().to_numpy()
+  species = df[spec].dropna().to_numpy()
+  dets = df[det].dropna().to_numpy()
+  locations = df[loc].dropna().to_numpy()
+  legs = df[leg].dropna().to_numpy()
+  # TODO: Fix coordinates - Done??
+  lats = df[lat].dropna().to_numpy()
+  longs = df[lon].dropna().to_numpy()
+  filtered_lats = lats[["°" in lat for lat in lats]]
+  filtered_longs = longs[["°" in lon for lon in longs]]
+
+  data_columns = [dates, species, dets, locations, legs, filtered_lats, filtered_longs]
+
+  return data_columns
 
 # Create dict and call functions
-def createSingleLine():
+def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
-  selectAndFormatDate(line)
-  selectAndFormatSpecies(line)
-  selectAndFormatDet(line)
-  selectAndFormatLocation(line)
-  selectAndFormatLeg(line)
-  selectAndFormatCoords(line)
+  selectAndFormatDate(line, data_list[0])
+  selectAndFormatSpecies(line, data_list[1])
+  selectAndFormatDet(line, data_list[2])
+  selectAndFormatLocation(line, data_list[3])
+  selectAndFormatLeg(line, data_list[4])
+  selectAndFormatCoords(line, data_list[5], data_list[6])
 
   return line
 
 # Specifc functions for each of the areas of interest
-def selectAndFormatDate(dict):
+def selectAndFormatDate(dict, dates):
   date = str(np.random.choice(dates))
   dict["tokens"].append(date)
   dict["labels"].append("3")
 
-def selectAndFormatSpecies(dict):
+def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
   # Removes "(current)" from the string
   # TODO: Does this lead to an empty string in every species case and should it be removed then?
@@ -64,29 +69,31 @@ def selectAndFormatSpecies(dict):
     else:
       dict["labels"].append("4")
 
-def selectAndFormatDet(dict):
+def selectAndFormatDet(dict, dets):
   det = str(np.random.choice(dets))
   dict["tokens"].append(det)
   dict["labels"].append("5")
 
-def selectAndFormatLocation(dict):
+def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
   dict["tokens"].append(location)
   dict["labels"].append("2")
 
-def selectAndFormatLeg(dict):
+def selectAndFormatLeg(dict, legs):
   leg = str(np.random.choice(legs))
   dict["tokens"].append(leg)
   dict["labels"].append("1")
 
-def selectAndFormatCoords(dict):
+def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   lat = str(np.random.choice(filtered_lats))
   lon = str(np.random.choice(filtered_longs))
   dict["tokens"].append(lat + ', ' + lon)
   dict["labels"].append("6")
 
 def synthesize_text_data():
+  data_columns = load_text_data()
+
   synthesized_text_data = np.zeros(100)
-  synthesized_text_data = list(map(lambda _: createSingleLine(), synthesized_text_data))
+  synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
 
   return synthesized_text_data

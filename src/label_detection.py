@@ -15,14 +15,9 @@ images = list(Path(folder_dir).glob('*.jpg'))
 # Now, 'images' contains the filenames sorted numerically
 def predict_labels(doImages=False):
     if doImages:
-        #for image in images:
             run(
             weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
             source=folder_dir,
-            #source="../herb_images/728989.jpg",
-            #source="../herb_images/697008.jpg",
-            #source="../linas_images/732177.jpg",
-            #source="../linas_images/682156.jpg",
             conf_thres=0.4,
             imgsz=(416, 416),
             nosave = False,
