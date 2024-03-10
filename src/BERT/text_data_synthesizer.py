@@ -62,8 +62,12 @@ def selectAndFormatSpecies(dict, species):
   specimen_fixed = parts[0]
   tokens = re.split(r'[ ,.]', specimen_fixed)
   
-  for token in tokens[:-1]: # Remove empty string from name???
-    dict["tokens"].append(token)
+  for token in tokens: # Remove empty string from name - done??
+    if token == '':
+      continue
+    else:
+      dict["tokens"].append(token)
+
     if token == '.' or token == ',':
       dict["labels"].append("0")
     else:
