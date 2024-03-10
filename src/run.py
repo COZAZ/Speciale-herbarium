@@ -3,7 +3,7 @@ import cv2
 import pygbif.species as gb
 
 from label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
-from BERT.text_data_synthesizer import synthesize_text_data
+from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
 
 from helperfuncs import resize_image
 
@@ -149,7 +149,8 @@ def main():
     # Generate text for training BERT model
     synth_text = synthesize_text_data()
 
-    print("\nText test for BERT:", synth_text[50])
+    print("\nText test for BERT:")
+    pretty_print_text_data(synth_text)
 
     ### GBIF STUFF BELOW ###
 

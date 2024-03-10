@@ -80,6 +80,7 @@ def selectAndFormatDet(dict, dets):
 
 def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
+  location = location.replace(u'\xa0', u' ')
   dict["tokens"].append(location)
   dict["labels"].append("2")
 
@@ -101,3 +102,7 @@ def synthesize_text_data():
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
 
   return synthesized_text_data
+
+def pretty_print_text_data(token_list):
+  for text_obj in token_list:
+    print("{0}\n".format(text_obj["tokens"]))
