@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+from .text_utility import *
 
 # TODO:
 # Fix splitting of tokens and assign correct amount of labels.
@@ -75,19 +76,44 @@ def selectAndFormatSpecies(dict, species):
 
 def selectAndFormatDet(dict, dets):
   det = str(np.random.choice(dets))
+
+  if is_below_percentage(20) and (',' in det):
+    name = det
+    names = name.split(',')
+    det = names[1].strip() + " " + names[0].strip()
+  
+  if is_below_percentage(70):
+    det = "Det: " + det
+
   dict["tokens"].append(det)
   dict["labels"].append("5")
+
+def selectAndFormatLeg(dict, legs):
+  leg = str(np.random.choice(legs))
+
+  if is_below_percentage(20) and (',' in leg):
+    name = leg
+    names = name.split(',')
+    leg = names[1].strip() + " " + names[0].strip()
+
+  if is_below_percentage(80):
+    leg = "Leg: " + leg
+
+  dict["tokens"].append(leg)
+  dict["labels"].append("1")
 
 def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
   location = location.replace(u'\xa0', u' ')
+
+  location_parts = location.split(' ')
+
+  if is_below_percentage(50):
+    location_parts = location.split(' ')
+    location = shuffle_content(location_parts)
+
   dict["tokens"].append(location)
   dict["labels"].append("2")
-
-def selectAndFormatLeg(dict, legs):
-  leg = str(np.random.choice(legs))
-  dict["tokens"].append(leg)
-  dict["labels"].append("1")
 
 def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   lat = str(np.random.choice(filtered_lats))
@@ -95,10 +121,10 @@ def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   dict["tokens"].append(lat + ', ' + lon)
   dict["labels"].append("6")
 
-def synthesize_text_data():
+def synthesize_text_data(amount):
   data_columns = load_text_data()
 
-  synthesized_text_data = np.zeros(100)
+  synthesized_text_data = np.zeros(amount)
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
 
   return synthesized_text_data
