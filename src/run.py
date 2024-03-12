@@ -150,15 +150,15 @@ def main():
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
-    processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-    print(processed_images_data)
+    #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+    #print(processed_images_data)
 
     ### PIPELINE step 4: Parse text results from OCR ###
     # Generate text for training BERT model
-    #synth_text = synthesize_text_data(30)
+    synth_text = synthesize_text_data(30)
 
-    #print("\nText test for BERT:")
-    #pretty_print_text_data(synth_text)
+    print("\nText test for BERT:")
+    pretty_print_text_data(synth_text)
 
     ### GBIF STUFF BELOW ###
 

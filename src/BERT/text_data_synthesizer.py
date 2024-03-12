@@ -4,12 +4,8 @@ import re
 import json
 from .text_utility import *
 
-# TODO:
-# Fix splitting of tokens and assign correct amount of labels.
-# Fix coordinate handling
-# Fix filler tokens
-# Finetune
-# Give Jonathan nogle DASK.
+# TODO: Finetune (Lave strategier i de forskellige kategorier - f.eks. skal der altid stå Leg, eller kun nogle gange)
+# TODO: Find ud af hvilken rækkefølge tingene skal stå i
 
 def load_text_data():
   # load initial dataset
@@ -41,16 +37,40 @@ def load_text_data():
 # Create dict and call functions
 def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
+  addStartNoise(line)
   selectAndFormatDate(line)
+  addRegularnoise(line)
   selectAndFormatSpecies(line, data_list[1])
   selectAndFormatDet(line, data_list[2])
+  addRegularnoise(line)
   selectAndFormatLocation(line, data_list[3])
   selectAndFormatLeg(line, data_list[4])
+  addRegularnoise(line)
   selectAndFormatCoords(line, data_list[5], data_list[6])
+  addEndNoise(line)
 
   return line
 
+def addStartNoise(dict):
+  if is_below_percentage(50):
+    dict["tokens"].append(get_random_noise("startnoise"))
+    dict["labels"].append("0")
+
+def addRegularnoise(dict):
+  # TODO: Maybe add comma to things like "Un 02,201-5"
+  if is_below_percentage(33):
+    dict["tokens"].append(get_random_noise("regularnoise"))
+    dict["labels"].append("0")
+
+def addEndNoise(dict):
+  if is_below_percentage(50):
+    dict["tokens"].append(get_random_noise("endnoise"))
+    dict["labels"].append("0")
+
 # Specifc functions for each of the areas of interest
+# TODO: add occasional roman numbers for days
+# TODO: add cases for stuff like "Oct. 2015"
+# TODO: byt rækkefølge på dag og måned nogle gange
 def selectAndFormatDate(dict):
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   
@@ -77,14 +97,18 @@ def selectAndFormatDate(dict):
   dict["tokens"].append(modified_date)
   dict["labels"].append("3")
 
+# TODO: Don't split sepciemen
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
 
   # Removes "(current)" from the string
-  parts = specimen.split("(current)")
-  specimen_fixed = parts[0]
+  parts = specimen.split(" (current)")
+  specimen_fixed = parts[0].strip()
   tokens = re.split(r'[ ,.]', specimen_fixed)
-  
+  """
+  # Outcommented for now,
+  as it probaly shouldn't be split but maybe some time in the future it should?
+  But what do I know, I am just a computer uehuhueuhe
   for token in tokens:
     if token == '':
       continue
@@ -95,6 +119,9 @@ def selectAndFormatSpecies(dict, species):
       dict["labels"].append("0")
     else:
       dict["labels"].append("4")
+  """
+  dict["tokens"].append(specimen_fixed)
+  dict["labels"].append("4")
 
 def selectAndFormatDet(dict, dets):
   det = str(np.random.choice(dets))
@@ -145,7 +172,6 @@ def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
 
 def synthesize_text_data(amount, asJson=False):
   data_columns = load_text_data()
-
   synthesized_text_data = np.zeros(amount)
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
 
