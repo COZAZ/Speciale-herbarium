@@ -68,14 +68,16 @@ def addEndNoise(dict):
     dict["labels"].append("0")
 
 # Specifc functions for each of the areas of interest
-# TODO: add occasional roman numbers for days
-# TODO: add cases for stuff like "Oct. 2015"
-# TODO: byt rækkefølge på dag og måned nogle gange
 def selectAndFormatDate(dict):
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  abbreviated_months = ["Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."]
+  roman_number_days = ["III", "IV", "VI", "VII", "IX", "XVI", "XXIV", "XVII", "XXXI", "XXX"]
   
   if is_below_percentage(50):
-    random_day = np.random.randint(1,31)
+    if is_below_percentage(60):
+      random_day = np.random.randint(1,31)
+    else:
+      random_day = np.random.choice(roman_number_days)
     random_month_name = np.random.choice(months)
     random_year = np.random.randint(1800,2024)
 
@@ -92,12 +94,16 @@ def selectAndFormatDate(dict):
     if random_month_number < 10:
       random_month_number = '0' + str(random_month_number)
 
-    modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
+    if is_below_percentage(50):
+      modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
+    else: modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
 
+
+  if is_below_percentage(20):
+    modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
   dict["tokens"].append(modified_date)
   dict["labels"].append("3")
 
-# TODO: Don't split sepciemen
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
 
@@ -131,8 +137,10 @@ def selectAndFormatDet(dict, dets):
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
   
-  if is_below_percentage(70):
-    det = "Det: " + det
+  if is_below_percentage(50):
+    if is_below_percentage(50):
+      det = "Det: " + det
+    else: det = "determ: " + det
 
   dict["tokens"].append(det)
   dict["labels"].append("5")
