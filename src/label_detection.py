@@ -3,21 +3,16 @@ import numpy as np
 import os
 from yolov5.detect import run
 from pathlib import Path
-
-# get the path/directory
-#folder_dir = "../herb_images"
-folder_dir = "../linas_images"
  
 # Iterate over files in that directory
 # Get a list of all JPEG files found
-images = list(Path(folder_dir).glob('*.jpg'))
 
 # Now, 'images' contains the filenames sorted numerically
-def predict_labels(doImages=False):
+def predict_labels(folder_dir, doImages=False):
     if doImages:
             run(
             weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
-            source=folder_dir,
+            source="../" + folder_dir,
             conf_thres=0.4,
             imgsz=(416, 416),
             nosave = False,
@@ -111,13 +106,8 @@ def compare_bounding_boxes(label_data, label_type=None):
 
                 for true_box in true_boxes:
                     true_box_coords = extract_corner_points(true_box)
-                    #print("True box coords:", true_box_coords)
-                    #print("Predicted box coords:", pred_box_coords)
 
                     iou = get_intersection_over_union(pred_box_coords, true_box_coords)
-                    #print("pred_box_coords:", pred_box_coords)
-                    #print("true_box_coords:", true_box_coords)                       
-                    #print("IOU:", iou)
 
                     if iou >= 0.50:
                         correct_boxes += 1

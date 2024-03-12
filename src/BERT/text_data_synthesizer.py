@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+import json
 from .text_utility import *
 
 # TODO:
@@ -8,6 +9,7 @@ from .text_utility import *
 # Fix coordinate handling
 # Fix filler tokens
 # Finetune
+# Give Jonathan nogle DASK.
 
 def load_text_data():
   # load initial dataset
@@ -27,7 +29,6 @@ def load_text_data():
   dets = df[det].dropna().to_numpy()
   locations = df[loc].dropna().to_numpy()
   legs = df[leg].dropna().to_numpy()
-  # TODO: Fix coordinates - Done??
   lats = df[lat].dropna().to_numpy()
   longs = df[lon].dropna().to_numpy()
   filtered_lats = lats[["°" in lat for lat in lats]]
@@ -40,7 +41,7 @@ def load_text_data():
 # Create dict and call functions
 def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
-  selectAndFormatDate(line, data_list[0])
+  selectAndFormatDate(line)
   selectAndFormatSpecies(line, data_list[1])
   selectAndFormatDet(line, data_list[2])
   selectAndFormatLocation(line, data_list[3])
@@ -50,20 +51,41 @@ def createSingleLine(data_list):
   return line
 
 # Specifc functions for each of the areas of interest
-def selectAndFormatDate(dict, dates):
-  date = str(np.random.choice(dates))
-  dict["tokens"].append(date)
+def selectAndFormatDate(dict):
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  
+  if is_below_percentage(50):
+    random_day = np.random.randint(1,31)
+    random_month_name = np.random.choice(months)
+    random_year = np.random.randint(1800,2024)
+
+    modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
+
+  else:
+    random_day = np.random.randint(1,32)
+    random_month_number = np.random.randint(1,13)
+    random_year = np.random.randint(1800,2024)
+
+    if random_day < 10:
+      random_day = '0' + str(random_day)
+    
+    if random_month_number < 10:
+      random_month_number = '0' + str(random_month_number)
+
+    modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
+
+  dict["tokens"].append(modified_date)
   dict["labels"].append("3")
 
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
+
   # Removes "(current)" from the string
-  # TODO: Does this lead to an empty string in every species case and should it be removed then?
   parts = specimen.split("(current)")
   specimen_fixed = parts[0]
   tokens = re.split(r'[ ,.]', specimen_fixed)
   
-  for token in tokens: # Remove empty string from name - done??
+  for token in tokens:
     if token == '':
       continue
     else:
@@ -121,11 +143,17 @@ def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   dict["tokens"].append(lat + ', ' + lon)
   dict["labels"].append("6")
 
-def synthesize_text_data(amount):
+def synthesize_text_data(amount, asJson=False):
   data_columns = load_text_data()
 
   synthesized_text_data = np.zeros(amount)
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
+
+  if asJson == True:
+    synthJsonData = json.dumps(synthesized_text_data, indent=2)
+
+    with open("synth_data.json", "w") as outfile:
+      outfile.write(synthJsonData)
 
   return synthesized_text_data
 

@@ -12,3 +12,6 @@ def shuffle_content(list):
   concatenated_string = " ".join(list)
 
   return concatenated_string
+
+def add_noise_to_text():
+  return 1

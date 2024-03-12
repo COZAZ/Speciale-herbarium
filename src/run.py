@@ -58,28 +58,34 @@ def process_cropped_image(image, bbox):
 
     return result
 
-def process_image_data(institute_label_data, annotation_label_data):
+def process_image_data(institute_label_data, annotation_label_data, im_dir):
     """Process image data."""
 
+    institute_predicted_text = perform_ocr(institute_label_data, "i", im_dir)
+    annotation_predicted_text = perform_ocr(annotation_label_data, "a", im_dir)
+
+    return institute_predicted_text + annotation_predicted_text
+
+def perform_ocr(label_data, annotation_type, im_dir):
     ocr_results = []
 
-    for data in institute_label_data, annotation_label_data:
-        image_path = "../herb_images/" + data[1]
+    for label in label_data:
+        image_path = "../" + im_dir + '/' + label[1]
         image, image_size = load_and_preprocess_image(image_path)
 
         if image is None:
             continue
 
-        coordinates = data[0][1:5]
+        coordinates = label[0][1:5]
         bbox = calculate_coordinates(image_size, coordinates)
 
         # UNCOMMENT IF YOU WANT TO SEE THE DRAWN BOUNDING BOX
         #display_image_with_bbox(image, bbox)
 
-        text = process_cropped_image(image, bbox)
-        processed_image_info = (data[1], text)
-        
-        ocr_results.append(processed_image_info)
+        predicted_text = process_cropped_image(image, bbox)
+        processed_image_info_annotate = (label[1], annotation_type, predicted_text)
+
+        ocr_results.append(processed_image_info_annotate)
     
     return ocr_results
 
@@ -124,33 +130,35 @@ def compute_name_precision(image_names):
 
 def main():
     parent_directory = "runs"
-    test_specific_paths = ["680916.txt", "681364.txt", "681483.txt"]
+    test_specific_paths = ["711477.txt", "711878.txt"]
+
+    image_directory = "herb_images"
 
     ### PIPELINE step 1: Identify bounding boxes ###
     # Set doImages to True to predict labels of all images in herb_images
     # Set to false to skip this step, if you already have the "runs" results
-    predict_labels(doImages=False)
+    predict_labels(image_directory, doImages=False)
     
     ### PIPELINE step 2: Find label location in images ###
     # Set folder_path to specific exp folder to get label location of only one image
     # To run on all images, do not set the folder_path parameter
-    institute_label_data, annotation_label_data = get_label_info(parent_directory)
-    institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
+    institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
+    #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
-    print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
-    print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
+    #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
+    #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
     ### PIPELINE step 3: Extract text from images ###
     # Performs OCR on cropped images according to the predicted bounding box locations
-    #processed_images_data = process_image_data(institute_label_data, annotation_label_data)
-    #print(processed_images_data)
+    processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+    print(processed_images_data)
 
     ### PIPELINE step 4: Parse text results from OCR ###
     # Generate text for training BERT model
-    synth_text = synthesize_text_data(30)
+    #synth_text = synthesize_text_data(30)
 
-    print("\nText test for BERT:")
-    pretty_print_text_data(synth_text)
+    #print("\nText test for BERT:")
+    #pretty_print_text_data(synth_text)
 
     ### GBIF STUFF BELOW ###
 
