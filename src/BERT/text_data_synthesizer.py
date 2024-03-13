@@ -3,7 +3,6 @@ import numpy as np
 import json
 from .text_utility import *
 
-# TODO: Finetune (Lave strategier i de forskellige kategorier - f.eks. skal der altid stå Leg, eller kun nogle gange)
 # TODO: Find ud af hvilken rækkefølge tingene skal stå i
 
 def load_text_data():
