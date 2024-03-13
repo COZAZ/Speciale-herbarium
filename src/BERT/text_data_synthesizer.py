@@ -26,8 +26,8 @@ def load_text_data():
   legs = df[leg].dropna().to_numpy()
   lats = df[lat].dropna().to_numpy()
   longs = df[lon].dropna().to_numpy()
-  filtered_lats = lats[["°" in lat for lat in lats]]
-  filtered_longs = longs[["°" in lon for lon in longs]]
+  filtered_lats = lats[['°' in lat for lat in lats]]
+  filtered_longs = longs[['°' in lon for lon in longs]]
 
   data_columns = [dates, species, dets, locations, legs, filtered_lats, filtered_longs]
 
@@ -139,7 +139,7 @@ def selectAndFormatDet(dict, dets):
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
 
-    if is_below_percentage(10):
+    if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
       det = name_to_initials(names)
   
   if is_below_percentage(50):
@@ -175,9 +175,8 @@ def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
   location = location.replace(u'\xa0', u' ')
 
-  location_parts = location.split(' ')
-
-  if is_below_percentage(50):
+  if is_below_percentage(35):
+    location_parts = location.split(' ')
     location = shuffle_content(location_parts)
 
   dict["tokens"].append(location)
@@ -186,7 +185,19 @@ def selectAndFormatLocation(dict, locations):
 def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   lat = str(np.random.choice(filtered_lats))
   lon = str(np.random.choice(filtered_longs))
-  dict["tokens"].append(lat + ', ' + lon)
+  
+  if is_below_percentage(50):
+    lat = get_random_lat()
+
+  if is_below_percentage(50):
+    lon = get_random_lon()
+  
+  if is_below_percentage(15):
+    coord_set = lon + ', ' + lat
+  else:
+    coord_set = lat + ', ' + lon
+
+  dict["tokens"].append(coord_set)
   dict["labels"].append("6")
 
 def synthesize_text_data(amount, asJson=False):

@@ -38,3 +38,21 @@ def name_to_initials(names):
   initials = first_name[0] + ". " + last_name[0] + '.'
 
   return initials
+
+def get_random_lat():
+  degree = r.randint(1,90)
+  direction = r.choice(['S','N'])
+  minute = round(r.uniform(1,60), 2)
+
+  random_lat = str(degree) + '° ' + str(minute) + '\' ' + direction
+
+  return random_lat
+
+def get_random_lon():
+  degree = r.randint(1,180)
+  direction = r.choice(['E','W'])
+  minute = round(r.uniform(1,60), 2)
+
+  random_lon = str(degree) + '° ' + str(minute) + '\' ' + direction
+
+  return random_lon
