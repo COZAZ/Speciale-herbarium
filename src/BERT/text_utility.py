@@ -30,3 +30,11 @@ def get_random_noise(noiseType):
     return str(np.random.choice(endnoise))
   elif noiseType == "regularnoise":
     return str(np.random.choice(regularnoise))
+
+def name_to_initials(names):
+  first_name = names[1].strip()
+  last_name = names[0].strip()
+
+  initials = first_name[0] + ". " + last_name[0] + '.'
+
+  return initials

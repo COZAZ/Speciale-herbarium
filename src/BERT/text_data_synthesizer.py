@@ -138,11 +138,15 @@ def selectAndFormatDet(dict, dets):
     name = det
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
+
+    if is_below_percentage(10):
+      det = name_to_initials(names)
   
   if is_below_percentage(50):
     if is_below_percentage(50):
       det = "Det: " + det
-    else: det = "determ: " + det
+    else:
+      det = "determ: " + det
 
   dict["tokens"].append(det)
   dict["labels"].append("5")
@@ -155,8 +159,14 @@ def selectAndFormatLeg(dict, legs):
     names = name.split(',')
     leg = names[1].strip() + " " + names[0].strip()
 
-  if is_below_percentage(80):
-    leg = "Leg: " + leg
+    if is_below_percentage(10):
+      leg = name_to_initials(names)
+
+  if is_below_percentage(50):
+    if is_below_percentage(50):
+      leg = "Leg: " + leg
+    else:
+      leg = "legit: " + leg
 
   dict["tokens"].append(leg)
   dict["labels"].append("1")
@@ -168,7 +178,6 @@ def selectAndFormatLocation(dict, locations):
   location_parts = location.split(' ')
 
   if is_below_percentage(50):
-    location_parts = location.split(' ')
     location = shuffle_content(location_parts)
 
   dict["tokens"].append(location)
@@ -185,7 +194,7 @@ def synthesize_text_data(amount, asJson=False):
   synthesized_text_data = np.zeros(amount)
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))
 
-  if asJson == True:
+  if asJson:
     synthJsonData = json.dumps(synthesized_text_data, indent=2)
 
     with open("synth_data.json", "w") as outfile:
@@ -197,4 +206,4 @@ def synthesize_text_data(amount, asJson=False):
 
 def pretty_print_text_data(token_list):
   for text_obj in token_list:
-    print("{0}\n".format(text_obj["tokens"]))
+    print("TEXT: {0}\nLABELS: {1}\n".format(text_obj["tokens"], text_obj["labels"]))
