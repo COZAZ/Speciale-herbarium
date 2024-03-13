@@ -26,7 +26,7 @@ def get_random_noise(noiseType):
 
   if noiseType == "startnoise":
     return str(np.random.choice(startnoise))
-  elif noiseType == "endnoise":
+  elif noiseType == "endnoise":  
     return str(np.random.choice(endnoise))
   elif noiseType == "regularnoise":
     return str(np.random.choice(regularnoise))

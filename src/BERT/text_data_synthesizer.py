@@ -56,7 +56,6 @@ def addStartNoise(dict):
     dict["labels"].append("0")
 
 def addRegularnoise(dict):
-  # TODO: Maybe add comma to things like "Un 02,201-5"
   if is_below_percentage(33):
     dict["tokens"].append(get_random_noise("regularnoise"))
     dict["labels"].append("0")
