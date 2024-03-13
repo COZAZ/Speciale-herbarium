@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import re
 import json
 from .text_utility import *
 
@@ -74,14 +73,17 @@ def selectAndFormatDate(dict):
   roman_number_days = ["III", "IV", "VI", "VII", "IX", "XVI", "XXIV", "XVII", "XXXI", "XXX"]
   
   if is_below_percentage(50):
-    if is_below_percentage(60):
+    if is_below_percentage(70):
       random_day = np.random.randint(1,31)
     else:
       random_day = np.random.choice(roman_number_days)
     random_month_name = np.random.choice(months)
     random_year = np.random.randint(1800,2024)
 
-    modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
+    if is_below_percentage(50):
+      modified_date = "{0} {1}, {2}".format(random_day, random_month_name, random_year)
+    else:
+      modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
 
   else:
     random_day = np.random.randint(1,32)
@@ -96,11 +98,12 @@ def selectAndFormatDate(dict):
 
     if is_below_percentage(50):
       modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
-    else: modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
-
+    else:
+      modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
 
   if is_below_percentage(20):
     modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
+
   dict["tokens"].append(modified_date)
   dict["labels"].append("3")
 
@@ -110,8 +113,8 @@ def selectAndFormatSpecies(dict, species):
   # Removes "(current)" from the string
   parts = specimen.split(" (current)")
   specimen_fixed = parts[0].strip()
-  tokens = re.split(r'[ ,.]', specimen_fixed)
   """
+  tokens = re.split(r'[ ,.]', specimen_fixed)
   # Outcommented for now,
   as it probaly shouldn't be split but maybe some time in the future it should?
   But what do I know, I am just a computer uehuhueuhe
