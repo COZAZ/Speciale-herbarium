@@ -190,6 +190,8 @@ def synthesize_text_data(amount, asJson=False):
     synthJsonData = json.dumps(synthesized_text_data, indent=2)
 
     with open("synth_data.json", "w") as outfile:
+      outfile.seek(0)
+      outfile.truncate()
       outfile.write(synthJsonData)
 
   return synthesized_text_data

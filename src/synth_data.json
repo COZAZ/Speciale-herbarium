@@ -1,441 +1,85 @@
 [
   {
     "tokens": [
-      "1937-08-01",
-      "Poa",
-      "pratensis",
+      "1988-03-31",
+      "Erigeron uniflorus",
       "Det: S\u00f8rensen, Thorvald",
-      "Kekertok (Telt 20)",
-      "Leg: Dagny Rosing",
-      "74\u00b019.134'N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1950-08-13",
-      "Puccinellia",
-      "vahliana",
-      "Gelting, Paul",
-      "Sydostbugten: ved Grunden* af Angnertussoq-Halv\u00f6en.",
-      "Leg: B\u00f8gvad, Rich",
-      "72\u00b0 20' N, 21\u00b006'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1917-06-13",
-      "Potentilla",
-      "nivea",
-      "Det: M. Christensen",
-      "Groenl. Occid. ca. Neria.",
-      "Leg: M\u00f8ller, Minna",
-      "76\u00b017'N, 21\u00b006'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1989-08-08",
-      "Alnus",
-      "crispa",
-      "Halliday, G.",
-      "H. Femdalen. C. Land, Northeast Ostenfeld Greenland.",
-      "Leg: Fredskild, Bent",
-      "72\u00b0 20' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1963-07-17",
-      "Tofieldia",
-      "coccinea",
-      "Det: Samuelson, Gunnar",
-      "entrance W. S\u00f8ndre Str\u00f8mfjord, Qaqatsiaq. of Greenland, of south",
-      "Leg: Hansen, C.",
-      "76\u00b017'N, 21\u00b006'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1989-08-19",
-      "Veronica",
-      "alpinum",
-      "Det: S\u00f8rensen, Thorv.",
-      "Kangerdluarssuk. Ndr. West Greenland.",
-      "S\u00f8rensen, Thorv.",
-      "80\u00b0 49' N, 21\u00b024.537'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1970-07-17",
-      "Draba",
-      "cana",
-      "Det: Thorvald S\u00f8rensen",
-      "Near district. Str\u00f8mfjordshavn, Holsteinsborg",
-      "Leg: S\u00f8rensen, Thorvald",
-      "72\u00b0 20' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1977-07-19",
-      "Festuca",
-      "baffinensis",
-      "Det: Thorvald S\u00f8rensen",
-      "Paamlut.",
-      "Leg: Johansen,, Johs.",
-      "80\u00b0 35' N, 23\u00b058'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1986-08-17",
-      "Carex",
-      "rigida",
-      "Skvortsov, Alexei",
-      "Nathorsts Nordvestfjord, Land, E. Greenland.",
-      "Leg: Bay et al., Christian",
-      "80\u00b0 35' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1991-07-31",
-      "Armeria",
-      "scabra",
-      "Det: S\u00f8rensen, Thorvald",
-      "Pamiagdluk: Sagsivik.",
-      "Leg: Johansen et al., Johs.",
-      "72\u00b0 20' N, 21\u00b006'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1996-08-19",
-      "Carex",
-      "rupestris",
-      "Det: Feilberg,  Jon",
-      "Disko, Isungua.",
-      "Leg: Porsild, A.",
-      "72\u00b0 20' N, 17\u00b0 30' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1982-07-17",
-      "Alchemilla",
-      "filicaulis",
-      "var",
-      "filicaulis",
-      "L. Kolderup Rosenvinge",
-      "Peary Land: Nedre Midsommer S\u00f8.",
+      "Ivigtut.",
       "Leg: Jakobsen, Knud",
-      "72\u00b0 20' N, 27\u00b0 21' W"
+      "Hab.: NW.-exposed slope.",
+      "72\u00b0 20' N, 27\u00b0 21' W",
+      " Forgiftet"
     ],
     "labels": [
       "3",
       "4",
-      "4",
-      "4",
-      "4",
       "5",
       "2",
       "1",
-      "6"
+      "0",
+      "6",
+      "0"
     ]
   },
   {
     "tokens": [
-      "1940-06-12",
-      "Oxyria",
-      "digyna",
-      "Det: Thorvald S\u00f8rensen",
-      "Kangerdlugsuak. Amdrup Fjords Nunding.",
-      "Leg: Lindhard",
-      "74\u00b007'N, 27\u00b0 21' W"
+      "Verdant Mystery Institute",
+      "2016-03-02",
+      "PRIKKET C. BAY",
+      "Sagina intermedia",
+      "determ: S\u00f8rensen, Thorvald",
+      "Hope. Sd. Cape Scoresby",
+      "Leg: Boertmann, David",
+      "72\u00b0 20' N, 21\u00b027.5'W",
+      "Un 02 201-5"
     ],
     "labels": [
+      "0",
       "3",
-      "4",
+      "0",
       "4",
       "5",
       "2",
       "1",
-      "6"
+      "6",
+      "0"
     ]
   },
   {
     "tokens": [
-      "1914-08-06",
-      "Deschampsia",
-      "alpina",
-      "Det: Ekman, Elisabeth",
-      "Julianehaab, ved Radiostationen.",
-      "Leg: Bent Fredskild",
-      "74\u00b019.134'N, 17\u00b0 30' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1931-08-30",
-      "Draba",
-      "daurica",
-      "Halliday, G.",
-      "Gr\u00f8nland. Narssarssuaq. of Tunugdliarfik Head Vest Fjord:",
-      "Leg: Jon Feilberg",
-      "73\u00b04'N, 24\u00b0 30' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1831-08",
-      "Antennaria",
-      "alpina",
-      "Det: L. Kolderup Rosenvinge",
-      "Augpilagtoq, in the settlement.",
-      "C. J\u00f8rgensen",
-      "73\u00b04'N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1966-08-04",
-      "Carex",
-      "lachenalii",
-      "Det: Ostenfeld, C.",
-      "Nupiluk.",
-      "Fredskild et al., Bent",
-      "80\u00b0 35' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1933-08-03",
-      "Luzula",
-      "arctica",
-      "Det: Elisabeth Ekman",
-      "Gurreholm. of Land, 2 Jameson S km",
-      "Leg: Gravesen et al., Palle",
-      "80\u00b0 49' N, 23\u00b059'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1983-07-29",
-      "Carex",
-      "sc",
-      "Det: Lange, Johan",
-      "S\u00f8dalen. distr.: Kangerdlugssuaq",
-      "Salomonsen, Finn",
-      "76\u00b016'N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1987",
-      "Eriophorum",
-      "scheuchzeri",
-      "Det: Hult\u00e9n, Eric",
-      "Groenlandia. Julianehaab. E",
-      "Leg: A. Rosenkrantz",
-      "72\u00b0 20' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1891-07-20",
-      "Oxyria",
-      "digyna",
-      "S\u00f8rensen, Thorvald",
-      "Syd\u00f8st-Gr\u00f8nland. Al\u00eck.",
-      "Leg: Fredskild, Bent",
-      "72\u00b0 20' N, 21\u00b006'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1928-08-31",
-      "Ranunculus",
-      "sulphureus",
-      "Elisabeth Ekman",
-      "West-Greenland. P\u00e2.",
+      "Museum Botanicum Hauniense distributae",
+      "1830-25-06",
+      "Leucorchis albida",
+      "Ostenfeld, C.",
+      "Hab.: Den.",
+      "Lyell Land: Kap Hedlund, northernmost point.",
       "Leg: Hansen et al., Carlo",
-      "72\u00b0 20' N, 27\u00b0 21' W"
+      "72\u00b0 20' N, 24\u00b0 30' W",
+      "FORGIFTET"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Oct. 1973",
+      "Rumex acetosa",
+      "Det: Lundevall, Carl-Fredrik",
+      "Br\u00f3nl\u00fand Pearyland. J\u00f3rg. Fjord.",
+      "Leg: J\u00f8rgensen, Lise Bolt",
+      "80\u00b0 49' N, 21\u00b006'W"
     ],
     "labels": [
       "3",
-      "4",
       "4",
       "5",
       "2",
@@ -445,17 +89,67 @@
   },
   {
     "tokens": [
-      "1898-09-18",
-      "Hieracium",
-      "nigrescens",
-      "Det: S\u00f8rensen, Thorvald",
-      "Ivnajaugtoq. Godth\u00e5bsfjord,",
-      "Schwarzenbach, Fritz",
-      "76\u00b017'N, 21\u00b027'W"
+      "Plantae groenlandica",
+      "10 February, 1867",
+      "W.3",
+      "Lathyrus maritimus",
+      "determ: Larsen, Kai",
+      "Nordmarken. Greenland. Northeast",
+      "Leg: Gelting, Paul",
+      "Hab.: sand and stones",
+      "74\u00b007'N, 23\u00b059'W",
+      "Un 05 607-2"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "0",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Verdant Mystery Institute",
+      "10 May, 1897",
+      "E.6",
+      "Carex scirpoidea",
+      "Vahl, J.",
+      "North Greenland. Peary Land, 5 km WNW of Mudderbugten.",
+      "Leg: Kruuse, C.",
+      "No. 737",
+      "74\u00b007'N, 21\u00b006'W"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "0",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "1827-03-20",
+      "No. lo871",
+      "Poa glauca",
+      "determ: Knaben, Gunvor",
+      "Store Flad\u00f8.",
+      "Matevz Lenarcic",
+      "76\u00b016'N, 24\u00b042'W"
     ],
     "labels": [
       "3",
-      "4",
+      "0",
       "4",
       "5",
       "2",
@@ -465,17 +159,15 @@
   },
   {
     "tokens": [
-      "1902-07-27",
-      "Gnaphalium",
-      "norvegicum",
-      "Det: Thorvald S\u00f8rensen",
-      "Thule. 34. N. V.-Gr\u00f8nland.",
-      "Leg: S\u00f8rensen, Thorv.",
-      "72\u00b0 20' N, 17\u00b0 30' W"
+      "May. 2009",
+      "Deschampsia flexuosa",
+      "Det: Fredskild, Bent",
+      "Groenl. Occid.",
+      "Leg: Jakobsen,  Knud",
+      "76\u00b016'N, 21\u00b024.537'W"
     ],
     "labels": [
       "3",
-      "4",
       "4",
       "5",
       "2",
@@ -485,17 +177,43 @@
   },
   {
     "tokens": [
-      "1950-08-06",
-      "Salix",
-      "arctophila",
-      "Det: Rosenvinge, L. Kolderup",
-      "G\u00e5sedalen, west of Sarqaq, N\u00fbgssuaq peninsula.",
-      "Leg: Lundager, Andr.",
-      "74\u00b006'N, 27\u00b0 21' W"
+      "Expeditio Danice in Groenlandiam orientalem",
+      "Oct. 1940",
+      "No. 613",
+      "Carex parallela",
+      "Thorvald S\u00f8rensen",
+      "Vest-Gr\u00f8nl. Svartenhuk Halv\u00f8, Tart\u00e2ssaq Bugt.",
+      "Leg: Johs. Johansen et al.",
+      "72\u00b0 20' N, 21\u00b027'W",
+      "FORGIFTET HgCl2"
     ],
     "labels": [
+      "0",
       "3",
+      "0",
       "4",
+      "5",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Gr\u00f8nlands Botaniske Unders\u00f8gelse",
+      "1855-08-10",
+      "No-Loc.: 213759",
+      "Equisetum arvense",
+      "determ: S\u00f8rensen, Thorvald",
+      "Itivdlerssuaq.",
+      "Leg: Bay,  Christian",
+      "74\u00b019.134'N, 23\u00b059'W"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "0",
       "4",
       "5",
       "2",
@@ -505,102 +223,442 @@
   },
   {
     "tokens": [
-      "1979-08-09",
-      "Viscaria",
-      "alpina",
-      "Det: Ostenfeld, C.",
-      "distr.: Tre L\u00f8vers \u00d8. Skjoldungen",
-      "Leg: Fredskild et al., Bent",
-      "72\u00b0 20' N, 27\u00b0 21' W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1941-07-31",
-      "Stellaria",
-      "calycantha",
-      "Otto Holmberg",
-      "Disko: Nordfjord, Stordal, N-exposed slope of the sidevalley at the entrance of Steenstrups Dal.",
-      "Leg: Rosenkrantz,, A.",
-      "74\u00b007'N, 21\u00b027.5'W"
-    ],
-    "labels": [
-      "3",
-      "4",
-      "4",
-      "5",
-      "2",
-      "1",
-      "6"
-    ]
-  },
-  {
-    "tokens": [
-      "1958-08-31",
-      "Cassiope",
-      "tetragona",
+      "Expeditio Danice in Groenlandiam orientalem",
+      "VII July, 2013",
+      "Diphasium alpinum",
       "Det: Lange, Johan",
-      "Northeast Greenland. Germania Land, valley N of S\u00e6ls\u00f8en.",
-      "Hansen, C.",
-      "72\u00b0 20' N, 21\u00b006'W"
+      "North Greenland. The mountain behind Qanaq.",
+      "Leg: Bay et al., Christian",
+      "72\u00b0 20' N, 24\u00b0 30' W",
+      "Forgiftet."
     ],
     "labels": [
+      "0",
       "3",
-      "4",
       "4",
       "5",
       "2",
       "1",
-      "6"
+      "6",
+      "0"
     ]
   },
   {
     "tokens": [
-      "1981-07-14",
-      "Juncus",
-      "castaneus",
-      "Det: Hult\u00e9n, Eric",
-      "Sund, Vestfjord, Rolige N Scoresby Br\u00e6. of",
-      "Leg: Hansen et al., Kjeld",
-      "72\u00b0 20' N, 27\u00b0 21' W"
+      "December 6, 1822",
+      "Salix chloroclados",
+      "Det: Lange, J.",
+      "Hab.: NWE 200m west of cabin",
+      "Tugtot\u00f4q Island. Eastern part.",
+      "Leg: B\u00f6cher,, T.W.",
+      "80\u00b0 35' N, 21\u00b027.5'W",
+      "No. 736"
     ],
     "labels": [
       "3",
       "4",
-      "4",
       "5",
+      "0",
       "2",
       "1",
-      "6"
+      "6",
+      "0"
     ]
   },
   {
     "tokens": [
-      "1886-08-01",
-      "Draba",
-      "cinerea",
+      "1802-09-12",
+      "Gnaphalium norvegicum",
+      "Det: Ekman, Elisabeth",
+      "No. lo871",
+      "Pamiagdluk. Sydgr\u00f6nland,",
+      "Hartz, N.",
+      "N.3",
+      "80\u00b0 49' N, 21\u00b047.461'W",
+      "E.6"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "June 18, 1859",
+      "Cerastium alpinum",
       "Det: Thorvald S\u00f8rensen",
-      "Sarqamiut tim\u00e2t.",
-      "Leg: J\u00f8rgensen, C.A.",
-      "72\u00b0 20' N, 17\u00b0 30' W"
+      "Arctic Plants collected by the MORAVIAN BRETHREN",
+      "N head Kangerdluarssuk, of of Qaungulik.",
+      "Leg: Rink, Henrik",
+      "Hab.: Fen.",
+      "76\u00b017'N, 27\u00b0 21' W",
+      "FORGIFTET"
     ],
     "labels": [
       "3",
       "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "2020-17-02",
+      "Saxifraga caespitosa",
+      "determ: S\u00f8rensen, Thorv.",
+      "Nigerdleq.",
+      "Leg: B\u00f6cher, Tyge",
+      " PRIKKET",
+      "80\u00b0 49' N, 27\u00b0 21' W",
+      "Forgiftet"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Museum Botanicum Hauniense",
+      "August 24, 1800",
+      "Arctic Plants collected by the MORAVIAN BRETHREN",
+      "Huperzia selago",
+      "determ: Soj\u00e1k, Ji\u0159\u00ed",
+      "East Godthaab. Gr\u00f8nnedal, Greenland. Clavering \u00d8en",
+      "Leg: Fredskild, Bent",
+      " Disko:",
+      "80\u00b0 35' N, 27\u00b0 21' W",
+      " Forgiftet"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "0",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Dansk geologisk unders\u00f8gelse af Gr\u00f8nland",
+      "January 10, 1890",
+      "Carex scirpoidea",
+      "determ: Christensen, M.",
+      "Agatdalen. branch N\u00fbgssuaq, to",
+      "Fredskild et al., Bent",
+      "72\u00b0 20' N, 21\u00b006'W",
+      " PRIKKET"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "III March, 1969",
+      "Poa flexuosa subsp. consauliae",
+      "Det: Eric Hult\u00e9n",
+      "West Greenland, Agilitsiirik, an island NW of Fisken\u00e6sset.",
+      "Leg: W. Ekblaw",
+      "No. 613",
+      "72\u00b0 20' N, 24\u00b0 30' W",
+      " Forgiftet"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Mar. 1978",
+      "Antennaria alpina var. porsildii",
+      "Johan Lange",
+      "Head of S\u00f8ndre Isortoq, Isuitsup k\u00fba, north of.",
+      "Leg: Jacobsen,, Niels",
+      "1901--2",
+      "80\u00b0 35' N, 24\u00b0 30' W"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "January 19, 1974",
+      "Cerastium cerastoides",
+      "Johan Lange",
+      "1901--2",
+      "Ikorfat. N\u00fbgssuaq,",
+      "Leg: J\u00f8rgensen et al., Lise",
+      "74\u00b007'N, 27\u00b0 21' W",
+      " PRIKKET"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Museum Botanicum Hauniense distributae",
+      "XXIV March, 1803",
+      "Erigeron unalaschkensis",
+      "S\u00f8rensen, Thorvald",
+      "East Greenland. Werner Bjerge. Loms\u00f6 Pass. No. Loc.: 71.",
+      "Leg: Collector unknown",
+      "72\u00b0 20' N, 27\u00b0 21' W",
+      "FORGIFTET"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "Leder: Dr. Navn Navnesen",
+      "6 August, 1955",
+      "Carex misandra",
+      "determ: S\u00f8rensen, Thorvald",
+      "valley Isortuarssuk. of The west",
+      "Leg: Bay, Christian",
+      "80\u00b0 35' N, 21\u00b027.5'W"
+    ],
+    "labels": [
+      "0",
+      "3",
       "4",
       "5",
       "2",
       "1",
       "6"
+    ]
+  },
+  {
+    "tokens": [
+      "1894-03-04",
+      "Ledum groenlandicum",
+      "Det: S\u00f8rensen, Thorvald",
+      "PRIKKET",
+      "Distr.) Sarkarsuit (Julianeh.",
+      "Leg: Schwarzenbach, Fritz",
+      "Hab.: NW.-exposed slope.",
+      "72\u00b0 20' N, 24\u00b0 30' W"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "0",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "5 March, 1898",
+      "Hab.: Phytological.",
+      "Lychnis alpina",
+      "S\u00f8rensen, Thorvald",
+      "Hab.: Den.",
+      "v. Nenortalik*. locis In sanosis*",
+      "Leg: B\u00f8gvad, Richard",
+      "E.5.",
+      "72\u00b0 20' N, 21\u00b006'W",
+      " Forgiftet"
+    ],
+    "labels": [
+      "3",
+      "0",
+      "4",
+      "5",
+      "0",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "May. 1953",
+      "Alopecurus aequalis",
+      "determ: Hult\u00e9n, Eric",
+      "Northernmost Greenland. Nordpasset: eastern end.",
+      "Fredskild, Bent",
+      "76\u00b016'N, 21\u00b027.5'W",
+      "FORGIFTET"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "1818-14-04",
+      "Poa glauca",
+      "determ: S\u00f8rensen, Thorvald",
+      "Arfersiorfik, West Akinaq. Greenland.",
+      "Jon Feilberg",
+      "76\u00b017'N, 21\u00b006'W"
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "1865-26-06",
+      "Luzula confusa",
+      "Det: Lange, Johan",
+      "unknown:coveredl. occ. Kraulshavn, N\u00fbgssuaq Halunknown:covered.",
+      "Leg: Arnklit, Folmer",
+      "73\u00b04'N, 24\u00b0 30' W",
+      "FORGIFTET."
+    ],
+    "labels": [
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6",
+      "0"
+    ]
+  },
+  {
+    "tokens": [
+      "1883-11-21",
+      "N.3",
+      "Hieracium alpinum",
+      "determ: Vahl, J.",
+      "Jacobsens Bugt. Carl Ymer \u00d8.",
+      "Leg: Schwarzenbach, Fritz",
+      "72\u00b0 20' N, 23\u00b058'W"
+    ],
+    "labels": [
+      "3",
+      "0",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "Museum Botanicum Hauniense",
+      "Sep. 1809",
+      "Chrysosplenium tetrandrum",
+      "S\u00f8rensen, Thorvald",
+      "Godthaab",
+      "Leg: Porsild, Morten",
+      "72\u00b0 20' N, 23\u00b057'W"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "4",
+      "5",
+      "2",
+      "1",
+      "6"
+    ]
+  },
+  {
+    "tokens": [
+      "DEN DANSKE ARKTISKE STATION",
+      "Jan. 1968",
+      "PRIKKET",
+      "Carex capillaris",
+      "Jon Feilberg",
+      "Northwest Greenland. Thule distrikt, Kap Taney.",
+      "Fredskild, Bent",
+      "1901--2",
+      "72\u00b0 20' N, 27\u00b0 21' W",
+      "Herbarium AAU - Inst. Biol. Sci. - University of Aarhus - Denmark"
+    ],
+    "labels": [
+      "0",
+      "3",
+      "0",
+      "4",
+      "5",
+      "2",
+      "1",
+      "0",
+      "6",
+      "0"
     ]
   }
 ]
