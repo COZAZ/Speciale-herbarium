@@ -3,8 +3,6 @@ import numpy as np
 import json
 from .text_utility import *
 
-# TODO: Find ud af hvilken rækkefølge tingene skal stå i
-
 def load_text_data():
   # load initial dataset
   df = pd.read_csv("../greenland.csv")
@@ -35,16 +33,18 @@ def load_text_data():
 # Create dict and call functions
 def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
+
+  # Order of tokens based on general assesment of image layout
   addStartNoise(line)
-  selectAndFormatDate(line)
   addRegularnoise(line)
   selectAndFormatSpecies(line, data_list[1])
-  selectAndFormatDet(line, data_list[2])
   addRegularnoise(line)
   selectAndFormatLocation(line, data_list[3])
-  selectAndFormatLeg(line, data_list[4])
-  addRegularnoise(line)
   selectAndFormatCoords(line, data_list[5], data_list[6])
+  addRegularnoise(line)
+  selectAndFormatDate(line)
+  selectAndFormatLeg(line, data_list[4])
+  selectAndFormatDet(line, data_list[2])
   addEndNoise(line)
 
   return line
@@ -55,7 +55,7 @@ def addStartNoise(dict):
     dict["labels"].append("0")
 
 def addRegularnoise(dict):
-  if is_below_percentage(33):
+  if is_below_percentage(50):
     dict["tokens"].append(get_random_noise("regularnoise"))
     dict["labels"].append("0")
 
@@ -158,7 +158,7 @@ def selectAndFormatLeg(dict, legs):
     names = name.split(',')
     leg = names[1].strip() + " " + names[0].strip()
 
-    if is_below_percentage(10):
+    if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
       leg = name_to_initials(names)
 
   if is_below_percentage(50):
