@@ -5,7 +5,7 @@ from .text_utility import *
 
 def load_text_data():
   # load initial dataset
-  df = pd.read_csv("../greenland.csv")
+  df = pd.read_csv("../greenland.csv", dtype=str)
 
   date = "1,10.collectingevent.startDate"
   spec = "1,9-determinations.collectionobject.determinations"
@@ -215,5 +215,6 @@ def synthesize_text_data(amount, asJson=False):
   return synthesized_text_data
 
 def pretty_print_text_data(token_list):
+  print("\nSynthetic text for BERT:")
   for text_obj in token_list:
     print("TEXT: {0}\nLABELS: {1}\n".format(text_obj["tokens"], text_obj["labels"]))

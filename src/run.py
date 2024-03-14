@@ -1,6 +1,8 @@
 import easyocr
 import cv2
 import pygbif.species as gb
+import argparse
+import os
 
 from label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
@@ -47,7 +49,7 @@ def process_cropped_image(image, bbox):
     """Process cropped image."""
     cropped_image = image[bbox[1]:bbox[3], bbox[0]:bbox[2]]
 
-    reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=False)
+    reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=True)
     result = reader.readtext(cropped_image, detail=0, paragraph=True)
 
     # UNCOMMENT IF YOU WANT TO SEE THE CROPPED RESULT
@@ -128,45 +130,69 @@ def compute_name_precision(image_names):
 
     return match_rate 
 
-def main():
+def main(makeLabels=False, makeText=False):
     parent_directory = "runs"
     test_specific_paths = ["711477.txt", "711878.txt"]
-
     image_directory = "herb_images"
 
-    ### PIPELINE step 1: Identify bounding boxes ###
-    # Set doImages to True to predict labels of all images in herb_images
-    # Set to false to skip this step, if you already have the "runs" results
-    predict_labels(image_directory, doImages=False)
+    run_all = True
+
+    if makeLabels and (not os.path.exists(parent_directory)):
+        ### PIPELINE step 1: Identify bounding boxes ###
+        # Set doImages to True to predict labels of all images in herb_images
+        # Set to false to skip this step, if you already have the "runs" results
+        predict_labels(image_directory)
+        run_all = False
+    else:
+        if not os.path.exists(parent_directory):
+            print("Error: YOLO labels not generated yet, please use flag --makeLabels when calling run.py")
+            run_all = False
+        else:
+            print("Runs folder exists, skipping label detection")
     
-    ### PIPELINE step 2: Find label location in images ###
-    # Set folder_path to specific exp folder to get label location of only one image
-    # To run on all images, do not set the folder_path parameter
-    institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
-    #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
+    if makeText:
+        ### PIPELINE step 4: Parse text results from OCR ###
+        # Generate text for training BERT model
+        print("Generating training text for BERT model...")
+        generated_bert_text = synthesize_text_data(30, asJson=True)
+        pretty_print_text_data(generated_bert_text)
+        print("Done")
 
-    #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
-    #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
+        run_all = False
+    
+    elif not os.path.exists("synth_data.json") :
+        print("Error: BERT training text not generated yet")
+        run_all = False
 
-    ### PIPELINE step 3: Extract text from images ###
-    # Performs OCR on cropped images according to the predicted bounding box locations
-    #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-    #print(processed_images_data)
+    if run_all:
+        print("Running Analysis...")
+        ### PIPELINE step 2: Find label location in images ###
+        # Set folder_path to specific exp folder to get label location of only one image
+        # To run on all images, do not set the folder_path parameter
+        institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
+        #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
-    ### PIPELINE step 4: Parse text results from OCR ###
-    # Generate text for training BERT model
-    synth_text = synthesize_text_data(30)
+        #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
+        #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
-    print("\nText test for BERT:")
-    pretty_print_text_data(synth_text)
+        ### PIPELINE step 3: Extract text from images ###
+        # Performs OCR on cropped images according to the predicted bounding box locations
+        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        #print(processed_images_data)
 
-    ### GBIF STUFF BELOW ###
+        ### GBIF STUFF BELOW ###
 
-    #found_plant_names = findNames(processed_images_data)
-    #match_rate = compute_name_precision(found_plant_names)
+        #found_plant_names = findNames(processed_images_data)
+        #match_rate = compute_name_precision(found_plant_names)
 
-    #print(found_plant_names)
-    #print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
+        #print(found_plant_names)
+        #print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Description of your script.")
+    parser.add_argument("--makeLabels", action="store_true", help="Generate labels on images with YOLO model")
+    parser.add_argument("--makeText", action="store_true", help="Generate OCR-like text strings for training the BERT model")
+
+    args = parser.parse_args()
+
+    main(args.makeLabels, args.makeText)

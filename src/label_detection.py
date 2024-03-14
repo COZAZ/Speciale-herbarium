@@ -8,18 +8,17 @@ from pathlib import Path
 # Get a list of all JPEG files found
 
 # Now, 'images' contains the filenames sorted numerically
-def predict_labels(folder_dir, doImages=False):
-    if doImages:
-            run(
-            weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
-            source="../" + folder_dir,
-            conf_thres=0.4,
-            imgsz=(416, 416),
-            nosave = False,
-            view_img = False,
-            save_txt = True,
-            project = 'runs'
-            )
+def predict_labels(folder_dir):
+    run(
+    weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
+    source="../" + folder_dir,
+    conf_thres=0.4,
+    imgsz=(416, 416),
+    nosave = False,
+    view_img = False,
+    save_txt = True,
+    project = 'runs'
+    )
 
 def get_label_info(parent_directory, image_file_extension=".jpg", test_images=None):
     all_data_with_digit_9 = []
