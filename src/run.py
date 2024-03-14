@@ -49,7 +49,7 @@ def process_cropped_image(image, bbox):
     """Process cropped image."""
     cropped_image = image[bbox[1]:bbox[3], bbox[0]:bbox[2]]
 
-    reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=True)
+    reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=False)
     result = reader.readtext(cropped_image, detail=0, paragraph=True)
 
     # UNCOMMENT IF YOU WANT TO SEE THE CROPPED RESULT
@@ -161,7 +161,7 @@ def main(makeLabels=False, makeText=False):
         run_all = False
     
     elif not os.path.exists("synth_data.json") :
-        print("Error: BERT training text not generated yet")
+        print("Error: BERT training text not generated yet, please use flag --makeText when calling run.py")
         run_all = False
 
     if run_all:
@@ -177,8 +177,8 @@ def main(makeLabels=False, makeText=False):
 
         ### PIPELINE step 3: Extract text from images ###
         # Performs OCR on cropped images according to the predicted bounding box locations
-        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-        #print(processed_images_data)
+        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        print(processed_images_data)
 
         ### GBIF STUFF BELOW ###
 
@@ -187,6 +187,8 @@ def main(makeLabels=False, makeText=False):
 
         #print(found_plant_names)
         #print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
+
+        print("Pipeline process complete")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Description of your script.")
