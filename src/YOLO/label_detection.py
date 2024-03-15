@@ -9,7 +9,7 @@ from pathlib import Path
 # Now, 'images' contains the filenames sorted numerically
 def predict_labels(folder_dir):
     run(
-    weights="MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
+    weights="../MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
     source="../" + folder_dir,
     conf_thres=0.4,
     imgsz=(416, 416),

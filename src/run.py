@@ -93,8 +93,8 @@ def main(makeLabels=False, makeText=False):
 
         ### PIPELINE step 3: Extract text from images ###
         # Performs OCR on cropped images according to the predicted bounding box locations
-        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-        #print(processed_images_data)
+        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        print(processed_images_data)
 
         ### GBIF STUFF BELOW ###
 
