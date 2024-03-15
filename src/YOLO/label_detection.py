@@ -1,6 +1,5 @@
 import glob as g
 import numpy as np
-import os
 from yolov5.detect import run
 from pathlib import Path
  
