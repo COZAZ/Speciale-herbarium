@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset, RandomSampler
 from tqdm import tqdm
 import json
+import re
 
 # Load the entire model
 tokenizer = AutoTokenizer.from_pretrained("Maltehb/danish-bert-botxo")
@@ -37,9 +38,31 @@ def predict_new_sentence(sentence, tokenizer, model, label_to_id):
     return tokens, labels
 
 # Perform prediction on "hello world!"
-sentence = "Det. Bobathan Bobathansen"
+sentence = 'Plantae groenlandica' + 'Artemisia borealis' + 'Nigerdlikasik.' + "15° 42.61' S, 61° 46.82' W" + '1805-01-10' + 'legit: Böcher, Tyge' + 'Det: Fredskild, Bent'
 tokens, labels = predict_new_sentence(sentence, tokenizer, model, label_to_id)
 
 # Display tokens and their predicted labels
-print("Tokens:", tokens)
-print("Predicted Labels:", labels)
+#print("Tokens:", tokens)
+#print("Predicted Labels:", labels)
+
+# print specimen
+# Filtering and printing the tokens corresponding to 'B-SPECIMEN' in labels
+specimens = " ".join([token for label, token in zip(labels, tokens) if label == 'B-SPECIMEN'])
+locations = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LOCATION'])
+leg = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LEG'])
+det = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DET'])
+date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
+coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
+
+interests = [specimens, locations, leg, det, date, coord]
+# strip hastags from each string
+for i, elm in enumerate(interests):
+    elm = elm.replace('#', "")
+    interests[i] = elm
+
+print("Specimen:", interests[0])
+print("Locations:", interests[1])
+print("Legs:", interests[2])
+print("Det:", interests[3])
+print("Date:", interests[4])
+print("Coord:", interests[5])
