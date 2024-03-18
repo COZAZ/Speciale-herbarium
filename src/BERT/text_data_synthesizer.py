@@ -103,7 +103,7 @@ def selectAndFormatDate(dict):
     modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
 
   dict["tokens"].append(modified_date)
-  dict["labels"].append("3")
+  dict["labels"].append("B-DATE")
 
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
@@ -128,7 +128,7 @@ def selectAndFormatSpecies(dict, species):
       dict["labels"].append("4")
   """
   dict["tokens"].append(specimen_fixed)
-  dict["labels"].append("4")
+  dict["labels"].append("B-SPECIMEN")
 
 def selectAndFormatDet(dict, dets):
   det = str(np.random.choice(dets))
@@ -138,9 +138,11 @@ def selectAndFormatDet(dict, dets):
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
 
+    """
     if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
       det = name_to_initials(names)
-  
+    """
+      
   if is_below_percentage(50):
     if is_below_percentage(50):
       det = "Det: " + det
@@ -148,7 +150,7 @@ def selectAndFormatDet(dict, dets):
       det = "determ: " + det
 
   dict["tokens"].append(det)
-  dict["labels"].append("5")
+  dict["labels"].append("B-DET")
 
 def selectAndFormatLeg(dict, legs):
   leg = str(np.random.choice(legs))
@@ -158,8 +160,10 @@ def selectAndFormatLeg(dict, legs):
     names = name.split(',')
     leg = names[1].strip() + " " + names[0].strip()
 
+    """
     if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
       leg = name_to_initials(names)
+    """
 
   if is_below_percentage(50):
     if is_below_percentage(50):
@@ -168,7 +172,7 @@ def selectAndFormatLeg(dict, legs):
       leg = "legit: " + leg
 
   dict["tokens"].append(leg)
-  dict["labels"].append("1")
+  dict["labels"].append("B-LEG")
 
 def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
@@ -179,7 +183,7 @@ def selectAndFormatLocation(dict, locations):
     location = shuffle_content(location_parts)
 
   dict["tokens"].append(location)
-  dict["labels"].append("2")
+  dict["labels"].append("B-LOCATION")
 
 def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
   lat = str(np.random.choice(filtered_lats))
@@ -197,7 +201,7 @@ def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
     coord_set = lat + ', ' + lon
 
   dict["tokens"].append(coord_set)
-  dict["labels"].append("6")
+  dict["labels"].append("B-COORD")
 
 def synthesize_text_data(amount, asJson=False):
   data_columns = load_text_data()

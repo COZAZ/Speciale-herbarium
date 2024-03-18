@@ -1,13 +1,21 @@
-from transformers import AutoTokenizer, AutoModelForPreTraining, AutoModelForTokenClassification, AdamW
+from transformers import AutoTokenizer, AutoModelForPreTraining, AutoModelForTokenClassification, AdamW, BertTokenizer, BertForTokenClassification
 import torch
 from torch.utils.data import DataLoader, TensorDataset, RandomSampler
 from tqdm import tqdm
+import json
+
+label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
 ## Loading the model
-tokenizer = AutoTokenizer.from_pretrained("Maltehb/danish-bert-botxo")
-model = AutoModelForPreTraining.from_pretrained("Maltehb/danish-bert-botxo")
+tokenizer = BertTokenizer.from_pretrained("Maltehb/danish-bert-botxo")
+model = BertForTokenClassification.from_pretrained("Maltehb/danish-bert-botxo", num_labels=len(label_to_id))
+
+# load JSON data
+f = open('../synth_data.json')
+dataset = json.load(f)
 
 # Example of the dataset format
+"""
 dataset = [
     {"tokens": ["hej", ",", "mit", "navn", "er", "john", "."], "labels": ["O", "O", "O", "O", "O", "B-PERSON", "O"]},
     # Add more sentences here
@@ -24,6 +32,7 @@ dataset = [
     {"tokens": ["Leg.:", "Mette", "Astrup", "Lars", "Kliim", "Nielsen"], "labels": ["O", "B-PERSON", "B-PERSON", "I-PERSON", "I-PERSON", "I-PERSON"]},
     {"tokens": ["Det.:"], "labels": ["O"]}
 ]
+"""
 
 ## Encoing the examples
 
@@ -33,34 +42,38 @@ def encode_examples(examples, label_to_id, max_length=512):
     label_ids = []
 
     for example in examples:
-        tokens = []
-        label_ids_example = []
+        tokens = ["[CLS]"]
+        label_ids_example = [-100]  # Using -100 for [CLS] to ignore it in loss calculation
+
         for word, label in zip(example["tokens"], example["labels"]):
             word_tokens = tokenizer.tokenize(word)
+            # Check if adding this word exceeds the max_length when including [SEP] token
+            if len(tokens) + len(word_tokens) + 1 > max_length:
+                break  # Stop adding tokens for this example if max_length is reached
+
             tokens.extend(word_tokens)
             # Use the first label (e.g., B-LOCATION) for the first token of the word, and padding labels (e.g., -100) for the remaining tokens
             label_ids_example.extend([label_to_id[label]] + [-100] * (len(word_tokens) - 1))
-        
-        tokens = ["[CLS]"] + tokens + ["[SEP]"]
-        label_ids_example = [-100] + label_ids_example + [-100]
-        input_ids_example = tokenizer.convert_tokens_to_ids(tokens)
 
+        tokens.append("[SEP]")
+        label_ids_example.append(-100)  # Using -100 for [SEP] to ignore it in loss calculation
+
+        input_ids_example = tokenizer.convert_tokens_to_ids(tokens)
         attention_mask_example = [1] * len(input_ids_example)
         
-        # Padding to max_length
-        padding_length = max_length - len(input_ids_example)
-        input_ids_example += [0] * padding_length
-        attention_mask_example += [0] * padding_length
-        label_ids_example += [-100] * padding_length
-
+        # Note: No need to pad here as we ensure the length does not exceed max_length
         input_ids.append(input_ids_example)
         attention_masks.append(attention_mask_example)
         label_ids.append(label_ids_example)
     
-    return torch.tensor(input_ids), torch.tensor(attention_masks), torch.tensor(label_ids)
+    # Padding moved here to ensure all sequences are padded to the same length
+    input_ids_padded = torch.nn.utils.rnn.pad_sequence([torch.tensor(ids) for ids in input_ids], batch_first=True, padding_value=0)
+    attention_masks_padded = torch.nn.utils.rnn.pad_sequence([torch.tensor(mask) for mask in attention_masks], batch_first=True, padding_value=0)
+    label_ids_padded = torch.nn.utils.rnn.pad_sequence([torch.tensor(ids) for ids in label_ids], batch_first=True, padding_value=-100)
+
+    return input_ids_padded, attention_masks_padded, label_ids_padded
 
 # Example usage
-label_to_id = {"O": 0, "B-PERSON": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "-100": -100}
 input_ids, attention_masks, label_ids = encode_examples(dataset, label_to_id)
 
 num_labels = len(label_to_id) - 1  # Subtracting one because -100 is not a real label but a padding token
@@ -90,3 +103,5 @@ for epoch in range(3):  # for a few epochs
         optimizer.step()
     
     print(f"Average loss: {total_loss / len(dataloader)}")
+
+model.save_pretrained('model')
