@@ -6,7 +6,7 @@ import json
 import re
 
 # Load the entire model
-tokenizer = AutoTokenizer.from_pretrained("Maltehb/danish-bert-botxo")
+tokenizer = AutoTokenizer.from_pretrained("model")
 model = AutoModelForTokenClassification.from_pretrained("model")
 model.eval()  # Set the model to evaluation mode
 

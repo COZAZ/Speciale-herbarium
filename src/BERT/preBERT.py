@@ -7,8 +7,8 @@ import json
 label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
 ## Loading the model
-tokenizer = BertTokenizer.from_pretrained("Maltehb/danish-bert-botxo")
-model = BertForTokenClassification.from_pretrained("Maltehb/danish-bert-botxo", num_labels=len(label_to_id))
+tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-multilingual-uncased")
+#model = BertForTokenClassification.from_pretrained("google-bert/bert-base-uncased", num_labels=len(label_to_id))
 
 # load JSON data
 f = open('../synth_data.json')
@@ -77,14 +77,14 @@ def encode_examples(examples, label_to_id, max_length=512):
 input_ids, attention_masks, label_ids = encode_examples(dataset, label_to_id)
 
 num_labels = len(label_to_id) - 1  # Subtracting one because -100 is not a real label but a padding token
-model = AutoModelForTokenClassification.from_pretrained("Maltehb/danish-bert-botxo", num_labels=num_labels)
+model = BertForTokenClassification.from_pretrained("google-bert/bert-base-multilingual-uncased", num_labels=num_labels)
 
 # Create TensorDataset and DataLoader
 dataset = TensorDataset(input_ids, attention_masks, label_ids)
 dataloader = DataLoader(dataset, sampler=RandomSampler(dataset), batch_size=8)
 
 # Optimizer
-optimizer = AdamW(model.parameters(), lr=5e-5)
+optimizer = torch.optim.Adam(params=model.parameters(), lr=1e-05)
 
 model.train()
 for epoch in range(3):  # for a few epochs
@@ -104,4 +104,5 @@ for epoch in range(3):  # for a few epochs
     
     print(f"Average loss: {total_loss / len(dataloader)}")
 
+tokenizer.save_pretrained('model')
 model.save_pretrained('model')
