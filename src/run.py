@@ -2,7 +2,7 @@ import pygbif.species as gb
 import argparse
 import os
 from OCR.character_recognizer import process_image_data
-from OCR.output_handler import save_ocr_output
+from OCR.output_handler import save_ocr_output, evaluate_craft_ocr
 from YOLO.label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
 
@@ -54,6 +54,8 @@ def main(yolo=False, ocr=False, bert=False):
     annotation_label_data = None
     ocr_is_ready = False
 
+    ocr_score = 0
+
     run_all = True
 
     if yolo and (not os.path.exists(parent_directory)):
@@ -94,6 +96,8 @@ def main(yolo=False, ocr=False, bert=False):
         else:
             print("OCR output exists, skipping OCR")
 
+            ocr_score = evaluate_craft_ocr()
+
     if bert:
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
@@ -119,12 +123,12 @@ def main(yolo=False, ocr=False, bert=False):
             print("Artificial text exists, skipping generation")
 
     if run_all:
-        print("Running Analysis...")
+        print("\nRunning Analysis...")
 
-        #ocr_accuracy = 1
-
-        #print(processed_images_data)
-        #print("OCR (CRAFT) performance accuracy: {0}%".format(ocr_accuracy))
+        ### Show performance scores of all components ###
+        print("Computing performance scores of components:")
+        # TODO: add scores for YOLO and BERT
+        print("OCR (CRAFT) performance accuracy: {0}%".format(ocr_score))
 
         ### GBIF STUFF BELOW ###
 
