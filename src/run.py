@@ -44,14 +44,14 @@ def compute_name_precision(image_names):
 
     return match_rate 
 
-def main(makeLabels=False, makeText=False):
+def main(yolo=False, bert=False):
     parent_directory = "runs"
-    test_specific_paths = ["711477.txt", "711878.txt"]
-    image_directory = "herb_images"
+    test_specific_paths = ["689351.txt", "704605.txt"]
+    image_directory = "herb_images_machine"
 
     run_all = True
 
-    if makeLabels and (not os.path.exists(parent_directory)):
+    if yolo and (not os.path.exists(parent_directory)):
         ### PIPELINE step 1: Identify bounding boxes ###
         # Set doImages to True to predict labels of all images in herb_images
         # Set to false to skip this step, if you already have the "runs" results
@@ -59,23 +59,23 @@ def main(makeLabels=False, makeText=False):
         run_all = False
     else:
         if not os.path.exists(parent_directory):
-            print("Error: YOLO labels not generated yet, please use flag --makeLabels when calling run.py")
+            print("Error: YOLO labels not generated yet, please use flag --yolo when calling run.py")
             run_all = False
         else:
             print("Runs folder exists, skipping label detection")
     
-    if makeText:
+    if bert:
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
         print("Generating training text for BERT model...")
         generated_bert_text = synthesize_text_data(30, asJson=True)
-        pretty_print_text_data(generated_bert_text)
+        #pretty_print_text_data(generated_bert_text)
         print("Text generation done")
 
         run_all = False
     else:
         if not os.path.exists("synth_data.json"):
-            print("Error: BERT training text not generated yet, please use flag --makeText when calling run.py")
+            print("Error: BERT model not trained yet, please use flag --bert when calling run.py")
             run_all = False
         else:
             print("Artificial text exists, skipping generation")
@@ -93,8 +93,8 @@ def main(makeLabels=False, makeText=False):
 
         ### PIPELINE step 3: Extract text from images ###
         # Performs OCR on cropped images according to the predicted bounding box locations
-        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-        print(processed_images_data)
+        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        #print(processed_images_data)
 
         ### GBIF STUFF BELOW ###
 
@@ -108,9 +108,9 @@ def main(makeLabels=False, makeText=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="This script is for running the pipeline system. Necessary data must be generated first, by using the below flags.")
-    parser.add_argument("--makeLabels", action="store_true", help="Generate labels on images with YOLO model")
-    parser.add_argument("--makeText", action="store_true", help="Generate OCR-like text strings for training the BERT model")
+    parser.add_argument("--yolo", action="store_true", help="Generate labels on images with YOLO model")
+    parser.add_argument("--bert", action="store_true", help="Generate OCR-like text strings and train the BERT model (only text gen currently)")
 
     args = parser.parse_args()
 
-    main(args.makeLabels, args.makeText)
+    main(args.yolo, args.bert)
