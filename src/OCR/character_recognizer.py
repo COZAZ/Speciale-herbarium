@@ -56,12 +56,14 @@ def process_cropped_image(image, bbox):
 def process_image_data(institute_label_data, annotation_label_data, im_dir):
     """Process image data."""
 
-    institute_predicted_text = perform_ocr(institute_label_data, "i", im_dir)
-    annotation_predicted_text = perform_ocr(annotation_label_data, "a", im_dir)
+    progress_counter = 0
+
+    institute_predicted_text, current_counter = perform_ocr(institute_label_data, "i", im_dir, progress_counter)
+    annotation_predicted_text, _ = perform_ocr(annotation_label_data, "a", im_dir, current_counter)
 
     return institute_predicted_text + annotation_predicted_text
 
-def perform_ocr(label_data, annotation_type, im_dir):
+def perform_ocr(label_data, annotation_type, im_dir, counter):
     ocr_results = []
 
     for label in label_data:
@@ -81,5 +83,10 @@ def perform_ocr(label_data, annotation_type, im_dir):
         processed_image_info_annotate = (label[1], annotation_type, predicted_text)
 
         ocr_results.append(processed_image_info_annotate)
+
+        im_number = len(label_data)
+        counter += 1
+        
+        print("Images processed with OCR: {0}/{1}".format(counter, im_number))
     
-    return ocr_results
+    return ocr_results, counter

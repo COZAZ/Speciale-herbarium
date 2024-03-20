@@ -1,8 +1,9 @@
 import pygbif.species as gb
 import argparse
 import os
-from YOLO.label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from OCR.character_recognizer import process_image_data
+from OCR.output_handler import save_ocr_output
+from YOLO.label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
 
 def find_names(search_images):
@@ -44,10 +45,14 @@ def compute_name_precision(image_names):
 
     return match_rate 
 
-def main(yolo=False, bert=False):
+def main(yolo=False, ocr=False, bert=False):
     parent_directory = "runs"
     test_specific_paths = ["689351.txt", "704605.txt"]
     image_directory = "herb_images_machine"
+
+    institute_label_data = None
+    annotation_label_data = None
+    ocr_is_ready = False
 
     run_all = True
 
@@ -62,14 +67,47 @@ def main(yolo=False, bert=False):
             print("Error: YOLO labels not generated yet, please use flag --yolo when calling run.py")
             run_all = False
         else:
-            print("Runs folder exists, skipping label detection")
+            ### PIPELINE step 2: Find label locations in images ###
+            # Set folder_path to specific exp folder to get label location of only one image
+            # To run on all images, do not set the folder_path parameter
+            institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
+            #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
+
+            ocr_is_ready = True
+
+            #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
+            #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
+
+            print("Image labels exist ({0} instituional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))
     
+    if ocr and (not os.path.exists("../ocr_output.json")) and ocr_is_ready:
+        ### PIPELINE step 3: Extract text from images ###
+        # Performs OCR on cropped images according to the predicted bounding box locations
+        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        save_ocr_output(processed_images_data)
+        run_all = False
+    else:
+        if not ocr_is_ready: print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
+        elif not os.path.exists("../ocr_output.json"):
+            print("Error: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
+            run_all = False
+        else:
+            print("OCR output exists, skipping OCR")
+
     if bert:
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
         print("Generating training text for BERT model...")
         generated_bert_text = synthesize_text_data(30, asJson=True)
         #pretty_print_text_data(generated_bert_text)
+
+        ### TODO: Train the BERT model here??? ###
+
+
+
+
+
+
         print("Text generation done")
 
         run_all = False
@@ -82,19 +120,11 @@ def main(yolo=False, bert=False):
 
     if run_all:
         print("Running Analysis...")
-        ### PIPELINE step 2: Find label location in images ###
-        # Set folder_path to specific exp folder to get label location of only one image
-        # To run on all images, do not set the folder_path parameter
-        institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
-        #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
-        #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
-        #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
+        #ocr_accuracy = 1
 
-        ### PIPELINE step 3: Extract text from images ###
-        # Performs OCR on cropped images according to the predicted bounding box locations
-        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
         #print(processed_images_data)
+        #print("OCR (CRAFT) performance accuracy: {0}%".format(ocr_accuracy))
 
         ### GBIF STUFF BELOW ###
 
@@ -109,8 +139,9 @@ def main(yolo=False, bert=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="This script is for running the pipeline system. Necessary data must be generated first, by using the below flags.")
     parser.add_argument("--yolo", action="store_true", help="Generate labels on images with YOLO model")
+    parser.add_argument("--ocr", action="store_true", help="Perform OCR on the YOLO-labeled images")
     parser.add_argument("--bert", action="store_true", help="Generate OCR-like text strings and train the BERT model (only text gen currently)")
 
     args = parser.parse_args()
 
-    main(args.yolo, args.bert)
+    main(args.yolo, args.ocr, args.bert)
