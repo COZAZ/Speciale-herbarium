@@ -27,6 +27,8 @@ def evaluate_craft_ocr():
         predicted_texts = json.load(f)
     with open("../ocr_true_text.json", 'r') as f:
         true_texts = json.load(f)
+    
+    number_of_text = len(true_texts)
         
     similarity_scores = []
 
@@ -48,4 +50,4 @@ def evaluate_craft_ocr():
     
     total_similarity_score = mean(similarity_scores) * 100
     
-    return round(total_similarity_score, 2)
+    return round(total_similarity_score, 2), number_of_text
