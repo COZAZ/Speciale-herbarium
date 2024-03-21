@@ -1,49 +1,10 @@
-import pygbif.species as gb
 import argparse
 import os
+import time
 from OCR.character_recognizer import process_image_data
 from OCR.output_handler import save_ocr_output, evaluate_craft_ocr
 from YOLO.label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
 from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
-
-def find_names(search_images):
-    """Identify the real plant names of the OCR results"""
-
-    identified_image_names = []
-
-    for ocr_res in search_images:
-        image_name = ocr_res[0]
-        image_text = ocr_res[1]
-
-        best_match = "none"
-        best_score = 0
-        for text_elm in image_text:
-            lookup = gb.name_backbone(name=text_elm, kingdom="plants")
-
-            if 'scientificName' in lookup:
-  
-                current_conf = lookup['confidence']
-                current_name = lookup['scientificName']
-
-                if current_conf >= best_score:
-                    best_score = current_conf
-                    best_match = current_name
-        
-        identified_image_names.append((image_name, best_match, best_score))
-    
-    return identified_image_names
-
-def compute_name_precision(image_names):
-    """Compute correct name match rate"""
-    matches = 0
-
-    for tup in image_names:
-        if tup[1] != "none":
-            matches += 1
-    
-    match_rate = matches / len(image_names)
-
-    return match_rate 
 
 def main(yolo=False, ocr=False, bert=False):
     parent_directory = "runs"
@@ -62,7 +23,10 @@ def main(yolo=False, ocr=False, bert=False):
         ### PIPELINE step 1: Identify bounding boxes ###
         # Set doImages to True to predict labels of all images in herb_images
         # Set to false to skip this step, if you already have the "runs" results
+        start = time.time()
         predict_labels(image_directory)
+        end = time.time()
+        print("Finished after", (end-start)/60, "minutes.")
         run_all = False
     else:
         if not os.path.exists(parent_directory):
@@ -80,7 +44,7 @@ def main(yolo=False, ocr=False, bert=False):
             #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
             #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
-            print("Image labels exist ({0} instituional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))
+            print("Image labels exist ({0} institutional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))
     
     if ocr and (not os.path.exists("../ocr_output.json")) and ocr_is_ready:
         ### PIPELINE step 3: Extract text from images ###
@@ -120,7 +84,7 @@ def main(yolo=False, ocr=False, bert=False):
             print("Error: BERT model not trained yet, please use flag --bert when calling run.py")
             run_all = False
         else:
-            print("Artificial text exists, skipping generation")
+            print("Artificial text exists, skipping text generation")
 
     if run_all:
         print("\nRunning Analysis...")
