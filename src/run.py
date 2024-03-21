@@ -5,6 +5,7 @@ from OCR.character_recognizer import process_image_data
 from OCR.output_handler import save_ocr_output
 from BERT.text_data_synthesizer import synthesize_text_data
 from BERT.preBERT import train_bert
+from BERT.bert_to_csv import createCSV
 
 def main(yolo=False, ocr=False, bert=False):
     print("Starting pipeline...")
@@ -56,7 +57,7 @@ def main(yolo=False, ocr=False, bert=False):
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
         print("Generating training text for BERT model...")
-        number_of_text = 5
+        number_of_text = 50
         synthesize_text_data(number_of_text, asJson=True)
         print("Text generation done")
 
@@ -76,6 +77,9 @@ def main(yolo=False, ocr=False, bert=False):
 
     if run_all:
         print("\nRunning Analysis...")
+
+        #TODO: Make method createCSV()
+        createCSV()
 
         print("Pipeline process complete")
 

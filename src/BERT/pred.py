@@ -1,13 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 import torch
 
-# Load the entire model
-tokenizer = AutoTokenizer.from_pretrained("model")
-model = AutoModelForTokenClassification.from_pretrained("model")
-model.eval()  # Set the model to evaluation mode
-
-label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
-
 # Function to tokenize new sentences and perform predictions
 def predict_new_sentence(sentence, tokenizer, model, label_to_id):
     # Tokenize the sentence
@@ -33,32 +26,52 @@ def predict_new_sentence(sentence, tokenizer, model, label_to_id):
 
     return tokens, labels
 
-# Perform prediction on "hello world!"
-sentence = 'Plantae groenlandica' + 'Artemisia borealis' + 'Nigerdlikasik.' + "15° 42.61' S, 61° 46.82' W" + '1805-01-10' + 'legit: Böcher, Tyge' + 'Det: Fredskild, Bent'
-tokens, labels = predict_new_sentence(sentence, tokenizer, model, label_to_id)
+def parse_ocr_text():
+    # Load the model
+    tokenizer = AutoTokenizer.from_pretrained("BERT_model")
+    model = AutoModelForTokenClassification.from_pretrained("BERT_model")
+    model.eval()  # Set the model to evaluation mode
 
-# Display tokens and their predicted labels
-#print("Tokens:", tokens)
-#print("Predicted Labels:", labels)
+    label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
-# print specimen
-# Filtering and printing the tokens corresponding to 'B-SPECIMEN' in labels
-specimens = " ".join([token for label, token in zip(labels, tokens) if label == 'B-SPECIMEN'])
-locations = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LOCATION'])
-leg = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LEG'])
-det = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DET'])
-date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
-coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
+    # TODO: at some point, load ocr output JSON as text data
+    sentence1 = 'Plantae groenlandica' + 'Artemisia borealis' + 'Nigerdlikasik.' + "15° 42.61' S, 61° 46.82' W" + '1805-01-10' + 'legit: Böcher, Tyge' + 'Det: Fredskild, Bent'
+    sentence2 = 'Plantae groenlandica' + 'Artemisia borealis' + 'Nigerdlikasik.' + "15° 42.61' S, 61° 46.82' W" + '1805-01-10' + 'legit: Böcher, Tyge' + 'Det: Fredskild, Bent'
+    
+    sentences = [sentence1, sentence2]
+    parsed_text = []
 
-interests = [specimens, locations, leg, det, date, coord]
-# strip hastags from each string
-for i, elm in enumerate(interests):
-    elm = elm.replace('#', "")
-    interests[i] = elm
+    for sentence in sentences:
+        tokens, labels = predict_new_sentence(sentence, tokenizer, model, label_to_id)
 
-print("Specimen:", interests[0])
-print("Locations:", interests[1])
-print("Legs:", interests[2])
-print("Det:", interests[3])
-print("Date:", interests[4])
-print("Coord:", interests[5])
+        # Display tokens and their predicted labels
+        #print("Tokens:", tokens)
+        #print("Predicted Labels:", labels)
+
+
+        # Filtering and printing the tokens corresponding to 'B-SPECIMEN' in labels
+        specimens = " ".join([token for label, token in zip(labels, tokens) if label == 'B-SPECIMEN'])
+        locations = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LOCATION'])
+        leg = " ".join([token for label, token in zip(labels, tokens) if label == 'B-LEG'])
+        det = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DET'])
+        date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
+        coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
+
+        interests = [specimens, locations, leg, det, date, coord]
+        # strip hastags from each string
+        for i, elm in enumerate(interests):
+            elm = elm.replace('#', "")
+            interests[i] = elm
+
+        parsed_text.append(interests)
+
+        # Display the extracted information
+        #print("Specimen:", interests[0])
+        #print("Locations:", interests[1])
+        #print("Legs:", interests[2])
+        #print("Det:", interests[3])
+        #print("Date:", interests[4])
+        #print("Coord:", interests[5])
+        
+    #TODO: change from list to list of lists (all sentences REAL TEXT)
+    return parsed_text

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-from .text_utility import *
+from BERT.text_utility import is_below_percentage, get_random_noise, shuffle_content, get_random_lat, get_random_lon
 
 def load_text_data():
   # load initial dataset
