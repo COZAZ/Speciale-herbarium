@@ -58,7 +58,7 @@ def parse_ocr_text():
         ]
     }
 
-    ocr_text_objects = [object1, object2] #TODO: load real ocr output
+    ocr_text_objects = [object1, object2]
 
     parsed_text = []
     

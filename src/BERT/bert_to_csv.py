@@ -1,4 +1,3 @@
-# Hello Jonathan. This file is for transforming BERT output to CSV. I SEE COMMENT. DO YOU SEEM MY REPLY????
 from BERT.pred import parse_ocr_text
 import csv
 
@@ -6,7 +5,7 @@ import csv
 def createCSV():
     print("Creating CSV...")
 
-    interests = parse_ocr_text() # TODO: at some point, load ocr output JSON as text data
+    interests = parse_ocr_text()
 
     data = interests.copy()
     data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates'])
