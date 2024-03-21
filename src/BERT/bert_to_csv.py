@@ -9,7 +9,7 @@ def createCSV():
     interests = parse_ocr_text() # TODO: at some point, load ocr output JSON as text data
 
     data = interests.copy()
-    data.insert(0,['Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates'])
+    data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates'])
 
     with open("herbarium.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
