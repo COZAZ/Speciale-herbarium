@@ -56,6 +56,7 @@ def main(yolo=False, ocr=False, bert=False):
     if bert:
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
+        #TODO: We need to train the model once and for all. Then we can remove the --bert flag
         print("Generating training text for BERT model...")
         number_of_text = 50
         synthesize_text_data(number_of_text, asJson=True)
