@@ -6,8 +6,12 @@ from pathlib import Path
 # Iterate over files in that directory
 # Get a list of all JPEG files found
 
+#runs_folder = None
+
 # Now, 'images' contains the filenames sorted numerically
 def predict_labels(folder_dir):
+    runs_folder = folder_dir + "_runs"
+
     run(
     weights="../MELU-Trained-ObjDetection-Model-Yolov5-BEST.pt",
     source="../" + folder_dir,
@@ -16,7 +20,7 @@ def predict_labels(folder_dir):
     nosave = False,
     view_img = False,
     save_txt = True,
-    project = 'runs'
+    project = runs_folder
     )
 
 def get_label_info(parent_directory, image_file_extension=".jpg", test_images=None):
@@ -34,7 +38,7 @@ def get_label_info(parent_directory, image_file_extension=".jpg", test_images=No
         else:
             specific_files = []
             for name in test_images:
-                path = Path('runs/exp/labels/' + name)
+                path = Path(parent_directory + "/exp/labels/" + name)
                 specific_files.append(path)
             
             label_files = specific_files
@@ -58,10 +62,18 @@ def evaluate_label_detection_performance(institute_data, annotation_data, detail
     institute_label_data = institute_data
     annotation_label_data = annotation_data
 
+    institute_accuracy = 0
+    annotation_accuracy = 0
+
     # Type "i": institution boxes will be compared
     # Type "a": annotation boxes will be compared
-    institute_accuracy = compare_bounding_boxes(institute_label_data, label_type="i")
-    annotation_accuracy = compare_bounding_boxes(annotation_label_data, label_type="a")
+    if len(institute_data) > 0:
+        institute_accuracy = compare_bounding_boxes(institute_label_data, label_type="i")
+    else: institute_accuracy = None
+
+    if len(annotation_data) > 0:
+        annotation_accuracy = compare_bounding_boxes(annotation_label_data, label_type="a")
+    else: annotation_accuracy = None
 
     return institute_accuracy, annotation_accuracy
 

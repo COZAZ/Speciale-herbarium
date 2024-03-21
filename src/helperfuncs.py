@@ -48,3 +48,11 @@ def compute_name_precision(image_names):
     match_rate = matches / len(image_names)
 
     return match_rate 
+
+### GBIF STUFF BELOW ###
+
+#found_plant_names = findNames(processed_images_data)
+#match_rate = compute_name_precision(found_plant_names)
+
+#print(found_plant_names)
+#print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))

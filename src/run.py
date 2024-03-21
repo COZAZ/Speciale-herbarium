@@ -1,32 +1,29 @@
 import argparse
 import os
-import time
+from YOLO.label_detection import get_label_info, predict_labels
 from OCR.character_recognizer import process_image_data
-from OCR.output_handler import save_ocr_output, evaluate_craft_ocr
-from YOLO.label_detection import get_label_info, predict_labels, evaluate_label_detection_performance
-from BERT.text_data_synthesizer import synthesize_text_data, pretty_print_text_data
+from OCR.output_handler import save_ocr_output
+from BERT.text_data_synthesizer import synthesize_text_data
+from BERT.preBERT import train_bert
 
 def main(yolo=False, ocr=False, bert=False):
-    parent_directory = "runs"
-    test_specific_paths = ["689351.txt", "704605.txt"]
-    image_directory = "herb_images_machine"
+    print("Starting pipeline...")
+    #machine = ["689351.txt", "704605.txt"]
+    linas = ["682156.txt", "682897.txt"]
+
+    test_specific_paths = linas
+    image_directory = "linas_images"
+    parent_directory = image_directory + "_runs"
 
     institute_label_data = None
     annotation_label_data = None
     ocr_is_ready = False
 
-    ocr_score = 0
-
     run_all = True
 
     if yolo and (not os.path.exists(parent_directory)):
         ### PIPELINE step 1: Identify bounding boxes ###
-        # Set doImages to True to predict labels of all images in herb_images
-        # Set to false to skip this step, if you already have the "runs" results
-        start = time.time()
         predict_labels(image_directory)
-        end = time.time()
-        print("Finished after", (end-start)/60, "minutes.")
         run_all = False
     else:
         if not os.path.exists(parent_directory):
@@ -37,12 +34,7 @@ def main(yolo=False, ocr=False, bert=False):
             # Set folder_path to specific exp folder to get label location of only one image
             # To run on all images, do not set the folder_path parameter
             institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
-            #institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
-
             ocr_is_ready = True
-
-            #print("\nInstitution label prediction accuracy: {0}%".format(institute_accuracy))
-            #print("Annotation label prediction accuracy: {0}%".format(annotation_accuracy))
 
             print("Image labels exist ({0} institutional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))
     
@@ -53,54 +45,37 @@ def main(yolo=False, ocr=False, bert=False):
         save_ocr_output(processed_images_data)
         run_all = False
     else:
-        if not ocr_is_ready: print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
+        if (not ocr_is_ready): print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
         elif not os.path.exists("../ocr_output.json"):
-            print("Error: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
-            run_all = False
+            print("Warning: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
+            print("Pipeline will continue without OCR results...")
         else:
             print("OCR output exists, skipping OCR")
-
-            ocr_score = evaluate_craft_ocr()
 
     if bert:
         ### PIPELINE step 4: Parse text results from OCR ###
         # Generate text for training BERT model
         print("Generating training text for BERT model...")
-        generated_bert_text = synthesize_text_data(30, asJson=True)
-        #pretty_print_text_data(generated_bert_text)
-
-        ### TODO: Train the BERT model here??? ###
-
-
-
-
-
-
+        number_of_text = 5
+        synthesize_text_data(number_of_text, asJson=True)
         print("Text generation done")
+
+        # Training the BERT model
+        print("Training BERT model with {0} text objects...".format(number_of_text))
+        train_bert()
+        print("Training complete")
 
         run_all = False
     else:
         if not os.path.exists("synth_data.json"):
-            print("Error: BERT model not trained yet, please use flag --bert when calling run.py")
-            run_all = False
+            print("Warning: BERT model not trained yet, please use flag --bert when calling run.py")
+            print("Pipeline process will continue without BERT model...")
+            #run_all = False
         else:
             print("Artificial text exists, skipping text generation")
 
     if run_all:
         print("\nRunning Analysis...")
-
-        ### Show performance scores of all components ###
-        print("Computing performance scores of components:")
-        # TODO: add scores for YOLO and BERT
-        print("OCR (CRAFT) performance accuracy: {0}%".format(ocr_score))
-
-        ### GBIF STUFF BELOW ###
-
-        #found_plant_names = findNames(processed_images_data)
-        #match_rate = compute_name_precision(found_plant_names)
-
-        #print(found_plant_names)
-        #print("Match rate from running {0} images: {1}%".format(len(found_plant_names), match_rate*100))
 
         print("Pipeline process complete")
 

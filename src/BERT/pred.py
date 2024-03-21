@@ -1,9 +1,5 @@
-from transformers import AutoTokenizer, AutoModelForPreTraining, AutoModelForTokenClassification, AdamW
+from transformers import AutoTokenizer, AutoModelForTokenClassification
 import torch
-from torch.utils.data import DataLoader, TensorDataset, RandomSampler
-from tqdm import tqdm
-import json
-import re
 
 # Load the entire model
 tokenizer = AutoTokenizer.from_pretrained("model")
