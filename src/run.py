@@ -9,11 +9,11 @@ from BERT.bert_to_csv import createCSV
 
 def main(yolo=False, ocr=False, bert=False):
     print("Starting pipeline...")
-    #machine = ["689351.txt", "704605.txt"]
-    linas = ["682156.txt", "682897.txt"]
+    machine = ["689351.txt", "704605.txt", "859622.txt", "861422.txt", "861423.txt", "861918.txt"]
+    #linas = ["682156.txt", "682897.txt"]
 
-    test_specific_paths = linas
-    image_directory = "linas_images"
+    test_specific_paths = machine
+    image_directory = "herb_images_machine"
     parent_directory = image_directory + "_runs"
 
     institute_label_data = None
@@ -39,7 +39,7 @@ def main(yolo=False, ocr=False, bert=False):
 
             print("Image labels exist ({0} institutional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))
     
-    if ocr and (not os.path.exists("../ocr_output.json")) and ocr_is_ready:
+    if ocr and ocr_is_ready:
         ### PIPELINE step 3: Extract text from images ###
         # Performs OCR on cropped images according to the predicted bounding box locations
         processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
@@ -80,7 +80,7 @@ def main(yolo=False, ocr=False, bert=False):
         print("\nRunning Analysis...")
 
         #TODO: Make method createCSV()
-        createCSV()
+        #createCSV()
 
         print("Pipeline process complete")
 

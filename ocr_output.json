@@ -18,7 +18,53 @@
             "Dry slope on south side of Ravnedalen; Rechnitzers Land.",
             "Lat. 760 19.5' N. Long: 210 42' W. alt. 5Om",
             "12.8.06",
-            "Leg: RWM. Corner."
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "859622.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Eriophorum callitrix Cham_",
+            "In Eriophorum / Carex saxatilis mire Fangersund camp, Adolph S. Jensens Land.",
+            "Lat. 760 16' N. Long 21\" 27.5' W alt. 20m.",
+            "13.8.06",
+            "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "861422.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Carex supina Wbg: ssp. spaniocarpa. (Steud ) Hult.",
+            "Dry stony moraine, south side of Ravnedalen, Rechnitzers Land near entrance.",
+            "Lat. 760 19.5' N. Long 210 42' alt. 5Om",
+            "8.8.06-",
+            "Leg R.WM. Corner ."
+        ]
+    },
+    {
+        "image": "861423.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Carex supina Wbg: ssp. spaniocarpa (Steud ) Hult. Dry slopes near Fangersund camp; Adolph S. Jensens Land.",
+            "Lat. 76\" 19' N. Long 21\" 27.5' W. alt. 3Om 13.8.06.",
+            "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "861918.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Carex stans Drej.",
+            "Mire above Majhytten hut, Syttendemajfjorden, Adolph S. Jensens Land.",
+            "Lat. 76917' N. Long. 21\" 06' W. alt. 30m",
+            "18.8.06",
+            "Leg RWM. Corner ."
         ]
     }
 ]

@@ -57,13 +57,14 @@ def process_image_data(institute_label_data, annotation_label_data, im_dir):
     """Process image data."""
 
     progress_counter = 0
+    total_labels = len(institute_label_data) + len(annotation_label_data)
 
-    institute_predicted_text, current_counter = perform_ocr(institute_label_data, "i", im_dir, progress_counter)
-    annotation_predicted_text, _ = perform_ocr(annotation_label_data, "a", im_dir, current_counter)
+    institute_predicted_text, current_counter = perform_ocr(institute_label_data, "i", im_dir, progress_counter, total_labels)
+    annotation_predicted_text, _ = perform_ocr(annotation_label_data, "a", im_dir, current_counter, total_labels)
 
     return institute_predicted_text + annotation_predicted_text
 
-def perform_ocr(label_data, annotation_type, im_dir, counter):
+def perform_ocr(label_data, annotation_type, im_dir, counter, label_total):
     ocr_results = []
 
     for label in label_data:
@@ -84,9 +85,8 @@ def perform_ocr(label_data, annotation_type, im_dir, counter):
 
         ocr_results.append(processed_image_info_annotate)
 
-        im_number = len(label_data)
         counter += 1
         
-        print("Images processed with OCR: {0}/{1}".format(counter, im_number))
+        print("Labels processed with OCR: {0}/{1}".format(counter, label_total))
     
     return ocr_results, counter
