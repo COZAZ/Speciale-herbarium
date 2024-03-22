@@ -37,11 +37,10 @@ def runTests():
 
     # OCR accuracy
     if os.path.exists("../ocr_output.json"):
-        print("\n### Running accuracy test for OCR output ###")
+        print("\nRunning accuracy test for OCR output")
         ocr_score, text_amount = evaluate_craft_ocr()
-        print("OCR prediction accuracy: {0}%".format(round(ocr_score, 3)))
+        print("OCR text prediction accuracy: {0}%".format(round(ocr_score, 3)))
         print("Tested on {0} labels".format(text_amount))
-        print("############################################")
     else:
         print("OCR output text does not exist. To compute OCR (CRAFT) accuracy, please run OCR on your images")
 

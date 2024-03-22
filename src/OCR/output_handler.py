@@ -37,7 +37,7 @@ def evaluate_craft_ocr():
         full_pred_text = " ".join(entry_pred["text"])
         
         for entry_true in true_texts:
-            # Manuel added this line by write as one line
+            # Manually added this line by writing it as one line
             full_true_text = entry_true["text"]
 
             if entry_true["image"] == entry_pred["image"]:

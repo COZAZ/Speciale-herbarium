@@ -34,7 +34,7 @@ def main(yolo=False, ocr=False, bert=False):
             ### PIPELINE step 2: Find label locations in images ###
             # Set folder_path to specific exp folder to get label location of only one image
             # To run on all images, do not set the folder_path parameter
-            institute_label_data, annotation_label_data = get_label_info(parent_directory, test_images=test_specific_paths)
+            institute_label_data, annotation_label_data = get_label_info(parent_directory)
             ocr_is_ready = True
 
             print("Image labels exist ({0} institutional labels and {1} annotation labels), skipping label detection".format(len(institute_label_data), len(annotation_label_data)))

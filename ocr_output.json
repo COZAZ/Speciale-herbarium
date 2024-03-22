@@ -1,12 +1,332 @@
 [
     {
-        "image": "689351.jpg",
+        "image": "846243.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "E.6",
+            "Potentilla hyparctica Malte",
+            "Slope on north side of Ravnedalen; Rechnitzers Land.",
+            "Lat. 76 20' N. Long 21\" 42' W. alt. 10Om",
+            "10.8.06",
+            "Leg R.WM. Corner ."
+        ]
+    },
+    {
+        "image": "702025.jpg",
+        "label_type": "i",
+        "text": [
+            "Museum Botanicum Hauniense Greenland Botanical Survey Plants of East Greenland",
+            "No 46 Y1",
+            "E.5",
+            "L3:lcB:s!",
+            "Hab 8 dry terrace, 30 m above the river Veg . : dry heath",
+            "Loc . : Gaaseland , Hjoernedal, outer part",
+            "Lat. 70'21 ' N. ,",
+            "Long . 28915 ' W. ,",
+            "Alt",
+            "40 m",
+            "No .Loc . : 940123",
+            "Leg . 8 Fritz Hans Schwarzenbach",
+            "Date: 27.07 .1994",
+            "Det"
+        ]
+    },
+    {
+        "image": "729659.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Arnica alpina (L.) Olin coll.",
+            "Slopes of small island north of Fangersund camp, Adolf $. Jensens Land.",
+            "Lat. 760 16.6' N. Long 21\" 22' W alt 5Om",
+            "15.8.06",
+            "Leg: P.Roberts"
+        ]
+    },
+    {
+        "image": "840817.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Carex bigelowii Torr .",
+            "Herb bank on east of large river valley draining large lake to south of Fangersund camp; Acolph S. Jensens Land.",
+            "Lat. 760 14' N. Long. 210 17' W. alt. SOm",
+            "16.8.06",
+            "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "729658.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Arnica alpina (L.) Olin coll.",
+            "Sunny slope below cliff near Fangersund camp; Adolf S. Jensens Land.",
+            "Lat. 760 16' N. Long 21\" 28' W alt. SOm",
+            "13.8.06.",
+            "Leg: R.WM. Corner ."
+        ]
+    },
+    {
+        "image": "787821.jpg",
+        "label_type": "i",
+        "text": [
+            "Cyperac J Vascular Plants of North East Greenland Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "E.6",
+            "Carex parallela (Laest. ) Sommerf.",
+            "On edge of coastal mire on small island close to and to the north of the Fangersund camp, Adolf S. Jensens Land.",
+            "Lat. 76\" 16.533' N. Long. 21\" 24.537' W . alt.1Om",
+            "15.8.06",
+            "Leg: RWMCorner ."
+        ]
+    },
+    {
+        "image": "805426.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Luzula confusa Lindeb",
+            "Dry slope on north side of Ravnedalen, Rechnitzers Land.",
+            "Lat. 76\" 20' N. Long. 21\" 42' W. alt. 1OOm.",
+            "10.8.06",
+            "Leg RWM. Corner."
+        ]
+    },
+    {
+        "image": "846244.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Potentilla hyparctica Malte.",
+            "Herb bank on east side of large river valley draining lake to the south of Fangersund camp; Adolf S. Jensens Land.",
+            "Lat. 76\" 14' N. Long. 210 17' W. alt. 5Om-",
+            "16.8.06",
+            "Leg RWM Corner ."
+        ]
+    },
+    {
+        "image": "791271.jpg",
+        "label_type": "i",
+        "text": [
+            "Udsp\u00e6rret annelgr\u00e6s Puccinellia distans (Jacq.) Parl",
+            "GRAMINEAE",
+            "Kysten syd for lufthavnen , Narsarsuaq ,",
+            "Gr\u00f8nland",
+            "18-7-2010",
+            "Leg. Mogens Ihornberg"
+        ]
+    },
+    {
+        "image": "736353.jpg",
         "label_type": "i",
         "text": [
             "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
-            "Ranunculus pedatifidus Sm.",
-            "On slope below K6 cave 29 above north side of Kumme Langs\u00f8. Lat. 740 02' N. Long 230 36' W. Alt. 250m. 21.7.04",
+            "Campanula uniflora L.",
+            "South end of 'S\u00f8ryggen. Lat. 74\" 03.681' N. Long 23\" 32.983' W Alt. 765m. 21.7.04",
+            "Leg: P. Roberts"
+        ]
+    },
+    {
+        "image": "697510.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "E.6",
+            "Betula nana L",
+            "On coastal rocks on east side of small island close to and to the north of the Fangersund camp, Adolf S. Jensens Land.",
+            "Lat. 760 16.6' N. Long 210 22' W alt 20m",
+            "15.8.06",
+            "Leg M. & D. Cavanagh."
+        ]
+    },
+    {
+        "image": "721066.jpg",
+        "label_type": "i",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Draba glabella Pursh.",
+            "Side of gully south S\u00f8ryggen. Lat 740 02' N. Long 230 31' W. Alt. 4OOm 22.7.04",
             "Leg RWMCorner"
+        ]
+    },
+    {
+        "image": "861918.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Carex stans Drej.",
+            "Mire above Majhytten hut, Syttendemajfjorden, Adolph S. Jensens Land.",
+            "Lat. 76917' N. Long. 21\" 06' W. alt. 30m",
+            "18.8.06",
+            "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "853216.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Saxifraga aizoides L",
+            "Local in flushes and along sides of small stream on north side of entrance to Ravnedalen, Rechnitzers Land.",
+            "Lat. 76\" 20' N. Long 21\" 42' W alt. 1OOm.",
+            "10.8.06",
+            "Leg RWM Corner ."
+        ]
+    },
+    {
+        "image": "714828.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Taraxacum phymatocarpon J.Vahl.",
+            "Large colony on bare soil in gully on east side of river draining large lake to the south of Fangersund Camp, Adolph S. Jensens Land. Lat. 760 14' N. Long 210 17' W. alt. 5Om",
+            "16.8.06",
+            "Brigitte Grossmann. Leg R.WM. Corner"
+        ]
+    },
+    {
+        "image": "848632.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Kobresia simpliciuscula (Wbg: Mack",
+            "Moist runnel area on south side of Ravnedalen; Rechnitzers Land.",
+            "Lat. 760 19.5' N. Long 21\" 42' W. alt. 1OOm",
+            "8.8.06",
+            "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "736087.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Campanula uniflora L",
+            "Slopes on south side of Ravnedalen near entrance, Rechnitzers Land.",
+            "Lat. 760 19.5' N. Long 21\" 42' W alt. 1OOm",
+            "8.8.06",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "850321.jpg",
+        "label_type": "i",
+        "text": [
+            "FLORA OF GREENLAND",
+            "Saxifraga hirculus L",
+            "W7: Thule District; Saunders \u00d8, western tip. 76*33*59,4\"N 70*12*16,56W. In rather high herb vegetation and moss along stream, numerous; alt. 150 m",
+            "7 August 2007",
+            "David Boertmann 2007/18"
+        ]
+    },
+    {
+        "image": "835590.jpg",
+        "label_type": "i",
+        "text": [
+            "2 7 @ Gl =",
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Carex capillaris L",
+            "Herb banks on east side of large river valley draining lake to south of Fangersund camp, Adolph S Jensens Land.",
+            "Lat. 760 14' N. Long 210 17' W . alt. 5Om-",
+            "16.8.06",
+            "Leg R.WM. Corner ."
+        ]
+    },
+    {
+        "image": "701984.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Luzula wahlenbergii Rupr.",
+            "Large population in Carex saxatilis/Eriophorum m ire, above the Majhytten hut, Syttendemajifjorden, Adolf S. Jensen Land.",
+            "Lat. 760 17.321' N. Long 210 06.392' W. alt. 30m",
+            "18.8.06.",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "849301.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Kobresia myosuroides (Vill.) Fiori & Paol.",
+            "Dry coastal slope to south of Ravnedalen; Rechnitzers Land.",
+            "Lat. 760 17.5' N. Long 21\" 42' W. alt. 5Om",
+            "11.8.06.",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "849936.jpg",
+        "label_type": "i",
+        "text": [
+            "Sax\u0131 frasac",
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Saxifraga hyperborea R Br.",
+            "Appearing from melting snow bank near Fangersund camp, Adolph S. Jensens Land. Lat. 76916 N. Long. 21\" 27.5' W. alt. 2Om",
+            "17.8.06.",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "784599.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Poa glauca M. Vahl.",
+            "Dry slopes south side of Ravnedalen, Rechnitzers Land.",
+            "Lat. 760 19.5' N. Long 21\" 42' W. alt. 10Om.",
+            "9.8.06",
+            "Leg R.WM. Corner."
+        ]
+    },
+    {
+        "image": "780659.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Tofieldia coccinea Richards ",
+            "Dry slope on north side of Ravnedalen, Rechnitzers Land.",
+            "Lat. 76\" 20' N. Long 21\" 42' W. alt. 1OOm",
+            "10.8.06",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "846824.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Alopecurus borealis Trin.",
+            "Common on solifluction slope at Fangersund camp, Adolph S. Jensens Land.",
+            "Lat. 760 16' N. Long 21\" 27' W. alt. 30m",
+            "13.8.06",
+            "Leg: R.WM. Corner ."
+        ]
+    },
+    {
+        "image": "817712.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Melandrium affine JVahl.",
+            "Coastal slope to south of Ravnedalen; Rechnitzers Land.",
+            "Lat. 760 17.5' N. Long 21\" 42 W. alt. 5Om",
+            "11.8.06",
+            "Leg R.W. M. Corner ."
+        ]
+    },
+    {
+        "image": "704606.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Potentilla hookeriana Lehm_",
+            "Slopes at Fangersund camp, Adolph S. Jensens Land.",
+            "Lat. 760 16' N. Long. 21927.5' W alt. 30m.",
+            "13.8.06.",
+            "Leg: RWM. Corner ."
         ]
     },
     {
@@ -22,15 +342,108 @@
         ]
     },
     {
-        "image": "859622.jpg",
+        "image": "845678.jpg",
+        "label_type": "i",
+        "text": [
+            "Plants of Greenland",
+            "Potentilla nivea L.",
+            "Rosaceae Avannaata Municipality. Uummannaq: rocky hill in townsite. 70940'37.74\"N, 52'7'48.54\"W Rocky hillside. Associates: Saxifraga tricuspidata, Cerastium alpinum, Salix arctica, Poa sp., moss.",
+            "Roger D. Bull & Bronwyn E. Keatley 18 Det. : P C. Sokoloff, 2018",
+            "August 18, 2017",
+            "Silica Gel Collection",
+            "National Herbarium of Canada (CAN), Canadian Museum of Nature",
+            "Specimen collected on the 2017 Students on Ice Arctic Expedition",
+            "STUDENTS ON ICE"
+        ]
+    },
+    {
+        "image": "708689.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Empetrum nigrum ssp. hermaphroditum (Hagerup) B\u00f6ch.",
+            "Rocky south facing slope at Fangersund camp, Adolph S. Jensens Land. Lat. 760 16' N. Long 21\" 27.5' W. alt. 30m.",
+            "13.8.06",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "851938.jpg",
         "label_type": "i",
         "text": [
             "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
-            "Eriophorum callitrix Cham_",
-            "In Eriophorum / Carex saxatilis mire Fangersund camp, Adolph S. Jensens Land.",
-            "Lat. 760 16' N. Long 21\" 27.5' W alt. 20m.",
-            "13.8.06",
+            "Saxifraga caespitosa L",
+            "Local on slopes; south side of Ravnedalen; Rechnitzers Land.",
+            "Lat. 760 19.5' N. Long. 21\" 42' W. alt. 1OOm.",
+            "8.8.06",
+            "Leg: RWM. Corner."
+        ]
+    },
+    {
+        "image": "728835.jpg",
+        "label_type": "i",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Erigeron eriocephalus. Vahl.",
+            "On north slope of Tagbjergen. Lat. 740 00' N. Long 230 33' W Alt. 9O0m 21.7.04",
+            "P. & B. Nelson"
+        ]
+    },
+    {
+        "image": "736799.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Campanula gieseckiana.",
+            "At base of north facing gully with dominant Salix arctica south of Fangersund camp, Adolf S. Jensens Land.",
+            "Lat. 76\" 14.027' N. Long 210 24.299' W. alt. 150m",
+            "14.8.06",
+            "Leg W.R. Corner & RWM. Corner ."
+        ]
+    },
+    {
+        "image": "807177.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Juncus triglumis L",
+            "Moist runnel area on south side of Ravnedalen; Rechnitzers Land.",
+            "Lat. 760 19.5' N. Long 21\" 42' W alt. 1OOm.",
+            "8.8.06-",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "861423.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Carex supina Wbg: ssp. spaniocarpa (Steud ) Hult. Dry slopes near Fangersund camp; Adolph S. Jensens Land.",
+            "Lat. 76\" 19' N. Long 21\" 27.5' W. alt. 3Om 13.8.06.",
             "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "728837.jpg",
+        "label_type": "i",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Erigeron eriocephalus J. Vahl.",
+            "On slopes of Randen above Sodal Lat. 740 05' N Long 230 57' W. Alt. 4OOm 16.7.04",
+            "Leg M & D. Cavanagh"
+        ]
+    },
+    {
+        "image": "734210.jpg",
+        "label_type": "i",
+        "text": [
+            "Bra,^ a\u20ac",
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Braya purpurascens (R. Br.) Bge.",
+            "Open habitat on east side of river draining large lake to the south of Fangersund camp, Adolph S. Jensens Land.",
+            "Lat. 76\" 14' N. Long 210 17' W. alt. 5Om",
+            "16.8.06",
+            "Leg RWM. Corner"
         ]
     },
     {
@@ -46,25 +459,149 @@
         ]
     },
     {
-        "image": "861423.jpg",
+        "image": "859620.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
+            "Eriophorum callitrix Cham.",
+            "Mire with E. triste on north side of entrance to Ravnedalen, Rechnitzers Land.",
+            "Lat. 76\" 20' N. Long 210 42' W. alt, 1OOm",
+            "10.8.06",
+            "Leg RWM Corner ."
+        ]
+    },
+    {
+        "image": "721181.jpg",
         "label_type": "i",
         "text": [
             "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
-            "Carex supina Wbg: ssp. spaniocarpa (Steud ) Hult. Dry slopes near Fangersund camp; Adolph S. Jensens Land.",
-            "Lat. 76\" 19' N. Long 21\" 27.5' W. alt. 3Om 13.8.06.",
+            "Draba glabella Pursh",
+            "Slopes near Fangersund camp, Adolph $. Jensens Land. Lat. 760 19' N. Long 21\" 27.5' W . alt. 30m.",
+            "13.8.06",
             "Leg RWM. Corner ."
         ]
     },
     {
-        "image": "861918.jpg",
+        "image": "859621.jpg",
         "label_type": "i",
         "text": [
-            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay. 2006.",
-            "Carex stans Drej.",
-            "Mire above Majhytten hut, Syttendemajfjorden, Adolph S. Jensens Land.",
-            "Lat. 76917' N. Long. 21\" 06' W. alt. 30m",
-            "18.8.06",
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Eriophorum callitrix Cham.",
+            "Mire on east side of large river valley draining lake to south of Fangersund camp, Adolf $. Jensens Land.",
+            "Lat. 76' 14' N. Long. 210 17' W. alt. SOm",
+            "16.8.06",
+            "Leg: RWM. Corner ."
+        ]
+    },
+    {
+        "image": "689351.jpg",
+        "label_type": "i",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Ranunculus pedatifidus Sm.",
+            "On slope below K6 cave 29 above north side of Kumme Langs\u00f8. Lat. 740 02' N. Long 230 36' W. Alt. 250m. 21.7.04",
+            "Leg RWMCorner"
+        ]
+    },
+    {
+        "image": "737440.jpg",
+        "label_type": "i",
+        "text": [
+            "Trenervet snerre",
+            "Galium boreale L",
+            "1-2 km N\u00d8 for Signalh\u00f8jen, Narsarsuaq ,",
+            "Gr\u00f8nland",
+            "19-7-2010",
+            "Leg. Mogens Thornberg"
+        ]
+    },
+    {
+        "image": "859622.jpg",
+        "label_type": "i",
+        "text": [
+            "Vascular Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Southern Dove Bay . 2006.",
+            "Eriophorum callitrix Cham_",
+            "In Eriophorum / Carex saxatilis mire Fangersund camp, Adolph S. Jensens Land.",
+            "Lat. 760 16' N. Long 21\" 27.5' W alt. 20m.",
+            "13.8.06",
             "Leg RWM. Corner ."
+        ]
+    },
+    {
+        "image": "807021.jpg",
+        "label_type": "a",
+        "text": [
+            "Natural History Museum of Denmark 2 Herbarium \u20ac Image No. NHMD-807021",
+            "Jun c ."
+        ]
+    },
+    {
+        "image": "844435.jpg",
+        "label_type": "a",
+        "text": [
+            "Pokmjlla \"vhmjcavl\u0131z khm",
+            "Det.: Christian Bay, 2013"
+        ]
+    },
+    {
+        "image": "731928.jpg",
+        "label_type": "a",
+        "text": [
+            "On solifluction soil on Randen. Lat. 740 08' N. Long 230 57' W. Alt. 7OOm 25.7.04",
+            "Leg: RWMCorner"
+        ]
+    },
+    {
+        "image": "846824.jpg",
+        "label_type": "a",
+        "text": [
+            "Natural History Herbarium Museum C of Denmark Image No. NHMD-846824"
+        ]
+    },
+    {
+        "image": "839065.jpg",
+        "label_type": "a",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Euphrasia frigida Pugsl.",
+            "South facing herb slope above Krumme Langs\u00f8. Lat. 740 05' N. Long 240 11' W. Alt. 210m. 24.7.04",
+            "Leg RWMCorner"
+        ]
+    },
+    {
+        "image": "707815.jpg",
+        "label_type": "a",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Gentiana detonsa Rottb",
+            "Small colony at base of south end of S\u00f8ryggen. Lat.740 03.196' N. Long 230 26.157' W Alt.330m 21.7.04",
+            "Leg: P. Roberts"
+        ]
+    },
+    {
+        "image": "807177.jpg",
+        "label_type": "a",
+        "text": [
+            "Natural History Museum of Denmark Herbarium \u20ac",
+            "Image No. NHMD-807177",
+            "Juncac\u20ac6&"
+        ]
+    },
+    {
+        "image": "859621.jpg",
+        "label_type": "a",
+        "text": [
+            "Natural History Museum of Denmark Herbarium \u20ac Image No. NHMD-859621"
+        ]
+    },
+    {
+        "image": "688267.jpg",
+        "label_type": "a",
+        "text": [
+            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
+            "Ranunculus sulphureus Sol.",
+            "Below north facing cliff in Sodal. Lat. 740 07' N. Lat. 23\" 59' W Alt. 250m 15.7.04",
+            "Leg: RWMCorner"
         ]
     }
 ]
