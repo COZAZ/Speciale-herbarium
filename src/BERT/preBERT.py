@@ -9,27 +9,21 @@ import matplotlib.pyplot as plt
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
-
-## Loading the model
-tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-multilingual-cased")
-
-# load JSON data
-f = open('../synth_data.json')
-dataset = json.load(f)
-
 # Example of the dataset format
 """
 dataset = [
     {"tokens": ["hej", ",", "mit", "navn", "er", "john", "."], "labels": ["O", "O", "O", "O", "O", "B-PERSON", "O"]},
+]
 """
 
-## Encoing the examples
-
+## Encoding the examples
 def encode_examples(examples, label_to_id, max_length=512):
     input_ids = []
     attention_masks = []
     label_ids = []
+
+    ## Loading the model
+    tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-multilingual-cased")
 
     for example in examples:
         tokens = ["[CLS]"]
@@ -61,54 +55,58 @@ def encode_examples(examples, label_to_id, max_length=512):
     attention_masks_padded = torch.nn.utils.rnn.pad_sequence([torch.tensor(mask) for mask in attention_masks], batch_first=True, padding_value=0)
     label_ids_padded = torch.nn.utils.rnn.pad_sequence([torch.tensor(ids) for ids in label_ids], batch_first=True, padding_value=-100)
 
-    return input_ids_padded, attention_masks_padded, label_ids_padded
+    return input_ids_padded, attention_masks_padded, label_ids_padded, tokenizer
 
-# Example usage
-input_ids, attention_masks, label_ids = encode_examples(dataset, label_to_id)
+def train_bert():
+    label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
-num_labels = len(label_to_id) - 1  # Subtracting one because -100 is not a real label but a padding token
-model = BertForTokenClassification.from_pretrained("google-bert/bert-base-multilingual-cased", num_labels=num_labels)
+    # load JSON data
+    f = open('synth_data.json')
+    dataset = json.load(f)
 
-# Move the model to the selected device
-model.to(device)
+    # Example usage
+    input_ids, attention_masks, label_ids, tokenizer = encode_examples(dataset, label_to_id)
 
-# Create TensorDataset and DataLoader
-dataset = TensorDataset(input_ids, attention_masks, label_ids)
-dataloader = DataLoader(dataset, sampler=RandomSampler(dataset), batch_size=16)
+    num_labels = len(label_to_id) - 1  # Subtracting one because -100 is not a real label but a padding token
+    model = BertForTokenClassification.from_pretrained("google-bert/bert-base-multilingual-cased", num_labels=num_labels)
 
-# Optimizer
-optimizer = torch.optim.Adam(params=model.parameters(), lr=2e-5)
+    # Create TensorDataset and DataLoader
+    dataset = TensorDataset(input_ids, attention_masks, label_ids)
+    dataloader = DataLoader(dataset, sampler=RandomSampler(dataset), batch_size=16)
 
-model.train()
-loss_values = []  # Initialize a list to save the loss values
+    # Optimizer
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=2e-5)
 
-for epoch in range(4):  # for a few epochs
-    total_loss = 0
-    for batch in tqdm(dataloader, desc=f"Training Epoch {epoch}"):
-        batch = tuple(t.to(model.device) for t in batch)
-        inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[2]}
+    model.train()
+    loss_values = []  # Initialize a list to save the loss values
+
+    for epoch in range(4):  # for a few epochs
+        total_loss = 0
+        for batch in tqdm(dataloader, desc=f"Training Epoch {epoch}"):
+            batch = tuple(t.to(model.device) for t in batch)
+            inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[2]}
+            
+            model.zero_grad()
+            
+            outputs = model(**inputs)
+            loss = outputs.loss
+            optimizer.zero_grad()
+            loss.backward()
+            total_loss += loss.item()
+            
+            optimizer.step()
         
-        model.zero_grad()
-        
-        outputs = model(**inputs)
-        loss = outputs.loss
-        optimizer.zero_grad()
-        loss.backward()
-        total_loss += loss.item()
-        
-        optimizer.step()
-    
-    avg_loss = total_loss / len(dataloader)
-    loss_values.append(avg_loss)  # Append the average loss to the list
-    print(f"Average loss: {avg_loss}")
+        avg_loss = total_loss / len(dataloader)
+        loss_values.append(avg_loss)  # Append the average loss to the list
+        print(f"Average loss: {avg_loss}")
 
-# After the training loop
-plt.plot(loss_values, label='Training Loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.title('Training Loss as a function of Epochs')
-plt.legend()
-plt.show()
+    # After the training loop
+    plt.plot(loss_values, label='Training Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Training Loss as a function of Epochs')
+    plt.legend()
+    plt.show()
 
-tokenizer.save_pretrained('model')
-model.save_pretrained('model')
+    tokenizer.save_pretrained('BERT_model')
+    model.save_pretrained('BERT_model')
