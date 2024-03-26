@@ -1,4 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification
+from json_loader import load_json_file
 import torch
 
 # Function to tokenize new sentences and perform predictions
@@ -23,7 +24,12 @@ def predict_new_sentence(sentence, tokenizer, model, label_to_id):
     # Convert label IDs to labels
     id_to_label = {value: key for key, value in label_to_id.items()}
     labels = [id_to_label[label_id.item()] for label_id in label_ids[0]]
-
+    
+    strings_remove = ["[CLS]", "[SEP]"]
+    for elm in strings_remove:
+        if elm in tokens:
+            tokens.remove(elm)
+    
     return tokens, labels
 
 def parse_ocr_text():
@@ -34,31 +40,11 @@ def parse_ocr_text():
 
     label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
-    # TODO: at some point, load ocr output JSON as text data
-    # TODO: Ask Kim if two (or more) entries for same image in .csv file is okay (institutional and annotation labels)
-    object1 = {
-        "image": "999999.jpg",
-        "label_type": "i",
-        "text": [
-            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
-            "Ranunculus pedatifidus Sm.",
-            "On slope below K6 cave 29 above north side of Kumme Langs\u00f8. Lat. 740 02' N. Long 230 36' W. Alt. 250m. 21.7.04",
-            "Leg RWMCorner"
-        ]
-    }
+    # TODO: Make sure at some point, that only correctly labeled images are used for csv.
+    # TODO: Ask Kim if two (or more) entries for same image in .csv file is okay (institutional and annotation labels).
 
-    object2 = {
-        "image": "111111.jpg",
-        "label_type": "i",
-        "text": [
-            "Plants of North East Greenland E.6 Collected on the British Arcturus Expedition to Krumme Langs\u00f8, Ole R\u00f8mers Land. 2004",
-            "Ranunculus pedatifidus Sm.",
-            "On slope below K6 cave 29 above north side of Kumme Langs\u00f8. Lat. 740 02' N. Long 230 36' W. Alt. 250m. 21.7.04",
-            "Leg RWMCorner"
-        ]
-    }
-
-    ocr_text_objects = [object1, object2]
+    json_path = "../ocr_output.json"
+    ocr_text_objects = load_json_file(json_path)
 
     parsed_text = []
     

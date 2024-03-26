@@ -69,18 +69,18 @@ def main(yolo=False, ocr=False, bert=False):
 
         run_all = False
     else:
-        if not os.path.exists("synth_data.json"):
+        if not os.path.exists("BERT_MODEL"):
             print("Warning: BERT model not trained yet, please use flag --bert when calling run.py")
             print("Pipeline process will continue without BERT model...")
             #run_all = False
         else:
-            print("Artificial text exists, skipping text generation")
+            print("BERT model exists, skipping text generation")
 
     if run_all:
         print("\nRunning Analysis...")
 
-        #TODO: Make method createCSV()
-        #createCSV()
+        # Use BERT model to parse image text into a resulting CSV file
+        createCSV()
 
         print("Pipeline process complete")
 
