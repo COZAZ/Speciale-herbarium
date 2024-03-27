@@ -47,13 +47,13 @@ def runTests():
     
     # BERT accuracy
     print("\nRunning accuracy test for BERT model...")
-    data_points = 10
+    data_points = 100
     bert_score = testBERTAccuracy(data_points)
     for elm in bert_score:
         label_type = elm[0]
-        print("General {0} similarity score: {1}%".format(label_type, elm[2]))
+        print("General {0} similarity score: {1}%".format(label_type, elm[1]))
     print("Tested on {0} text objects".format(data_points))
 
     print("\nTesting complete")
-    
+
 runTests()

@@ -64,15 +64,26 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
         det = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DET'])
         date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
         coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
-        
-        interests = [image_name[:-4], specimens, locations, leg, det, date, coord]
-    
-        # strip hastags from each string
-        for i, elm in enumerate(interests):
-            elm = elm.replace('#', "")
-            interests[i] = elm
 
-        parsed_text.append(interests)
+        # For testing purposes
+        if (use_custom_text == True) and (text_to_predict != None):
+            interests = [['0', image_name[:-4]], ['B-SPECIMEN', specimens], ['B-LOCATION', locations], ['B-LEG', leg], ['B-DET', det], ['B-DATE', date], ['B-COORD', coord]]
+    
+            # strip hastags from each string
+            for i, elm in enumerate(interests):
+                elm[1] = elm[1].replace('#', "")
+                
+            parsed_text.append(interests)
+
+        else:
+            interests = [image_name[:-4], specimens, locations, leg, det, date, coord]
+        
+            # strip hastags from each string
+            for i, elm in enumerate(interests):
+                elm = elm.replace('#', "")
+                interests[i] = elm
+
+            parsed_text.append(interests)
             
         # Display the extracted information
         #print("Specimen:", interests[0])

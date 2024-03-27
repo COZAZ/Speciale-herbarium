@@ -15,41 +15,35 @@ def testBERTAccuracy(data_points):
 
         trueText_JSONized.append(obj_json)
         counter += 1
-    
-    # Index values info:
-    # 0 - Image name
-    # 1 - Specimen
-    # 2 - Location
-    # 3 - Leg
-    # 4 - Det
-    # 5 - Date
-    # 6 - Coords
                     
     predText_validation = parse_ocr_text(trueText_JSONized, True)
-    label_score = [["B-SPECIMEN", 1, 0], ["B-LOCATION", 2, 0], ["B-LEG", 3, 0], ["B-DET", 4, 0], ["B-DATE", 5, 0], ["B-COORD", 6, 0]]
-    
+    label_score = [["B-SPECIMEN", 0], ["B-LOCATION", 0], ["B-LEG", 0], ["B-DET", 0], ["B-DATE", 0], ["B-COORD", 0]]
+
     for i in range(data_points):
         current_true_text = trueText_validation[i]
         current_pred_text = predText_validation[i]
 
         # TODO: Ask Kim how we should compare the different labels
         for elm in label_score:
-            true_token = extract_token(current_true_text, elm[0])
-            pred_token = current_pred_text[elm[1]]
-
+            true_token = extract_token_true(current_true_text, elm[0])
+            pred_token = extract_token_pred(current_pred_text, elm[0])
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
-            elm[2] += current_similarity
-
+            elm[1] += current_similarity
     
     for elm in label_score:
-        elm[2] = round((elm[2] / data_points) * 100, 2)
+        elm[1] = round((elm[1] / data_points) * 100, 2)
 
     return label_score
 
-def extract_token(text, label_type):
+def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.
     label_index = text["labels"].index(label_type)
     # Find the corresponding token
     label_token = text["tokens"][label_index]
 
     return label_token
+
+def extract_token_pred(text, label_type):
+    for elm in text:
+        if elm[0] == label_type:
+            return elm[1]
