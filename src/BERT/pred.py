@@ -32,7 +32,7 @@ def predict_new_sentence(sentence, tokenizer, model, label_to_id):
     
     return tokens, labels
 
-def parse_ocr_text():
+def parse_ocr_text(text_to_predict=None, use_custom_text=False):
     # Load the model
     tokenizer = AutoTokenizer.from_pretrained("BERT_model")
     model = AutoModelForTokenClassification.from_pretrained("BERT_model")
@@ -43,8 +43,11 @@ def parse_ocr_text():
     # TODO: Make sure at some point, that only correctly labeled images are used for csv.
     # TODO: Ask Kim if two (or more) entries for same image in .csv file is okay (institutional and annotation labels).
 
-    json_path = "../ocr_output.json"
-    ocr_text_objects = load_json_file(json_path)
+    if (use_custom_text == True) and (text_to_predict != None):
+        ocr_text_objects = text_to_predict
+    else:
+        json_path = "../ocr_output.json"
+        ocr_text_objects = load_json_file(json_path)
 
     parsed_text = []
     
@@ -63,14 +66,14 @@ def parse_ocr_text():
         coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
         
         interests = [image_name[:-4], specimens, locations, leg, det, date, coord]
-        
+    
         # strip hastags from each string
         for i, elm in enumerate(interests):
             elm = elm.replace('#', "")
             interests[i] = elm
 
         parsed_text.append(interests)
-        
+            
         # Display the extracted information
         #print("Specimen:", interests[0])
         #print("Locations:", interests[1])
