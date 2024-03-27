@@ -49,6 +49,7 @@ def compute_name_precision(image_names):
 
     return match_rate 
 
+# TODO: Maybe use GBIF to search and replace with the real name. Ask kim about lookup in GBIF (name can be shortened or elongated, etc.)
 ### GBIF STUFF BELOW ###
 
 #found_plant_names = findNames(processed_images_data)

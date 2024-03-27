@@ -7,6 +7,7 @@ from BERT.text_data_synthesizer import synthesize_text_data
 from BERT.preBERT import train_bert
 from BERT.bert_to_csv import createCSV
 
+# TODO: Clean up the code and remove unnecessary files
 def main(yolo=False, ocr=False, bert=False):
     print("Starting pipeline...")
     machine = ["689351.txt", "704605.txt", "859622.txt", "861422.txt", "861423.txt", "861918.txt"]

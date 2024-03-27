@@ -30,10 +30,14 @@ def testBERTAccuracy(data_points):
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
             elm[1] += current_similarity
     
+    overall_score = 0
     for elm in label_score:
         elm[1] = round((elm[1] / data_points) * 100, 2)
+        overall_score += elm[1]
+        
+    overall_score = round(overall_score / len(label_score), 2)
 
-    return label_score
+    return label_score, overall_score
 
 def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.

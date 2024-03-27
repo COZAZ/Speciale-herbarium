@@ -3,7 +3,7 @@ from YOLO.label_detection import get_label_info, evaluate_label_detection_perfor
 from OCR.output_handler import evaluate_craft_ocr
 from BERT.testing_BERT import testBERTAccuracy
 
-# TODO: Validation score done for BERT, but testing score missing
+# TODO: Validation score done for BERT, but testing score missing. Reminder to ask Kim about this.
 def runTests():
     ### Show performance scores of all components ###
     print("Running performance tests...\n")
@@ -48,10 +48,10 @@ def runTests():
     # BERT accuracy
     print("\nRunning accuracy test for BERT model...")
     data_points = 100
-    bert_score = testBERTAccuracy(data_points)
-    for elm in bert_score:
-        label_type = elm[0]
-        print("General {0} similarity score: {1}%".format(label_type, elm[1]))
+    label_scores, total_score = testBERTAccuracy(data_points)
+    for elm in label_scores:
+        print("General {0} similarity score: {1}%".format(elm[0], elm[1]))
+    print("Overall BERT model accuracy: {0}%".format(total_score))
     print("Tested on {0} text objects".format(data_points))
 
     print("\nTesting complete")
