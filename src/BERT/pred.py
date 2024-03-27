@@ -1,6 +1,7 @@
+import torch
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from json_loader import load_json_file
-import torch
+from difflib import SequenceMatcher
 
 # Function to tokenize new sentences and perform predictions
 def predict_new_sentence(sentence, tokenizer, model, label_to_id):
@@ -40,7 +41,6 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
 
     label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
-    # TODO: Make sure at some point, that only correctly labeled images are used for csv.
     # TODO: Ask Kim if two (or more) entries for same image in .csv file is okay (institutional and annotation labels).
 
     if (use_custom_text == True) and (text_to_predict != None):
@@ -53,6 +53,7 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
     
     for obj in ocr_text_objects:
         text_string = " ".join(obj["text"])
+        
         image_name = obj["image"]
 
         tokens, labels = predict_new_sentence(text_string, tokenizer, model, label_to_id)
@@ -92,5 +93,5 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
         #print("Det:", interests[3])
         #print("Date:", interests[4])
         #print("Coord:", interests[5])
-    
+
     return parsed_text

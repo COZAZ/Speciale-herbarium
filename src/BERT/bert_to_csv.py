@@ -2,6 +2,7 @@ from BERT.pred import parse_ocr_text
 import csv
 
 # Create a CSV file that contains the parsed OCR text
+# TODO: Try to clean up wrong labels/text in CSV.
 def createCSV():
     print("Creating CSV...")
 
