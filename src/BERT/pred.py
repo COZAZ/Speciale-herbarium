@@ -85,13 +85,5 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
                 interests[i] = elm
 
             parsed_text.append(interests)
-            
-        # Display the extracted information
-        #print("Specimen:", interests[0])
-        #print("Locations:", interests[1])
-        #print("Legs:", interests[2])
-        #print("Det:", interests[3])
-        #print("Date:", interests[4])
-        #print("Coord:", interests[5])
 
     return parsed_text

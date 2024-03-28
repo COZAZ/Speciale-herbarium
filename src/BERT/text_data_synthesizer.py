@@ -111,22 +111,6 @@ def selectAndFormatSpecies(dict, species):
   # Removes "(current)" from the string
   parts = specimen.split(" (current)")
   specimen_fixed = parts[0].strip()
-  """
-  tokens = re.split(r'[ ,.]', specimen_fixed)
-  # Outcommented for now,
-  as it probaly shouldn't be split but maybe some time in the future it should?
-  But what do I know, I am just a computer uehuhueuhe
-  for token in tokens:
-    if token == '':
-      continue
-    else:
-      dict["tokens"].append(token)
-
-    if token == '.' or token == ',':
-      dict["labels"].append("0")
-    else:
-      dict["labels"].append("4")
-  """
   dict["tokens"].append(specimen_fixed)
   dict["labels"].append("B-SPECIMEN")
 
@@ -137,11 +121,6 @@ def selectAndFormatDet(dict, dets):
     name = det
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
-
-    """
-    if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
-      det = name_to_initials(names)
-    """
       
   if is_below_percentage(50):
     if is_below_percentage(50):
@@ -159,11 +138,6 @@ def selectAndFormatLeg(dict, legs):
     name = leg
     names = name.split(',')
     leg = names[1].strip() + " " + names[0].strip()
-
-    """
-    if is_below_percentage(10) and np.any(names[0] != ' ') and np.any(names[1] != ' '):
-      leg = name_to_initials(names)
-    """
 
   if is_below_percentage(50):
     if is_below_percentage(50):

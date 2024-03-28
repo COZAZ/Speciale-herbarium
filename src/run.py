@@ -75,7 +75,7 @@ def main(yolo=False, ocr=False, bert=False):
             print("Pipeline process will continue without BERT model...")
             #run_all = False
         else:
-            print("BERT model exists, skipping text generation")
+            print("BERT model exists, skipping training")
 
     if run_all:
         print("\nRunning Analysis...")

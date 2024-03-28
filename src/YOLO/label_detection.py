@@ -6,8 +6,6 @@ from pathlib import Path
 # Iterate over files in that directory
 # Get a list of all JPEG files found
 
-#runs_folder = None
-
 # Now, 'images' contains the filenames sorted numerically
 def predict_labels(folder_dir):
     runs_folder = folder_dir + "_runs"
