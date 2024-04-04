@@ -7,7 +7,7 @@ def save_ocr_output(text_data):
     dict_list = [tuple_to_dict(t) for t in text_data]
 
     synthJsonData = json.dumps(dict_list, indent=4)
-    with open("../ocr_output.json", 'w') as json_file:
+    with open("ocr_output.json", 'w') as json_file:
         json_file.seek(0)
         json_file.truncate()
         json_file.write(synthJsonData)
@@ -23,7 +23,7 @@ def evaluate_craft_ocr():
     predicted_texts = None
     true_texts = None
 
-    with open("../ocr_output.json", 'r') as f:
+    with open("../ocr_output_test.json", 'r') as f:
         predicted_texts = json.load(f)
     with open("../ocr_true_text.json", 'r') as f:
         true_texts = json.load(f)

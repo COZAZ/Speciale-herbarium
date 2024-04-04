@@ -37,7 +37,7 @@ def runTests():
         print("Labeled Linas images do not exist. To compute YOLO accuracy, please generate labels for them with YOLO")
 
     # OCR accuracy
-    if os.path.exists("../ocr_output.json"):
+    if os.path.exists("../ocr_output_test.json"):
         print("\nRunning accuracy test for OCR output...")
         ocr_score, text_amount = evaluate_craft_ocr()
         print("OCR text prediction accuracy: {0}%".format(round(ocr_score, 3)))

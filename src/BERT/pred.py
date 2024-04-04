@@ -46,7 +46,7 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
     if (use_custom_text == True) and (text_to_predict != None):
         ocr_text_objects = text_to_predict
     else:
-        json_path = "../ocr_output.json"
+        json_path = "ocr_output.json"
         ocr_text_objects = load_json_file(json_path)
 
     parsed_text = []

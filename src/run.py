@@ -10,11 +10,11 @@ from BERT.bert_to_csv import createCSV
 # TODO: Clean up the code and remove unnecessary files
 def main(yolo=False, ocr=False, bert=False):
     print("Starting pipeline...")
-    machine = ["689351.txt", "704605.txt", "859622.txt", "861422.txt", "861423.txt", "861918.txt"]
+    machine = ["689351.txt", "704605.txt", "859622.txt"]
     #linas = ["682156.txt", "682897.txt"]
 
     test_specific_paths = machine
-    image_directory = "herb_images_machine"
+    image_directory = "machine_images_color"
     parent_directory = image_directory + "_runs"
 
     institute_label_data = None
@@ -48,7 +48,7 @@ def main(yolo=False, ocr=False, bert=False):
         run_all = False
     else:
         if (not ocr_is_ready): print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
-        elif not os.path.exists("../ocr_output.json"):
+        elif not os.path.exists("ocr_output.json"):
             print("Warning: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
             print("Pipeline will continue without OCR results...")
         else:
