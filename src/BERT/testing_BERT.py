@@ -25,8 +25,8 @@ def testBERTAccuracy(data_points):
 
         # TODO: Ask Kim how we should compare the different labels
         for elm in label_score:
-            true_token = extract_token_true(current_true_text, elm[0])
-            pred_token = extract_token_pred(current_pred_text, elm[0])
+            true_token = extract_token_true(current_true_text, elm[0]).replace(" ", "")
+            pred_token = extract_token_pred(current_pred_text, elm[0]).replace(" ", "")
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
             elm[1] += current_similarity
     
