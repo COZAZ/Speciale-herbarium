@@ -1,32 +1,35 @@
+import json
 from difflib import SequenceMatcher
-from BERT.text_data_synthesizer import synthesize_text_data
 from BERT.pred import parse_ocr_text
 
 # BERT model accuracy
 def testBERTAccuracy(data_points):
-    trueText_validation = synthesize_text_data(data_points, asJson=False)
+    with open("../synth_text_data_test.json", 'r') as f:
+        test_text = json.load(f)
+
+    trueText = test_text
     trueText_JSONized = []
 
     # Convert text to (stylized)JSON format
     counter = 1
-    for obj in trueText_validation:
+    for obj in trueText:
         obj_text = obj["tokens"]
         obj_json = {"image": str(counter) + ".jpg", "label_type": "X", "text": obj_text}
 
         trueText_JSONized.append(obj_json)
         counter += 1
                     
-    predText_validation = parse_ocr_text(trueText_JSONized, True)
+    predText = parse_ocr_text(trueText_JSONized, True)
     label_score = [["B-SPECIMEN", 0], ["B-LOCATION", 0], ["B-LEG", 0], ["B-DET", 0], ["B-DATE", 0], ["B-COORD", 0]]
 
     for i in range(data_points):
-        current_true_text = trueText_validation[i]
-        current_pred_text = predText_validation[i]
+        current_true_text = trueText[i]
+        current_pred_text = predText[i]
 
         # TODO: Ask Kim how we should compare the different labels
         for elm in label_score:
-            true_token = extract_token_true(current_true_text, elm[0]).replace(" ", "")
-            pred_token = extract_token_pred(current_pred_text, elm[0]).replace(" ", "")
+            true_token = extract_token_true(current_true_text, elm[0])
+            pred_token = extract_token_pred(current_pred_text, elm[0])
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
             elm[1] += current_similarity
     
