@@ -1,5 +1,5 @@
 import os
-from YOLO.label_detection import get_label_info, evaluate_label_detection_performance
+from YOLO.label_detection import get_label_info, evaluate_label_detection_performance, compute_avr_conf
 from OCR.output_handler import evaluate_craft_ocr
 from BERT.testing_BERT import testBERTAccuracy
 
@@ -11,6 +11,8 @@ def runTests():
     image_directory = "linas_images"
     parent_directory = image_directory + "_runs"
 
+    image_dic_conf = "machine_images_color_runs"
+
     institute_label_data = None
     annotation_label_data = None
 
@@ -18,7 +20,7 @@ def runTests():
     annotation_accuracy = 0
     ocr_score = 0
 
-    # YOLO accuracy
+    # YOLO box accuracy
     if os.path.exists(parent_directory):
         print("Running accuracy test for YOLO labels...")
         institute_label_data, annotation_label_data = get_label_info(parent_directory)
@@ -35,6 +37,17 @@ def runTests():
         else: print("No annotation labels found.") 
     else:
         print("Labeled Linas images do not exist. To compute YOLO accuracy, please generate labels for them with YOLO")
+    
+    # YOLO confidence score
+    if os.path.exists(image_dic_conf):
+        print("\nRunning average YOLO confidence score...")
+        i_conf, a_conf = compute_avr_conf(image_dic_conf)
+        print("Average YOLO institutional label confidence score: {0}%".format(round(i_conf[0]*100, 2)))
+        print("Tested on {0} institutional labels".format(i_conf[1]))
+        print("Average YOLO annotation label confidence score: {0}%".format(round(a_conf[0]*100, 2)))
+        print("Tested on {0} annotation labels".format(a_conf[1]))
+    else:
+        print("Labeled machine images not found. Make sure to apply YOLO model on these images")
 
     # OCR accuracy
     if os.path.exists("../ocr_output_test.json"):

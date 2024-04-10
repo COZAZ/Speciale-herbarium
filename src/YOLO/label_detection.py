@@ -18,6 +18,7 @@ def predict_labels(folder_dir):
     nosave = False,
     view_img = False,
     save_txt = True,
+    save_conf = True,
     project = runs_folder
     )
 
@@ -160,3 +161,37 @@ def extract_corner_points(coords_set):
     box_coords = [top_left, top_right, bottom_left, bottom_right]
 
     return box_coords
+
+def compute_avr_conf(parent_directory):
+    exp_folder = Path(parent_directory) / "exp"
+    labels_folder = exp_folder / "labels"
+    
+    # Check if the labels folder exists
+    if labels_folder.exists() and labels_folder.is_dir():
+        label_files = list(labels_folder.glob('*.txt'))
+
+        institute_conf = []
+        annotation_conf = []
+
+        for label_file in label_files:
+            with open(label_file, 'r') as file:
+                lines = file.readlines()
+
+            for line in lines:
+                columns = line.strip().split()
+
+                if columns:
+                    if columns[0] == '9':
+                        institute_conf.append(float(columns[5]))
+                    elif columns[0] == '3':
+                        annotation_conf.append(float(columns[5]))
+
+        average_i_conf = np.mean(institute_conf)
+        average_a_conf = np.mean(annotation_conf)
+
+        return (average_i_conf, len(institute_conf)), (average_a_conf, len(annotation_conf))
+    
+    else:
+        print("No labels found within the runs directory")
+
+        return 0
