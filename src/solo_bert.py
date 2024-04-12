@@ -1,4 +1,4 @@
-from transformers import BertTokenizer, BertForTokenClassification
+from transformers import BertTokenizer, BertForTokenClassification, DistilBertTokenizer, DistilBertForTokenClassification
 import torch
 from torch.utils.data import DataLoader, TensorDataset, RandomSampler, SequentialSampler
 from tqdm import tqdm
@@ -144,10 +144,62 @@ def validate_model(model, dataloader, epoch):
     avg_accuracy = total_accuracy / len(dataloader)
     print(f"Average Validation Loss: {avg_loss} Accuracy: {avg_accuracy}")
 
+### WORK IN PROGRESS ###
+def collect_low_confidence_samples(dataloader, model, confidence_threshold=0.7):
+    model.eval()
+    low_conf_samples = {'input_ids': [], 'attention_masks': [], 'labels': []}
+    
+    for batch in tqdm(dataloader, desc="Collecting Low Confidence Samples"):
+        batch = tuple(t.to(device) for t in batch)
+        inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[2]}
+        
+        with torch.no_grad():
+            outputs = model(**inputs)
+            logits = outputs.logits
+            softmax_scores = torch.softmax(logits, dim=-1)
+            max_scores, predictions = torch.max(softmax_scores, dim=-1)
+            mask = inputs['labels'] != -100  # Only consider non-masked tokens
+
+            # Identify tokens with low confidence
+            low_confidence_mask = (max_scores < confidence_threshold) & mask
+            
+            # Collect these samples
+            for i in range(batch[0].size(0)):
+                if low_confidence_mask[i].any():
+                    input_id = batch[0][i][low_confidence_mask[i]].unsqueeze(0)
+                    attention_mask = batch[1][i][low_confidence_mask[i]].unsqueeze(0)
+                    label = batch[2][i][low_confidence_mask[i]].unsqueeze(0)
+                    low_conf_samples['input_ids'].append(input_id)
+                    low_conf_samples['attention_masks'].append(attention_mask)
+                    low_conf_samples['labels'].append(label)
+                    
+    return low_conf_samples
+
+def retrain_on_low_conf_samples(model, optimizer, samples, epochs=1):
+    # Prepare tensors for the retraining data loader
+    input_ids = torch.cat(samples['input_ids'], dim=0)
+    attention_masks = torch.cat(samples['attention_masks'], dim=0)
+    labels = torch.cat(samples['labels'], dim=0)
+    
+    dataset = TensorDataset(input_ids, attention_masks, labels)
+    dataloader = DataLoader(dataset, sampler=RandomSampler(dataset), batch_size=32)
+    
+    for epoch in range(epochs):
+        train_model(model, optimizer, dataloader, epoch)
+
 # train the model
 for epoch in range(4):
     train_model(model, optimizer, dataloader, epoch)
     validate_model(model, testloader, epoch)
+
+# Collect low confidence samples
+low_conf_samples = collect_low_confidence_samples(testloader, model)
+print(f"Collected {len(low_conf_samples['input_ids'])} low confidence samples")
+
+# Retrain the model on these samples if any are collected
+if low_conf_samples['input_ids']:
+    print("Retraining on low confidence samples...")
+    retrain_on_low_conf_samples(model, optimizer, low_conf_samples, epochs=2)
 
 # After the training loop
 plt.plot(loss_values, label='Training Loss')
