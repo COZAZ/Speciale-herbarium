@@ -49,8 +49,33 @@ def createSingleLine(data_list):
   selectAndFormatLeg(line, data_list[4])
   selectAndFormatDet(line, data_list[2])
   addEndNoise(line)
-
+  label_each_word(line)
+  # Join tokens into a single sentence
+  line["tokens"] = ' '.join(line["tokens"])
+  line["tokens"] = line["tokens"].split()
+  
   return line
+
+def label_each_word(line):
+    # Get the number of tokens
+    num_tokens = len(line["tokens"])
+    
+    # Initialize the new_labels list
+    new_labels = []
+    
+    # Iterate over each token
+    for i in range(num_tokens):
+        # Get the label for the current token
+        label = line["labels"][i]
+        
+        # Split the token into words
+        words = line["tokens"][i].split()
+        
+        # Add the label for each word in the token
+        new_labels.extend([label]*len(words))
+    
+    # Update the labels in the line dictionary
+    line["labels"] = new_labels
 
 def addStartNoise(dict):
   if is_below_percentage(96):
@@ -172,15 +197,7 @@ def selectAndFormatDate(dict):
   
   dict["tokens"].append(combined_date)
   dict["labels"].append("B-DATE")
-                                                                                
-  ### Cliff certified whitespace ###
-  # Cliff certified whitespace
-  # Cliff certified whitespace
-  
-  # Cliff certified whitespace
-  # Cliff certified whitespace
-  ### Cliff certified whitespace ###
-  
+
 """
 if is_below_percentage(50):
 if is_below_percentage(70):
