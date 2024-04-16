@@ -60,7 +60,7 @@ def runTests():
     
     # BERT accuracy
     print("\nRunning accuracy test for BERT model...")
-    data_points = 250
+    data_points = 1000
     label_scores, total_score = testBERTAccuracy(data_points)
     for elm in label_scores:
         print("General {0} similarity score: {1}%".format(elm[0], elm[1]))

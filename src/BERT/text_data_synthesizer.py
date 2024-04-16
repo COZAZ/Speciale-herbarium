@@ -291,7 +291,7 @@ def selectAndFormatLocation(dict, locations):
   dict["labels"].append("B-LOCATION")
 
 def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
-  if is_below_percentage(94):
+  if is_below_percentage(100):
     lat = str(np.random.choice(filtered_lats))
     lon = str(np.random.choice(filtered_longs))
     

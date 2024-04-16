@@ -193,13 +193,13 @@ for epoch in range(4):
     validate_model(model, testloader, epoch)
 
 # Collect low confidence samples
-low_conf_samples = collect_low_confidence_samples(testloader, model)
-print(f"Collected {len(low_conf_samples['input_ids'])} low confidence samples")
+#low_conf_samples = collect_low_confidence_samples(testloader, model)
+#print(f"Collected {len(low_conf_samples['input_ids'])} low confidence samples")
 
 # Retrain the model on these samples if any are collected
-if low_conf_samples['input_ids']:
-    print("Retraining on low confidence samples...")
-    retrain_on_low_conf_samples(model, optimizer, low_conf_samples, epochs=2)
+#if low_conf_samples['input_ids']:
+    #print("Retraining on low confidence samples...")
+    #retrain_on_low_conf_samples(model, optimizer, low_conf_samples, epochs=2)
 
 # After the training loop
 plt.plot(loss_values, label='Training Loss')

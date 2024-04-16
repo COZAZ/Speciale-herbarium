@@ -4,7 +4,7 @@ from BERT.pred import parse_ocr_text
 
 # BERT model accuracy
 def testBERTAccuracy(data_points):
-    with open("../synth_text_data_test.json", 'r') as f:
+    with open("../synth_text_data_test2.json", 'r') as f:
         test_text = json.load(f)
 
     trueText = test_text
@@ -25,13 +25,16 @@ def testBERTAccuracy(data_points):
     for i in range(data_points):
         current_true_text = trueText[i]
         current_pred_text = predText[i]
-
+    
         # TODO: Ask Kim how we should compare the different labels
         for elm in label_score:
-            true_token = extract_token_true(current_true_text, elm[0])
-            pred_token = extract_token_pred(current_pred_text, elm[0])
+            #if current_true_text["labels"].count(elm[0]) > 0:
+            true_token = extract_token_true(current_true_text, elm[0]).replace(" ", "")
+            pred_token = extract_token_pred(current_pred_text, elm[0]).replace(" ", "")
+
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
             elm[1] += current_similarity
+            #else: continue
     
     overall_score = 0
     for elm in label_score:
@@ -44,10 +47,13 @@ def testBERTAccuracy(data_points):
 
 def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.
-    label_index = text["labels"].index(label_type)
-    # Find the corresponding token
-    label_token = text["tokens"][label_index]
+    label_indices = [index for index, label in enumerate(text["labels"]) if label == label_type]
+    
+    label_token = ""
 
+    for index in label_indices:
+        label_token += text["tokens"][index]
+        
     return label_token
 
 def extract_token_pred(text, label_type):
