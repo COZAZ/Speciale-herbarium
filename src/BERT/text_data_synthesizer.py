@@ -30,6 +30,7 @@ def load_text_data():
 
   return data_columns
 
+# TODO: Change probabilities for the different noise types
 # Create dict and call functions
 def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
@@ -54,6 +55,7 @@ def addStartNoise(dict):
     dict["tokens"].append(get_random_noise("startnoise"))
     dict["labels"].append("0")
 
+# TODO: Add empty 'Hab.:' as noise
 def addRegularnoise(dict):
   if is_below_percentage(50):
     dict["tokens"].append(get_random_noise("regularnoise"))
