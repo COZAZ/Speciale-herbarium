@@ -3,6 +3,8 @@ import numpy as np
 import json
 from BERT.text_utility import is_below_percentage, get_random_noise, shuffle_content, get_random_lat, get_random_lon
 
+default_probability = 3
+
 def load_text_data():
   # load initial dataset
   df = pd.read_csv("../greenland.csv", dtype=str)
@@ -51,61 +53,167 @@ def createSingleLine(data_list):
   return line
 
 def addStartNoise(dict):
-  if is_below_percentage(50):
+  if is_below_percentage(96):
     dict["tokens"].append(get_random_noise("startnoise"))
     dict["labels"].append("0")
 
-# TODO: Add empty 'Hab.:' as noise
+"""
+def addHabNoise(dict):
+  if is_below_percentage(88):
+    dict["tokens"].append("Hab.:")
+    dict["labels"].append("0")
+
+def addAltNoise(dict):
+  if is_below_percentage(88):
+    dict["tokens"].append("Alt.:")
+    dict["labels"].append("0")
+"""
+
 def addRegularnoise(dict):
-  if is_below_percentage(50):
+  if is_below_percentage(88):
     dict["tokens"].append(get_random_noise("regularnoise"))
     dict["labels"].append("0")
 
 def addEndNoise(dict):
-  if is_below_percentage(50):
+  if is_below_percentage(5):
     dict["tokens"].append(get_random_noise("endnoise"))
     dict["labels"].append("0")
 
+
+# If observed percentage is 3 or below, we then use a default percentage of 3 % for the noise types
 # Specifc functions for each of the areas of interest
 def selectAndFormatDate(dict):
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   abbreviated_months = ["Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."]
   roman_number_days = ["III", "IV", "VI", "VII", "IX", "XVI", "XXIV", "XVII", "XXXI", "XXX"]
-  
-  if is_below_percentage(50):
-    if is_below_percentage(70):
-      random_day = np.random.randint(1,31)
-    else:
-      random_day = np.random.choice(roman_number_days)
-    random_month_name = np.random.choice(months)
-    random_year = np.random.randint(1800,2024)
 
-    if is_below_percentage(50):
-      modified_date = "{0} {1}, {2}".format(random_day, random_month_name, random_year)
-    else:
-      modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
+  random_day = np.random.randint(1,31) # Default
+  random_month = np.random.choice(months) # Default
+  random_year = np.random.randint(1800,2024) # Default
 
+  month_is_number = False
+
+  # Day variations
+  if is_below_percentage(default_probability):
+    random_day = np.random.choice(roman_number_days)
+  elif is_below_percentage(1):
+    random_day = None
   else:
-    random_day = np.random.randint(1,32)
-    random_month_number = np.random.randint(1,13)
-    random_year = np.random.randint(1800,2024)
-
     if random_day < 10:
       random_day = '0' + str(random_day)
-    
-    if random_month_number < 10:
-      random_month_number = '0' + str(random_month_number)
-
-    if is_below_percentage(50):
-      modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
     else:
-      modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
+      random_day = str(random_day)
 
-  if is_below_percentage(20):
-    modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
+  # Month variations
+  if is_below_percentage(default_probability):
+    random_month = np.random.choice(abbreviated_months)
+  elif is_below_percentage(38):
+    random_month = np.random.randint(1,13)
+    month_is_number = True
 
-  dict["tokens"].append(modified_date)
+    if random_month < 10:
+      random_month = '0' + str(random_month)
+    else:
+      random_month = str(random_month)
+
+  else:
+    random_month = np.random.choice(months)
+
+  # Order variations
+  combined_date = "{0} {1} {2}".format(random_day, random_month, random_year) # Default
+
+  if is_below_percentage(25):
+    if random_day == None:
+      combined_date = "{0}, {1}".format(random_month, random_year)
+    elif is_below_percentage(2):
+      combined_date = "{0}, {1}, {2}".format(random_month, random_day, random_year)
+    elif is_below_percentage(40):
+      combined_date = "{0}, {1}, {2}".format(random_day, random_month, random_year)
+    elif is_below_percentage(default_probability):
+      combined_date = "{0}, {1}, {2}".format(random_year, random_day, random_month)
+    elif is_below_percentage(59):
+      combined_date = "{0}, {1}, {2}".format(random_year, random_month, random_day)
+  
+  elif is_below_percentage(25):
+    if random_day == None:
+      combined_date = "{0} {1}".format(random_month, random_year)
+    elif is_below_percentage(2):
+      combined_date = "{0} {1} {2}".format(random_month, random_day, random_year)
+    elif is_below_percentage(40):
+      combined_date = "{0} {1} {2}".format(random_day, random_month, random_year)
+    elif is_below_percentage(default_probability):
+      combined_date = "{0} {1} {2}".format(random_year, random_day, random_month)
+    elif is_below_percentage(59):
+      combined_date = "{0} {1} {2}".format(random_year, random_month, random_day)
+  
+  elif is_below_percentage(25) and month_is_number:
+    if random_day == None:
+      combined_date = "{0}/{1}".format(random_month, random_year)
+    elif is_below_percentage(2):
+      combined_date = "{0}-{1}/{2}".format(random_month, random_day, random_year)
+    elif is_below_percentage(40):
+      combined_date = "{0}-{1}/{2}".format(random_day, random_month, random_year)
+    elif is_below_percentage(default_probability):
+      combined_date = "{0}-{1}/{2}".format(random_year, random_day, random_month)
+    elif is_below_percentage(59):
+      combined_date = "{0}-{1}/{2}".format(random_year, random_month, random_day)
+    
+  elif is_below_percentage(25) and month_is_number:
+    if random_day == None:
+      combined_date = "{0}-{1}".format(random_month, random_year)
+    elif is_below_percentage(2):
+      combined_date = "{0}-{1}-{2}".format(random_month, random_day, random_year)
+    elif is_below_percentage(40):
+      combined_date = "{0}-{1}-{2}".format(random_day, random_month, random_year)
+    elif is_below_percentage(default_probability):
+      combined_date = "{0}-{1}-{2}".format(random_year, random_day, random_month)
+    elif is_below_percentage(59):
+      combined_date = "{0}-{1}-{2}".format(random_year, random_month, random_day)
+  
+  dict["tokens"].append(combined_date)
   dict["labels"].append("B-DATE")
+                                                                                
+  ### Cliff certified whitespace ###
+  # Cliff certified whitespace
+  # Cliff certified whitespace
+  
+  # Cliff certified whitespace
+  # Cliff certified whitespace
+  ### Cliff certified whitespace ###
+  
+"""
+if is_below_percentage(50):
+if is_below_percentage(70):
+random_day = np.random.randint(1,31)
+else:
+random_day = np.random.choice(roman_number_days)
+random_month_name = np.random.choice(months)
+random_year = np.random.randint(1800,2024)
+
+if is_below_percentage(50):
+modified_date = "{0} {1}, {2}".format(random_day, random_month_name, random_year)
+else:
+modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
+
+else:
+random_day = np.random.randint(1,32)
+random_month_number = np.random.randint(1,13)
+random_year = np.random.randint(1800,2024)
+
+if random_day < 10:
+random_day = '0' + str(random_day)
+
+if random_month_number < 10:
+random_month_number = '0' + str(random_month_number)
+
+if is_below_percentage(50):
+modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
+else:
+modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
+
+if is_below_percentage(20):
+modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
+"""
 
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
@@ -119,16 +227,19 @@ def selectAndFormatSpecies(dict, species):
 def selectAndFormatDet(dict, dets):
   det = str(np.random.choice(dets))
 
-  if is_below_percentage(20) and (',' in det):
+  if is_below_percentage(default_probability) and (',' in det):
     name = det
     names = name.split(',')
     det = names[1].strip() + " " + names[0].strip()
       
-  if is_below_percentage(50):
-    if is_below_percentage(50):
-      det = "Det: " + det
-    else:
+  if is_below_percentage(58):
+    if is_below_percentage(default_probability):
       det = "determ: " + det
+    else:
+      det = "Det: " + det
+
+  elif is_below_percentage(14):
+    det = "Det:"
 
   dict["tokens"].append(det)
   dict["labels"].append("B-DET")
@@ -136,16 +247,16 @@ def selectAndFormatDet(dict, dets):
 def selectAndFormatLeg(dict, legs):
   leg = str(np.random.choice(legs))
 
-  if is_below_percentage(20) and (',' in leg):
+  if is_below_percentage(default_probability) and (',' in leg):
     name = leg
     names = name.split(',')
     leg = names[1].strip() + " " + names[0].strip()
 
-  if is_below_percentage(50):
-    if is_below_percentage(50):
-      leg = "Leg: " + leg
-    else:
+  if is_below_percentage(91):
+    if is_below_percentage(default_probability):
       leg = "legit: " + leg
+    else:
+      leg = "Leg: " + leg
 
   dict["tokens"].append(leg)
   dict["labels"].append("B-LEG")
@@ -154,6 +265,7 @@ def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
   location = location.replace(u'\xa0', u' ')
 
+  # Doesn't effect the probabilites of the noise selection, but adds a bit of randomness to the data
   if is_below_percentage(35):
     location_parts = location.split(' ')
     location = shuffle_content(location_parts)
@@ -162,22 +274,24 @@ def selectAndFormatLocation(dict, locations):
   dict["labels"].append("B-LOCATION")
 
 def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
-  lat = str(np.random.choice(filtered_lats))
-  lon = str(np.random.choice(filtered_longs))
-  
-  if is_below_percentage(50):
-    lat = get_random_lat()
+  if is_below_percentage(94):
+    lat = str(np.random.choice(filtered_lats))
+    lon = str(np.random.choice(filtered_longs))
+    
+    # Doesn't effect the probabilites of the noise selection, but adds a bit of randomness to the data
+    if is_below_percentage(50):
+      lat = get_random_lat()
 
-  if is_below_percentage(50):
-    lon = get_random_lon()
-  
-  if is_below_percentage(15):
-    coord_set = lon + ', ' + lat
-  else:
-    coord_set = lat + ', ' + lon
+    if is_below_percentage(50):
+      lon = get_random_lon()
+    
+    if is_below_percentage(default_probability):
+      coord_set = lon + ', ' + lat
+    else:
+      coord_set = lat + ', ' + lon
 
-  dict["tokens"].append(coord_set)
-  dict["labels"].append("B-COORD")
+    dict["tokens"].append(coord_set)
+    dict["labels"].append("B-COORD")
 
 def synthesize_text_data(amount, asJson=False):
   data_columns = load_text_data()
