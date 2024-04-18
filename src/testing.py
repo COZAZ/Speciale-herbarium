@@ -3,7 +3,6 @@ from YOLO.label_detection import get_label_info, evaluate_label_detection_perfor
 from OCR.output_handler import evaluate_craft_ocr
 from BERT.testing_BERT import testBERTAccuracy
 
-# TODO: Validation score done for BERT, but testing score missing. Reminder to ask Kim about this.
 def runTests():
     ### Show performance scores of all components ###
     print("Running performance tests...\n")
@@ -41,11 +40,13 @@ def runTests():
     # YOLO confidence score
     if os.path.exists(image_dic_conf):
         print("\nRunning average YOLO confidence score...")
-        i_conf, a_conf = compute_avr_conf(image_dic_conf)
+        i_conf, a_conf, total_conf  = compute_avr_conf(image_dic_conf)
         print("Average YOLO institutional label confidence score: {0}%".format(round(i_conf[0]*100, 2)))
         print("Tested on {0} institutional labels".format(i_conf[1]))
         print("Average YOLO annotation label confidence score: {0}%".format(round(a_conf[0]*100, 2)))
         print("Tested on {0} annotation labels".format(a_conf[1]))
+
+        print("Combined average confidence score: {0}%".format(round(total_conf*100, 2)))
     else:
         print("Labeled machine images not found. Make sure to apply YOLO model on these images")
 

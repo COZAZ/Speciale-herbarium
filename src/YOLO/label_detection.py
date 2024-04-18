@@ -189,7 +189,7 @@ def compute_avr_conf(parent_directory):
         average_i_conf = np.mean(institute_conf)
         average_a_conf = np.mean(annotation_conf)
 
-        return (average_i_conf, len(institute_conf)), (average_a_conf, len(annotation_conf))
+        return (average_i_conf, len(institute_conf)), (average_a_conf, len(annotation_conf)), np.mean([average_i_conf, average_a_conf])
     
     else:
         print("No labels found within the runs directory")
