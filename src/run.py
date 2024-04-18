@@ -14,7 +14,7 @@ def main(yolo=False, ocr=False, bert=False):
     #linas = ["682156.txt", "682897.txt"]
 
     test_specific_paths = machine
-    image_directory = "machine_images_color"
+    image_directory = "herb_images_1980"
     parent_directory = image_directory + "_runs"
 
     institute_label_data = None
@@ -49,8 +49,8 @@ def main(yolo=False, ocr=False, bert=False):
     else:
         if (not ocr_is_ready): print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
         elif not os.path.exists("ocr_output.json"):
-            print("Warning: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
-            print("Pipeline will continue without OCR results...")
+            print("Error: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
+            run_all = False
         else:
             print("OCR output exists, skipping OCR")
 

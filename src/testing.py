@@ -11,7 +11,7 @@ def runTests():
     image_directory = "linas_images"
     parent_directory = image_directory + "_runs"
 
-    image_dic_conf = "machine_images_color_runs"
+    image_dic_conf = "herb_images_1980_runs"
 
     institute_label_data = None
     annotation_label_data = None
