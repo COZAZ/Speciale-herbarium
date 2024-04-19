@@ -22,19 +22,43 @@ def testBERTAccuracy(data_points):
     predText = parse_ocr_text(trueText_JSONized, True)
     label_score = [["B-SPECIMEN", 0], ["B-LOCATION", 0], ["B-LEG", 0], ["B-DET", 0], ["B-DATE", 0], ["B-COORD", 0]]
 
+    correct_specimens = 0
+    specimen_total = 0
+
+    correct_locations = 0
+    location_total = 0
+
+    correct_legs = 0
+    leg_total = 0
+
+    correct_dets = 0
+    det_total = 0
+
+    correct_dates = 0
+    date_total = 0
+
+    correct_coords = 0
+    coord_total = 0
+
     for i in range(data_points):
         current_true_text = trueText[i]
         current_pred_text = predText[i]
     
         # TODO: Ask Kim how we should compare the different labels
         for elm in label_score:
-            #if current_true_text["labels"].count(elm[0]) > 0:
-            true_token = extract_token_true(current_true_text, elm[0]).replace(" ", "")
-            pred_token = extract_token_pred(current_pred_text, elm[0]).replace(" ", "")
+            current_class = elm[0]
+
+            true_token = extract_token_true(current_true_text, current_class).replace(" ", "")
+            pred_token = extract_token_pred(current_pred_text, current_class).replace(" ", "")
 
             current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
             elm[1] += current_similarity
-            #else: continue
+
+            if current_class == "B-SPECIMEN":
+                specimen_total += 1
+
+            if current_class == "B-SPECIMEN" and current_similarity >= 0.7:
+                correct_specimens += 1
     
     overall_score = 0
     for elm in label_score:
@@ -43,7 +67,7 @@ def testBERTAccuracy(data_points):
         
     overall_score = round(overall_score / len(label_score), 2)
 
-    return label_score, overall_score
+    return label_score, overall_score, (correct_specimens, specimen_total)
 
 def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.
