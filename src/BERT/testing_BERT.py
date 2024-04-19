@@ -1,6 +1,7 @@
 import json
 from difflib import SequenceMatcher
 from BERT.pred import parse_ocr_text
+from thefuzz import fuzz
 
 # BERT model accuracy
 def testBERTAccuracy(data_points):
@@ -23,6 +24,7 @@ def testBERTAccuracy(data_points):
     label_score = [["B-SPECIMEN", 0], ["B-LOCATION", 0], ["B-LEG", 0], ["B-DET", 0], ["B-DATE", 0], ["B-COORD", 0]]
 
     correct_specimens = 0
+    correct_specimens_percentage = 0
     specimen_total = 0
 
     correct_locations = 0
@@ -51,13 +53,17 @@ def testBERTAccuracy(data_points):
             true_token = extract_token_true(current_true_text, current_class).replace(" ", "")
             pred_token = extract_token_pred(current_pred_text, current_class).replace(" ", "")
 
-            current_similarity = SequenceMatcher(None, true_token, pred_token).ratio()
+            #current_similarity = SequenceMatcher(None, true_token, pred_token).ratio() # Comparing strings
+            current_similarity = fuzz.ratio(true_token, pred_token) # Comparing strings
             elm[1] += current_similarity
 
             if current_class == "B-SPECIMEN":
                 specimen_total += 1
 
-            if current_class == "B-SPECIMEN" and current_similarity >= 0.7:
+            if current_class == "B-SPECIMEN" and current_similarity >= 0.75:
+                correct_specimens_percentage += 1
+
+            if current_class == "B-SPECIMEN" and current_similarity >= 1:
                 correct_specimens += 1
     
     overall_score = 0
@@ -67,7 +73,7 @@ def testBERTAccuracy(data_points):
         
     overall_score = round(overall_score / len(label_score), 2)
 
-    return label_score, overall_score, (correct_specimens, specimen_total)
+    return label_score, overall_score, (correct_specimens, correct_specimens_percentage, specimen_total)
 
 def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.

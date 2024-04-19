@@ -68,7 +68,7 @@ def runTests():
     print("Overall BERT model accuracy: {0}%".format(total_score))
     print("Tested on {0} text objects".format(data_points))
 
-    print("Correct specimen count: {0}/{1}".format(specimen_count[0], specimen_count[1]))
+    print("Correct specimen count: {1}/{2}\n One-to-one correct: {0}/{2}".format(specimen_count[0], specimen_count[1], specimen_count[2]))
 
     print("\nTesting complete")
 
