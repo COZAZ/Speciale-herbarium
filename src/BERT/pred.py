@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from json_loader import load_json_file
-from difflib import SequenceMatcher
+#from difflib import SequenceMatcher
 
 # Function to tokenize new sentences and perform predictions
 def predict_new_sentence(sentence, tokenizer, model, label_to_id):
@@ -51,7 +51,10 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
 
     parsed_text = []
     
+    #temp_count = 0
     for obj in ocr_text_objects:
+        #if temp_count > 10:
+        #    break
         text_string = " ".join(obj["text"])
         
         image_name = obj["image"]
@@ -85,5 +88,7 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
                 interests[i] = elm
 
             parsed_text.append(interests)
+        
+        #temp_count += 1
 
     return parsed_text

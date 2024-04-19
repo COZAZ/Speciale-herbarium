@@ -1,5 +1,6 @@
 from BERT.pred import parse_ocr_text
 import csv
+import unicodedata
 
 # Create a CSV file that contains the parsed OCR text
 # TODO: Try to clean up wrong labels/text in CSV.
@@ -14,6 +15,9 @@ def createCSV():
     with open("herbarium.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         for row in data:
-            csv_writer.writerow(row)
-
+            clean_row = []
+            for string in row:
+                current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
+                clean_row.append(current_clean_string)
+            csv_writer.writerow(clean_row)
     print("CSV created")

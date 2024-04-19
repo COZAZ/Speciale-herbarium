@@ -62,13 +62,31 @@ def runTests():
     # BERT accuracy
     print("\nRunning accuracy test for BERT model...")
     data_points = 1000
-    label_scores, total_score, specimen_count = testBERTAccuracy(data_points)
+    label_scores, total_score, specimen_count, location_count, leg_count, det_count, date_count, coord_count = testBERTAccuracy(data_points)
     for elm in label_scores:
         print("General {0} similarity score: {1}%".format(elm[0], elm[1]))
     print("Overall BERT model accuracy: {0}%".format(total_score))
     print("Tested on {0} text objects".format(data_points))
 
-    print("Correct specimen count: {1}/{2}\n One-to-one correct: {0}/{2}".format(specimen_count[0], specimen_count[1], specimen_count[2]))
+    print("\nCounting correct class matches...")
+    print("Correct Specimen count low threshold: {0}/{1}".format(specimen_count[1], specimen_count[2]))
+    print("Correct Specimen count high threshold: {0}/{1}".format(specimen_count[0], specimen_count[2]))
+
+    print("\nCorrect Location count low threshold: {0}/{1}".format(location_count[1], location_count[2]))
+    print("Correct Location count high threshold: {0}/{1}".format(location_count[0], location_count[2]))
+
+    print("\nCorrect Leg count low threshold: {0}/{1}".format(leg_count[1], leg_count[2]))
+    print("Correct Leg count high threshold: {0}/{1}".format(leg_count[0], leg_count[2]))
+
+    print("\nCorrect Det count low threshold: {0}/{1}".format(det_count[1], det_count[2]))
+    print("Correct Det count high threshold: {0}/{1}".format(det_count[0], det_count[2]))
+
+    print("\nCorrect Date count low threshold: {0}/{1}".format(date_count[1], date_count[2]))
+    print("Correct Date count high threshold: {0}/{1}".format(date_count[0], date_count[2]))
+
+    print("\nCorrect Coordinate count low threshold: {0}/{1}".format(coord_count[1], coord_count[2]))
+    print("Correct Coordinate count high threshold: {0}/{1}".format(coord_count[0], coord_count[2]))
+
 
     print("\nTesting complete")
 
