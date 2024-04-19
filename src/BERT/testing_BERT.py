@@ -47,6 +47,10 @@ def testBERTAccuracy(data_points):
     correct_coords_high = 0
     coord_total = 0
 
+    # Used to store what cases BERT struggles with
+    hardcases = []
+    easycases = []
+    
     for i in range(data_points):
         current_true_text = trueText[i]
         current_pred_text = predText[i]
@@ -59,6 +63,12 @@ def testBERTAccuracy(data_points):
 
             #current_similarity = SequenceMatcher(None, true_token, pred_token).ratio() # Comparing strings
             current_similarity = fuzz.ratio(true_token, pred_token) / 100 # Comparing strings
+
+            # TODO: If neccesary add current_similarity score to tuple
+            if current_similarity < 0.3 and len(hardcases) <= 20:
+                hardcases.append(("Current Class: {0}".format(current_class), "True Token: {0}".format(true_token), "Pred Token: {0}".format(pred_token)))
+            if current_similarity > 0.8 and len(easycases) <= 20:
+                easycases.append(("Current Class: {0}".format(current_class), "True Token: {0}".format(true_token), "Pred Token: {0}".format(pred_token)))
             elm[1] += current_similarity
 
             # Counting specimens
@@ -128,7 +138,7 @@ def testBERTAccuracy(data_points):
         
     overall_score = round(overall_score / len(label_score), 2)
 
-    return label_score, overall_score, (correct_specimens_high, correct_specimens_low, specimen_total), (correct_locations_high, correct_locations_low, location_total), (correct_legs_high, correct_legs_low, leg_total), (correct_dets_high, correct_dets_low, det_total), (correct_dates_high, correct_dates_low, date_total), (correct_coords_high, correct_coords_low, coord_total) 
+    return label_score, overall_score, (correct_specimens_high, correct_specimens_low, specimen_total), (correct_locations_high, correct_locations_low, location_total), (correct_legs_high, correct_legs_low, leg_total), (correct_dets_high, correct_dets_low, det_total), (correct_dates_high, correct_dates_low, date_total), (correct_coords_high, correct_coords_low, coord_total), hardcases, easycases 
 
 def extract_token_true(text, label_type):
     # Find index of 'B-label_type' in labels, where label_type could be 'SPECIMEN', 'Date' etc.

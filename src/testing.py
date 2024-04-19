@@ -62,9 +62,10 @@ def runTests():
     # BERT accuracy
     print("\nRunning accuracy test for BERT model...")
     data_points = 1000
-    label_scores, total_score, specimen_count, location_count, leg_count, det_count, date_count, coord_count = testBERTAccuracy(data_points)
+    label_scores, total_score, specimen_count, location_count, leg_count, det_count, date_count, coord_count, hardcases, easycases = testBERTAccuracy(data_points)
     for elm in label_scores:
         print("General {0} similarity score: {1}%".format(elm[0], elm[1]))
+        
     print("Overall BERT model accuracy: {0}%".format(total_score))
     print("Tested on {0} text objects".format(data_points))
 
@@ -87,7 +88,14 @@ def runTests():
     print("\nCorrect Coordinate count low threshold: {0}/{1}".format(coord_count[1], coord_count[2]))
     print("Correct Coordinate count high threshold: {0}/{1}".format(coord_count[0], coord_count[2]))
 
-
+    print("\nSpecific cases that the model struggled with in particular:\n")
+    print("Amount of hard cases: ", len(hardcases))
+    for i in hardcases:
+        print(i)
+    
+    print("Amount of easy cases: ", len(easycases))
+    for i in easycases:
+        print(i)
     print("\nTesting complete")
 
 runTests()
