@@ -40,16 +40,26 @@ def createSingleLine(data_list):
   # Order of tokens based on general assesment of image layout
   addStartNoise(line)
   addRegularnoise(line)
+  add_newline(line)
   selectAndFormatSpecies(line, data_list[1])
+  add_newline(line)
   addRegularnoise(line)
+  add_newline(line)
   selectAndFormatLocation(line, data_list[3])
+  add_newline(line)
   selectAndFormatCoords(line, data_list[5], data_list[6])
+  add_newline(line)
   addRegularnoise(line)
+  add_newline(line)
   selectAndFormatDate(line)
+  add_newline(line)
   selectAndFormatLeg(line, data_list[4])
+  add_newline(line)
   selectAndFormatDet(line, data_list[2])
-  addEndNoise(line)
+  if addEndNoise(line):
+    add_newline(line)
   label_each_word(line)
+
   # Join tokens into a single sentence
   line["tokens"] = ' '.join(line["tokens"])
   line["tokens"] = line["tokens"].split()
@@ -103,7 +113,12 @@ def addEndNoise(dict):
   if is_below_percentage(5):
     dict["tokens"].append(get_random_noise("endnoise"))
     dict["labels"].append("0")
+    return True
+  return False
 
+def add_newline(dict):
+  dict["tokens"].append("$")
+  dict["labels"].append("0")
 
 # If observed percentage is 3 or below, we then use a default percentage of 3 % for the noise types
 # Specifc functions for each of the areas of interest
@@ -173,15 +188,15 @@ def selectAndFormatDate(dict):
   
   elif is_below_percentage(25) and month_is_number:
     if random_day == None:
-      combined_date = "{0}/{1}".format(random_month, random_year)
+      combined_date = "{0}.{1}".format(random_month, random_year)
     elif is_below_percentage(2):
-      combined_date = "{0}-{1}/{2}".format(random_month, random_day, random_year)
+      combined_date = "{0}.{1}.{2}".format(random_month, random_day, random_year)
     elif is_below_percentage(40):
-      combined_date = "{0}-{1}/{2}".format(random_day, random_month, random_year)
+      combined_date = "{0}.{1}.{2}".format(random_day, random_month, random_year)
     elif is_below_percentage(default_probability):
-      combined_date = "{0}-{1}/{2}".format(random_year, random_day, random_month)
+      combined_date = "{0}.{1}.{2}".format(random_year, random_day, random_month)
     elif is_below_percentage(59):
-      combined_date = "{0}-{1}/{2}".format(random_year, random_month, random_day)
+      combined_date = "{0}.{1}.{2}".format(random_year, random_month, random_day)
     
   elif is_below_percentage(25) and month_is_number:
     if random_day == None:
@@ -194,7 +209,7 @@ def selectAndFormatDate(dict):
       combined_date = "{0}-{1}-{2}".format(random_year, random_day, random_month)
     elif is_below_percentage(59):
       combined_date = "{0}-{1}-{2}".format(random_year, random_month, random_day)
-  
+
   dict["tokens"].append(combined_date)
   dict["labels"].append("B-DATE")
 

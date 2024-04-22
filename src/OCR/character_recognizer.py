@@ -81,6 +81,8 @@ def perform_ocr(label_data, annotation_type, im_dir, counter, label_total):
         #display_image_with_bbox(image, bbox)
 
         predicted_text = process_cropped_image(image, bbox)
+
+        #TODO: add $€$ space in string????
         processed_image_info_annotate = (label[1], annotation_type, predicted_text)
 
         ocr_results.append(processed_image_info_annotate)
