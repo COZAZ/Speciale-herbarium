@@ -28,11 +28,30 @@ def load_text_data():
   filtered_lats = lats[['°' in lat for lat in lats]]
   filtered_longs = longs[['°' in lon for lon in longs]]
 
+  # Cleaning some locations
+  #print("OG len:", len(locations))
+
+  locations = cleanLocations(locations)
+
+  #print("New len:", len(locations))
+
   data_columns = [dates, species, dets, locations, legs, filtered_lats, filtered_longs]
 
   return data_columns
 
-# TODO: Change probabilities for the different noise types
+def cleanLocations(locations):
+  # Cleaning some locations
+  cleaned_locations = locations
+
+  indices_to_remove = np.where(locations == "unknown:missing")[0]
+  cleaned_locations = np.delete(cleaned_locations, indices_to_remove)
+
+  max_loc_length = 60
+  indices_to_remove = np.where([len(item) > max_loc_length for item in cleaned_locations])[0]
+  cleaned_locations = np.delete(cleaned_locations, indices_to_remove)
+
+  return cleaned_locations
+
 # Create dict and call functions
 def createSingleLine(data_list):
   line = {"tokens": [], "labels": []}
@@ -91,18 +110,6 @@ def addStartNoise(dict):
   if is_below_percentage(96):
     dict["tokens"].append(get_random_noise("startnoise"))
     dict["labels"].append("0")
-
-"""
-def addHabNoise(dict):
-  if is_below_percentage(88):
-    dict["tokens"].append("Hab.:")
-    dict["labels"].append("0")
-
-def addAltNoise(dict):
-  if is_below_percentage(88):
-    dict["tokens"].append("Alt.:")
-    dict["labels"].append("0")
-"""
 
 def addRegularnoise(dict):
   if is_below_percentage(88):
@@ -213,40 +220,6 @@ def selectAndFormatDate(dict):
   dict["tokens"].append(combined_date)
   dict["labels"].append("B-DATE")
 
-"""
-if is_below_percentage(50):
-if is_below_percentage(70):
-random_day = np.random.randint(1,31)
-else:
-random_day = np.random.choice(roman_number_days)
-random_month_name = np.random.choice(months)
-random_year = np.random.randint(1800,2024)
-
-if is_below_percentage(50):
-modified_date = "{0} {1}, {2}".format(random_day, random_month_name, random_year)
-else:
-modified_date = "{0} {1}, {2}".format(random_month_name, random_day, random_year)
-
-else:
-random_day = np.random.randint(1,32)
-random_month_number = np.random.randint(1,13)
-random_year = np.random.randint(1800,2024)
-
-if random_day < 10:
-random_day = '0' + str(random_day)
-
-if random_month_number < 10:
-random_month_number = '0' + str(random_month_number)
-
-if is_below_percentage(50):
-modified_date = "{0}-{1}-{2}".format(random_year, random_month_number, random_day)
-else:
-modified_date = "{0}-{1}-{2}".format(random_year, random_day, random_month_number)
-
-if is_below_percentage(20):
-modified_date = "{0} {1}".format(np.random.choice(abbreviated_months), random_year)
-"""
-
 def selectAndFormatSpecies(dict, species):
   specimen = str(np.random.choice(species))
 
@@ -296,11 +269,6 @@ def selectAndFormatLeg(dict, legs):
 def selectAndFormatLocation(dict, locations):
   location = str(np.random.choice(locations))
   location = location.replace(u'\xa0', u' ')
-
-  # Doesn't effect the probabilites of the noise selection, but adds a bit of randomness to the data
-  if is_below_percentage(35):
-    location_parts = location.split(' ')
-    location = shuffle_content(location_parts)
 
   dict["tokens"].append(location)
   dict["labels"].append("B-LOCATION")
