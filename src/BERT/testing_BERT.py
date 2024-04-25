@@ -1,5 +1,4 @@
 import json
-from difflib import SequenceMatcher
 from BERT.pred import parse_ocr_text
 from thefuzz import fuzz
 
@@ -87,6 +86,8 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-LOCATION" and current_similarity >= 0.75:
                 correct_locations_low += 1
+            elif current_class == "B-LOCATION" and current_similarity < 0.75:
+                examineBadPredictions(current_true_text, pred_token)
 
             if current_class == "B-LOCATION" and current_similarity >= 0.9:
                 correct_locations_high += 1
@@ -155,3 +156,24 @@ def extract_token_pred(text, label_type):
     for elm in text:
         if elm[0] == label_type:
             return elm[1]
+
+def examineBadPredictions(t,p):
+    t0 = extract_token_true(t, "B-SPECIMEN").replace(" ", "")
+    t1 = extract_token_true(t, "B-LOCATION").replace(" ", "")
+    t2 = extract_token_true(t, "B-LEG").replace(" ", "")
+    t3 = extract_token_true(t, "B-DET").replace(" ", "")
+    t4 = extract_token_true(t, "B-DATE").replace(" ", "")
+    t5 = extract_token_true(t, "B-COORD").replace(" ", "")
+
+    s0 = (p, t0, "B-SPECIMEN", fuzz.ratio(t0, p) / 100)
+    s1 = (p, t1, "B-LOCATION", fuzz.ratio(t1, p) / 100)
+    s2 = (p, t2, "B-LEG", fuzz.ratio(t2, p) / 100)
+    s3 = (p, t3, "B-DET", fuzz.ratio(t3, p) / 100)
+    s4 = (p, t4, "B-DATE", fuzz.ratio(t4, p) / 100)
+    s5 = (p, t5, "B-COORD", fuzz.ratio(t5, p) / 100)
+
+    ss = [s0,s1,s2,s3,s4,s5]
+
+    largest_s = max(ss, key=lambda x: x[3])
+
+    print(largest_s)

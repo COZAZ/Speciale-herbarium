@@ -88,6 +88,7 @@ def runTests():
     print("\nCorrect Coordinate count low threshold: {0}/{1}".format(coord_count[1], coord_count[2]))
     print("Correct Coordinate count high threshold: {0}/{1}".format(coord_count[0], coord_count[2]))
 
+    """
     print("\nSpecific cases that the model struggled with in particular:\n")
     print("Amount of hard cases: ", len(hardcases))
     for i in hardcases:
@@ -97,5 +98,6 @@ def runTests():
     for i in easycases:
         print(i)
     print("\nTesting complete")
+    """
 
 runTests()
