@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from BERT.pred import parse_ocr_text
 from thefuzz import fuzz
 
@@ -49,6 +50,25 @@ def testBERTAccuracy(data_points):
     # Used to store what cases BERT struggles with
     hardcases = []
     easycases = []
+
+    # List to hold TP [0], FP [1] and FN [2] values
+    specimen_comparisons = [0,0,0]
+    location_comparisons = [0,0,0]
+    leg_comparisons = [0,0,0]
+    det_comparisons = [0,0,0]
+    date_comparisons = [0,0,0]
+    coord_comparisons = [0,0,0]
+
+    # Score containers:
+    # [0] -> Precision
+    # [1] -> Recall
+    # [2] -> F1
+    specimen_scores = [0,0,0]
+    location_scores = [0,0,0]
+    leg_scores = [0,0,0]
+    det_scores = [0,0,0]
+    date_scores = [0,0,0]
+    coord_scores = [0,0,0]
     
     for i in range(data_points):
         current_true_text = trueText[i]
@@ -60,10 +80,8 @@ def testBERTAccuracy(data_points):
             true_token = extract_token_true(current_true_text, current_class).replace(" ", "")
             pred_token = extract_token_pred(current_pred_text, current_class).replace(" ", "")
 
-            #current_similarity = SequenceMatcher(None, true_token, pred_token).ratio() # Comparing strings
             current_similarity = fuzz.ratio(true_token, pred_token) / 100 # Comparing strings
 
-            # TODO: If neccesary add current_similarity score to tuple
             if current_similarity < 0.3 and len(hardcases) <= 20:
                 hardcases.append(("Current Class: {0}".format(current_class), "True Token: {0}".format(true_token), "Pred Token: {0}".format(pred_token)))
             if current_similarity > 0.8 and len(easycases) <= 20:
@@ -76,6 +94,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-SPECIMEN" and current_similarity >= 0.75:
                 correct_specimens_low += 1
+                specimen_comparisons[0] += 1 # TP
+
+            elif current_class == "B-SPECIMEN" and current_similarity < 0.75:
+                specimen_comparisons = countFPFN(specimen_comparisons, current_true_text, pred_token, "B-SPECIMEN")
 
             if current_class == "B-SPECIMEN" and current_similarity >= 0.9:
                 correct_specimens_high += 1
@@ -86,8 +108,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-LOCATION" and current_similarity >= 0.75:
                 correct_locations_low += 1
+                location_comparisons[0] += 1 # TP
+
             elif current_class == "B-LOCATION" and current_similarity < 0.75:
-                examineBadPredictions(current_true_text, pred_token)
+                location_comparisons = countFPFN(location_comparisons, current_true_text, pred_token, "B-LOCATION")
 
             if current_class == "B-LOCATION" and current_similarity >= 0.9:
                 correct_locations_high += 1
@@ -98,6 +122,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-LEG" and current_similarity >= 0.75:
                 correct_legs_low += 1
+                leg_comparisons[0] += 1 # TP
+            
+            elif current_class == "B-LEG" and current_similarity < 0.75:
+                leg_comparisons = countFPFN(leg_comparisons, current_true_text, pred_token, "B-LEG")
 
             if current_class == "B-LEG" and current_similarity >= 0.9:
                 correct_legs_high += 1
@@ -108,6 +136,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-DET" and current_similarity >= 0.75:
                 correct_dets_low += 1
+                det_comparisons[0] += 1 # TP
+            
+            elif current_class == "B-DET" and current_similarity < 0.75:
+                det_comparisons = countFPFN(det_comparisons, current_true_text, pred_token, "B-DET")
 
             if current_class == "B-DET" and current_similarity >= 0.9:
                 correct_dets_high += 1
@@ -118,6 +150,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-DATE" and current_similarity >= 0.75:
                 correct_dates_low += 1
+                date_comparisons[0] += 1 # TP
+            
+            elif current_class == "B-DATE" and current_similarity < 0.75:
+                date_comparisons = countFPFN(date_comparisons, current_true_text, pred_token, "B-DATE")
 
             if current_class == "B-DATE" and current_similarity >= 0.9:
                 correct_dates_high += 1
@@ -128,6 +164,10 @@ def testBERTAccuracy(data_points):
 
             if current_class == "B-COORD" and current_similarity >= 0.75:
                 correct_coords_low += 1
+                coord_comparisons[0] += 1 # TP
+            
+            elif current_class == "B-COORD" and current_similarity < 0.75:
+                coord_comparisons = countFPFN(coord_comparisons, current_true_text, pred_token, "B-COORD")
 
             if current_class == "B-COORD" and current_similarity >= 0.9:
                 correct_coords_high += 1
@@ -138,6 +178,61 @@ def testBERTAccuracy(data_points):
         overall_score += elm[1]
         
     overall_score = round(overall_score / len(label_score), 2)
+
+    # Precision
+    specimen_scores[0] = specimen_comparisons[0] / (specimen_comparisons[0] + specimen_comparisons[1])
+    location_scores[0] = location_comparisons[0] / (location_comparisons[0] + location_comparisons[1])
+    leg_scores[0] = leg_comparisons[0] / (leg_comparisons[0] + leg_comparisons[1])
+    det_scores[0] = det_comparisons[0] / (det_comparisons[0] + det_comparisons[1])
+    date_scores[0] = date_comparisons[0] / (date_comparisons[0] + date_comparisons[1])
+    coord_scores[0] = coord_comparisons[0] / (coord_comparisons[0] + coord_comparisons[1])
+
+    # Recall
+    specimen_scores[1] = specimen_comparisons[0] / (specimen_comparisons[0] + specimen_comparisons[2])
+    location_scores[1] = location_comparisons[0] / (location_comparisons[0] + location_comparisons[2])
+    leg_scores[1] = leg_comparisons[0] / (leg_comparisons[0] + leg_comparisons[2])
+    det_scores[1] = det_comparisons[0] / (det_comparisons[0] + det_comparisons[2])
+    date_scores[1] = date_comparisons[0] / (date_comparisons[0] + date_comparisons[2])
+    coord_scores[1] = coord_comparisons[0] / (coord_comparisons[0] + coord_comparisons[2])
+
+    # F1
+    specimen_scores[2] = 2 * ((specimen_scores[0] * specimen_scores[1]) / (specimen_scores[0] + specimen_scores[1]))
+    location_scores[2] = 2 * ((location_scores[0] * location_scores[1]) / (location_scores[0] + location_scores[1]))
+    leg_scores[2] = 2 * ((leg_scores[0] * leg_scores[1]) / (leg_scores[0] + leg_scores[1]))
+    det_scores[2] = 2 * ((det_scores[0] * det_scores[1]) / (det_scores[0] + det_scores[1]))
+    date_scores[2] = 2 * ((date_scores[0] * date_scores[1]) / (date_scores[0] + date_scores[1]))
+    coord_scores[2] = 2 * ((coord_scores[0] * coord_scores[1]) / (coord_scores[0] + coord_scores[1]))
+
+    average_precision = np.mean([specimen_scores[0], location_scores[0], leg_scores[0], det_scores[0], date_scores[0], coord_scores[0]])
+    average_recall = np.mean([specimen_scores[1], location_scores[1], leg_scores[1], det_scores[1], date_scores[1], coord_scores[1]])
+    average_f1 = np.mean([specimen_scores[2], location_scores[2], leg_scores[2], det_scores[2], date_scores[2], coord_scores[2]])
+  
+    print("Precsion scores:")
+    print("SPECIMEN: {0}%".format(round(specimen_scores[0]*100, 2)))
+    print("LOCATION: {0}%".format(round(location_scores[0]*100, 2)))
+    print("LEG: {0}%".format(round(leg_scores[0]*100, 2)))
+    print("DET: {0}%".format(round(det_scores[0]*100, 2)))
+    print("DATE: {0}%".format(round(date_scores[0]*100, 2)))
+    print("COORD: {0}%".format(round(coord_scores[0]*100, 2)))
+    print("Average model precision: {0}%".format(round(average_precision*100, 2)))
+   
+    print("\nRecall scores:")
+    print("SPECIMEN: {0}%".format(round(specimen_scores[1]*100, 2)))
+    print("LOCATION: {0}%".format(round(location_scores[1]*100, 2)))
+    print("LEG: {0}%".format(round(leg_scores[1]*100, 2)))
+    print("DET: {0}%".format(round(det_scores[1]*100, 2)))
+    print("DATE: {0}%".format(round(date_scores[1]*100, 2)))
+    print("COORD: {0}%".format(round(coord_scores[1]*100, 2)))
+    print("Average model recall: {0}%".format(round(average_recall*100, 2)))
+
+    print("\nF1 scores:")
+    print("SPECIMEN: {0}%".format(round(specimen_scores[2]*100, 2)))
+    print("LOCATION: {0}%".format(round(location_scores[2]*100, 2)))
+    print("LEG: {0}%".format(round(leg_scores[2]*100, 2)))
+    print("DET: {0}%".format(round(det_scores[2]*100, 2)))
+    print("DATE: {0}%".format(round(date_scores[2]*100, 2)))
+    print("COORD: {0}%".format(round(coord_scores[2]*100, 2)))
+    print("Average model F1: {0}%\n".format(round(average_f1*100, 2)))
 
     return label_score, overall_score, (correct_specimens_high, correct_specimens_low, specimen_total), (correct_locations_high, correct_locations_low, location_total), (correct_legs_high, correct_legs_low, leg_total), (correct_dets_high, correct_dets_low, det_total), (correct_dates_high, correct_dates_low, date_total), (correct_coords_high, correct_coords_low, coord_total), hardcases, easycases 
 
@@ -176,4 +271,13 @@ def examineBadPredictions(t,p):
 
     largest_s = max(ss, key=lambda x: x[3])
 
-    print(largest_s)
+    #print(largest_s)
+    return largest_s
+
+def countFPFN(comps, t, p, type):
+    comps[2] += 1 # FN
+    other_match = examineBadPredictions(t, p)
+    if other_match[2] != type and other_match[3] >= 0.75:
+        comps[1] += 1 # FP
+    
+    return comps
