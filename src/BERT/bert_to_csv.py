@@ -126,9 +126,27 @@ def createCSV():
             
         if loc_score >= threshold:
             loc_csv = ocr_object[loc_correct_index]
-            loc_csv = remove_coordinates(loc_csv)                
-            data[i+1][2] = loc_csv
+            if "LOC" not in loc_csv.upper():
+                # Search for string in ocr_text for "loc" and replace loc_csv with that string
+                for k, text in enumerate(ocr_object):
+                    if "LOC" in text.upper() and len(text) > 6:
+                        loc_csv = text
+                        break
+                    if "LOC" in text.upper() and len(text) <= 5:
+                        # log_csv should be text and the string after it
+                        loc_csv = text + " " + ocr_object[k+1]
+                        break
 
+            if "LOC" in loc_csv.upper():
+                # Find the index of "Loc"
+                index = loc_csv.upper().find("LOC")
+                # Extract the substring starting from the index of "Loc"
+                loc_csv = loc_csv[index:]
+
+            #print("pRE-loc:", loc_csv)
+            print("After loc: ", loc_csv)
+            data[i+1][2] = loc_csv
+                      
         if leg_score >= threshold:
             leg_csv = ocr_object[leg_correct_index]
             data[i+1][3] = leg_csv
@@ -149,6 +167,7 @@ def createCSV():
         csv_writer = csv.writer(csvfile)
         for row in data:
             clean_row = []
+            row = [row[0], row[2]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -160,14 +179,6 @@ def is_species_name(s):
     words = s.split()
     return len(words) >= 2 and words[0].istitle() and all(word.islower() or word.istitle() for word in words[1:])
 
-def remove_coordinates(input_string):
-    # Define a regular expression pattern to match coordinate information
-    pattern = re.compile(r'\b\d+\b|\s[NW](?![\w\'\.\,])|(\'|\s|\,|\.)[NW]?[\s\'\.\,]')
 
-    # Replace all occurrences of the pattern with an empty string
-    result = re.sub(pattern, '', input_string)
-
-    # Remove extra whitespaces
-    result = ' '.join(result.split())
-
-    return result
+    
+    
