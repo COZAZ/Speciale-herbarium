@@ -18,9 +18,6 @@ def createCSV():
         ocr_text = json.load(f)
 
     for i, elm in enumerate(predicted):
-        if ocr_text[i]["text"] == 1:
-            continue
-    
         threshold = 0.75
         ocr_object = ocr_text[i]["text"]
 
@@ -47,7 +44,23 @@ def createCSV():
         pred_coord = elm[6]
         coord_score = 0
         coord_correct_index = 0
+        
+        #print(pred_spec)
 
+        """
+        temp_loc = pred_loc.split()
+        temp_spec = pred_spec.split()
+        keep = []
+        for k in temp_spec:
+            for z in temp_loc:
+                if k != z:
+                    keep.append(z)
+                else: print("Match with K: ", k, "And Z: ", z)
+                #else: continue
+
+        pred_loc = " ".join(keep)
+        """
+        
         for j, text_piece in enumerate(ocr_object):
             text_piece = text_piece.replace(" ", "")
             pred_spec = pred_spec.replace(" ", "")
@@ -105,7 +118,7 @@ def createCSV():
                     data[i+1][1] = pred_spec
 
                 else:
-                    print(spec_filter)
+                    #print(spec_filter)
                     data[i+1][1] = spec_filter[0]
 
             else:
@@ -113,6 +126,7 @@ def createCSV():
             
         if loc_score >= threshold:
             loc_csv = ocr_object[loc_correct_index]
+            loc_csv = remove_coordinates(loc_csv)                
             data[i+1][2] = loc_csv
 
         if leg_score >= threshold:
@@ -145,3 +159,15 @@ def createCSV():
 def is_species_name(s):
     words = s.split()
     return len(words) >= 2 and words[0].istitle() and all(word.islower() or word.istitle() for word in words[1:])
+
+def remove_coordinates(input_string):
+    # Define a regular expression pattern to match coordinate information
+    pattern = re.compile(r'\b\d+\b|\s[NW](?![\w\'\.\,])|(\'|\s|\,|\.)[NW]?[\s\'\.\,]')
+
+    # Replace all occurrences of the pattern with an empty string
+    result = re.sub(pattern, '', input_string)
+
+    # Remove extra whitespaces
+    result = ' '.join(result.split())
+
+    return result

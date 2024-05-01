@@ -41,8 +41,6 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
 
     label_to_id = {"0": 0, "B-LEG": 1, "B-LOCATION": 2, "B-DATE": 3, "B-SPECIMEN": 4, "B-DET": 5, "B-COORD": 6, "-100": -100}
 
-    # TODO: Ask Kim if two (or more) entries for same image in .csv file is okay (institutional and annotation labels).
-
     if (use_custom_text == True) and (text_to_predict != None):
         ocr_text_objects = text_to_predict
     else:
@@ -68,6 +66,8 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
         det = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DET'])
         date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
         coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
+
+        #print("Predicted SPECIMEN from {0}: {1}".format(obj["image"], specimens))
 
         # For testing purposes
         if (use_custom_text == True) and (text_to_predict != None):
