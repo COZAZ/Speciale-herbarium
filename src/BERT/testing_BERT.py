@@ -5,7 +5,7 @@ from thefuzz import fuzz
 
 # BERT model accuracy
 def testBERTAccuracy(data_points):
-    with open("../synth_text_data_test3.json", 'r') as f:
+    with open("../synth_text_data_test.json", 'r') as f:
         test_text = json.load(f)
 
     trueText = test_text
@@ -91,9 +91,6 @@ def testBERTAccuracy(data_points):
             # Counting specimens
             if current_class == "B-SPECIMEN":
                 specimen_total += 1
-
-                print("TRUE:", true_token)
-                print("PRED:", pred_token)
 
             if current_class == "B-SPECIMEN" and current_similarity >= 0.75:
                 correct_specimens_low += 1

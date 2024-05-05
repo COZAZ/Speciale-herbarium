@@ -2,19 +2,24 @@ import json
 import csv
 import unicodedata
 import re
+import os
 from BERT.pred import parse_ocr_text
 from thefuzz import fuzz
+from OCR.ocr_converter import AdjustTextLayout
 
 # Create a CSV file that contains the parsed OCR text
 def createCSV():
     print("Creating CSV...")
+
+    if not (os.path.exists('ocr_sorted.json') and os.path.exists('ocr_close.json')):
+        AdjustTextLayout()
 
     predicted = parse_ocr_text()
 
     data = predicted.copy()
     data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates'])
 
-    with open("ocr_output.json", 'r') as f:
+    with open('ocr_close.json', 'r') as f:
         ocr_text = json.load(f)
 
     for i, elm in enumerate(predicted):
@@ -44,22 +49,6 @@ def createCSV():
         pred_coord = elm[6]
         coord_score = 0
         coord_correct_index = 0
-        
-        #print(pred_spec)
-
-        """
-        temp_loc = pred_loc.split()
-        temp_spec = pred_spec.split()
-        keep = []
-        for k in temp_spec:
-            for z in temp_loc:
-                if k != z:
-                    keep.append(z)
-                else: print("Match with K: ", k, "And Z: ", z)
-                #else: continue
-
-        pred_loc = " ".join(keep)
-        """
         
         for j, text_piece in enumerate(ocr_object):
             text_piece = text_piece.replace(" ", "")
@@ -144,7 +133,7 @@ def createCSV():
                 loc_csv = loc_csv[index:]
 
             #print("pRE-loc:", loc_csv)
-            print("After loc: ", loc_csv)
+            #print("After loc: ", loc_csv)
             data[i+1][2] = loc_csv
                       
         if leg_score >= threshold:
@@ -167,7 +156,7 @@ def createCSV():
         csv_writer = csv.writer(csvfile)
         for row in data:
             clean_row = []
-            row = [row[0], row[2]]
+            #row = [row[0], row[2]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -178,7 +167,3 @@ def createCSV():
 def is_species_name(s):
     words = s.split()
     return len(words) >= 2 and words[0].istitle() and all(word.islower() or word.istitle() for word in words[1:])
-
-
-    
-    

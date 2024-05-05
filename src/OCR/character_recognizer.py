@@ -43,7 +43,7 @@ def process_cropped_image(image, bbox):
     cropped_image = image[bbox[1]:bbox[3], bbox[0]:bbox[2]]
 
     reader = easyocr.Reader(['en', 'da', 'la', 'de'], gpu=False)
-    result = reader.readtext(cropped_image, detail=0, paragraph=True)
+    result = reader.readtext(cropped_image, paragraph=True)
 
     # UNCOMMENT IF YOU WANT TO SEE THE CROPPED RESULT
     #resized_cropped_image = resize_image(cropped_image, scale=35)

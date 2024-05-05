@@ -7,7 +7,7 @@ def save_ocr_output(text_data):
     dict_list = [tuple_to_dict(t) for t in text_data]
 
     synthJsonData = json.dumps(dict_list, indent=4)
-    with open("ocr_output.json", 'w') as json_file:
+    with open("ocr_coords.json", 'w') as json_file:
         json_file.seek(0)
         json_file.truncate()
         json_file.write(synthJsonData)

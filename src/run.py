@@ -48,7 +48,7 @@ def main(yolo=False, ocr=False, bert=False):
         run_all = False
     else:
         if (not ocr_is_ready): print("Error: System not ready for OCR yet. Make sure you have the YOLO-labeled images before you set --ocr")
-        elif not os.path.exists("ocr_output.json"):
+        elif not os.path.exists("ocr_coords.json"):
             print("Error: No saved OCR output found, please perform OCR by using the flag --ocr when calling run.py")
             run_all = False
         else:
