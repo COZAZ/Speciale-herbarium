@@ -39,6 +39,7 @@ def createCSV():
         leg_correct_index = 0
         
         pred_det = elm[4]
+       
         det_score = 0
         det_correct_index = 0
         
@@ -138,11 +139,19 @@ def createCSV():
                       
         if leg_score >= threshold:
             leg_csv = ocr_object[leg_correct_index]
+            leg_csv = cleanName("LEG", ocr_object, leg_csv)
+
             data[i+1][3] = leg_csv
 
         if det_score >= threshold:
             det_csv = ocr_object[det_correct_index]
-            data[i+1][4] = det_csv
+            det_csv_2 = cleanName("DET", ocr_object, det_csv)
+
+            # Use the Leg name if there are no Det names (because then Leg and Det are the same)
+            if ((det_csv == det_csv_2) and ("DET" not in det_csv_2.upper())) or (len(det_csv_2.replace(" ", "")) <= 6):
+                data[i+1][4] = data[i+1][3]
+            else:
+                data[i+1][4] = det_csv
 
         if date_score >= threshold:
             date_csv = ocr_object[date_correct_index]
@@ -156,7 +165,7 @@ def createCSV():
         csv_writer = csv.writer(csvfile)
         for row in data:
             clean_row = []
-            #row = [row[0], row[2]]
+            #row = [row[0], row[3], row[4]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -167,3 +176,18 @@ def createCSV():
 def is_species_name(s):
     words = s.split()
     return len(words) >= 2 and words[0].istitle() and all(word.islower() or word.istitle() for word in words[1:])
+
+def cleanName(name_type, ocr_obj, name_text):
+    if name_type not in name_text.upper():
+        for text in ocr_obj:
+            if name_type in text.upper() and len(text.replace(" ", "")) > 6:
+                name_text = text
+                break
+        
+    if name_type in name_text.upper():
+            # Find the index of "Loc"
+            index = name_text.upper().find(name_type)
+            # Extract the substring starting from the index of "Loc"
+            name_text = name_text[index:]
+    
+    return name_text
