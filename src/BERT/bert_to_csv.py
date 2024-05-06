@@ -163,11 +163,21 @@ def createCSV():
 
     data_slice = data[1:]
     sorted_data = sorted(data_slice, key=lambda x: int(x[0]))
-    
+
+    # We keep only one data entry per catalog number
+    # since images with multiple institutional/annotation labels all describe the same plant
+    unique_data = []
+    encountered_catalog_numbers = []
+    for entry in sorted_data:
+        catalog_number = entry[0]
+        if catalog_number not in encountered_catalog_numbers:
+            unique_data.append(entry)
+            encountered_catalog_numbers.append(catalog_number)
+
     with open("herbarium_lookback.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(data[0])
-        for row in sorted_data:
+        for row in unique_data:
             clean_row = []
             #row = [row[0], row[3], row[4]]
             for string in row:
