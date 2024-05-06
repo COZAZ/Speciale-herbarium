@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from json_loader import load_json_file
-#from difflib import SequenceMatcher
+from OCR.ocr_converter import removeCoords
 
 # Function to tokenize new sentences and perform predictions
 def predict_new_sentence(sentence, tokenizer, model, label_to_id):
@@ -44,15 +44,13 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
     if (use_custom_text == True) and (text_to_predict != None):
         ocr_text_objects = text_to_predict
     else:
-        json_path = "ocr_close.json"
+        removeCoords()
+        json_path = "ocr_predict.json"
         ocr_text_objects = load_json_file(json_path)
 
     parsed_text = []
     
-    #temp_count = 0
     for obj in ocr_text_objects:
-        #if temp_count > 10:
-        #    break
         text_string = " ".join(obj["text"])
         
         image_name = obj["image"]
@@ -67,8 +65,6 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
         date = " ".join([token for label, token in zip(labels, tokens) if label == 'B-DATE'])
         coord = " ".join([token for label, token in zip(labels, tokens) if label == 'B-COORD'])
 
-        #print("Predicted SPECIMEN from {0}: {1}".format(obj["image"], specimens))
-
         # For testing purposes
         if (use_custom_text == True) and (text_to_predict != None):
             interests = [['0', image_name[:-4]], ['B-SPECIMEN', specimens], ['B-LOCATION', locations], ['B-LEG', leg], ['B-DET', det], ['B-DATE', date], ['B-COORD', coord]]
@@ -80,7 +76,7 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
             parsed_text.append(interests)
 
         else:
-            interests = [image_name[:-4], specimens, locations, leg, det, date, coord]
+            interests = [image_name[:-4], specimens, locations, leg, det, date, coord, obj["label_type"]]
         
             # strip hastags from each string
             for i, elm in enumerate(interests):
@@ -89,6 +85,4 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
 
             parsed_text.append(interests)
         
-        #temp_count += 1
-
     return parsed_text

@@ -39,11 +39,11 @@ def AdjustTextLayout():
                 new_top_y = text_ocr[k][0][0][1]
                 new_bottom_y = text_ocr[k][0][3][1]
                 new_text = text_ocr[k][1]
-                if (abs(curr_top_y - new_top_y) < 15) and (abs(curr_bottom_y - new_bottom_y) < 15):
-                    if curr_right_x < new_left_x:
-                        curr_line = curr_line + " " + new_text
-                    else:
-                        curr_line = new_text + " " + curr_line
+                if (abs(curr_top_y - new_top_y) < 25) and (abs(curr_bottom_y - new_bottom_y) < 25):
+                        if (curr_right_x < new_left_x):
+                            curr_line = curr_line + " " + new_text
+                        else:
+                            curr_line = new_text + " " + curr_line
             new_lines.append(curr_line)
             curr_line = ""
         complete_new_lines.append(new_lines)
@@ -53,7 +53,27 @@ def AdjustTextLayout():
 
     # Open the same JSON file for writing (this will overwrite the existing content)
     synthJsonData = json.dumps(ocr_text, indent=4)
-    with open('ocr_close.json', 'w') as file:
+    with open('ocr_post.json', 'w') as file:
         file.seek(0)
         file.truncate()
         file.write(synthJsonData)
+
+def removeCoords():
+    with open("ocr_coords.json", 'r') as f3:
+        ocr_coords = json.load(f3)
+    
+    modified_entries = []
+
+    for entry in ocr_coords:
+        text_elements = [text[1] for text in entry['text']]
+
+        modified_entry = {
+            'image': entry['image'],
+            'label_type': entry['label_type'],
+            'text': text_elements
+        }
+
+        modified_entries.append(modified_entry)
+
+    with open('ocr_predict.json', 'w') as f4:
+        json.dump(modified_entries, f4, indent=4)

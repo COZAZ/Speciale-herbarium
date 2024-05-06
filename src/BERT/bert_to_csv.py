@@ -11,15 +11,15 @@ from OCR.ocr_converter import AdjustTextLayout
 def createCSV():
     print("Creating CSV...")
 
-    if not (os.path.exists('ocr_sorted.json') and os.path.exists('ocr_close.json')):
+    if not (os.path.exists('ocr_sorted.json') and os.path.exists('ocr_post.json')):
         AdjustTextLayout()
 
     predicted = parse_ocr_text()
 
     data = predicted.copy()
-    data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates'])
+    data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates', "Label Type"])
 
-    with open('ocr_close.json', 'r') as f:
+    with open('ocr_post.json', 'r') as f:
         ocr_text = json.load(f)
 
     for i, elm in enumerate(predicted):
@@ -161,9 +161,13 @@ def createCSV():
             coord_csv = ocr_object[coord_correct_index]
             data[i+1][6] = coord_csv        
 
+    data_slice = data[1:]
+    sorted_data = sorted(data_slice, key=lambda x: int(x[0]))
+    
     with open("herbarium_lookback.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
-        for row in data:
+        csv_writer.writerow(data[0])
+        for row in sorted_data:
             clean_row = []
             #row = [row[0], row[3], row[4]]
             for string in row:
