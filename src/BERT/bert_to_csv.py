@@ -3,6 +3,7 @@ import csv
 import unicodedata
 import re
 import os
+import numpy as np
 from BERT.pred import parse_ocr_text
 from thefuzz import fuzz
 from OCR.ocr_converter import AdjustTextLayout
@@ -23,7 +24,7 @@ def createCSV():
         ocr_text = json.load(f)
 
     for i, elm in enumerate(predicted):
-        threshold = 0.75
+        threshold = 75
         ocr_object = ocr_text[i]["text"]
 
         pred_spec = elm[1]
@@ -61,22 +62,22 @@ def createCSV():
             pred_coord = pred_coord.replace(" ", "")
 
             # Find matching specimen from OCR
-            spec_calc = fuzz.ratio(text_piece, pred_spec)
+            spec_calc = fuzz.partial_ratio(text_piece, pred_spec)
             if spec_calc > spec_score:
                 spec_score = spec_calc
                 spec_correct_index = j
             
-            loc_calc = fuzz.ratio(text_piece, pred_loc)
+            loc_calc = fuzz.partial_ratio(text_piece, pred_loc)
             if loc_calc > loc_score:
                 loc_score = loc_calc
                 loc_correct_index = j
 
-            leg_calc = fuzz.ratio(text_piece, pred_leg)
+            leg_calc = fuzz.partial_ratio(text_piece, pred_leg)
             if leg_calc > leg_score:
                 leg_score = leg_calc
                 leg_correct_index = j
 
-            det_calc = fuzz.ratio(text_piece, pred_det)
+            det_calc = fuzz.partial_ratio(text_piece, pred_det)
             if det_calc > det_score:
                 det_score = det_calc
                 det_correct_index = j
@@ -84,18 +85,20 @@ def createCSV():
             if len(pred_det) == 0:
                 det_score = 100
 
-            date_calc = fuzz.ratio(text_piece, pred_date)
+            date_calc = fuzz.partial_ratio(text_piece, pred_date)
             if date_calc > date_score:
                 date_score = date_calc
                 date_correct_index = j
 
-            coord_calc = fuzz.ratio(text_piece, pred_coord)
+            coord_calc = fuzz.partial_ratio(text_piece, pred_coord)
             if coord_calc > coord_score:
                 coord_score = coord_calc
                 coord_correct_index = j
         
         #print("Predicted specimen:", pred_spec)
         #print("Found OCR specimen:", ocr_object[spec_correct_index])
+        #print("Predicted Dates:", pred_date)
+        #print("DATE score:", date_score)
 
         if (spec_score >= threshold):
             spec_csv = ocr_object[spec_correct_index]
@@ -113,7 +116,6 @@ def createCSV():
                 else:
                     #print(spec_filter)
                     data[i+1][1] = spec_filter[0]
-
             else:
                 data[i+1][1] = pred_spec
             
@@ -173,6 +175,18 @@ def createCSV():
                 
         if date_score >= threshold:
             date_csv = ocr_object[date_correct_index]
+
+            leg_index = date_csv.upper().find("LEG")
+            det_index = date_csv.upper().find("DET")
+
+            if leg_index != -1:
+                date_csv = date_csv[:leg_index]
+            elif det_index != -1:
+                date_csv = date_csv[:det_index]
+            
+            date_csv = clean_dates(date_csv)
+            date_csv = ' '.join(date_csv.split())
+            
             data[i+1][5] = date_csv
 
         if coord_score >= threshold:
@@ -197,7 +211,7 @@ def createCSV():
         csv_writer.writerow(data[0])
         for row in unique_data:
             clean_row = []
-            #row = [row[0], row[3], row[4]]
+            #row = [row[0], row[5]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -278,3 +292,38 @@ def remove_date_month(input_string):
     month = re.compile(r'\b(?:%s)\b' % '|'.join(month_list), re.IGNORECASE)
 
     return month.sub("", input_string)
+
+def Convert(string): 
+    li = list(string.split(" ")) 
+    return li 
+    
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
+    
+def has_letters(inputString):
+    return re.search('[a-zA-Z]', inputString)
+    
+def contains_only_numbers_and_commas(input_string):
+    pattern = r'^[0-9,/.\-]+$'
+    return bool(re.match(pattern, input_string))
+    
+def clean_dates(input_string):
+    month_list = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "date"]
+    input_list = Convert(input_string)
+    elms_to_pop = []
+    for i, elm in enumerate(input_list):
+        if elm.lower() in month_list:
+            continue
+        if has_letters(input_list[i]):
+            elms_to_pop.append(i)
+        if sum(c.isdigit() for c in elm) < 4:
+            if input_list[i-1].lower() not in month_list:
+                elms_to_pop.append(i)
+        if sum(c.isdigit() for c in elm) >= 4:
+            if not contains_only_numbers_and_commas(elm):
+                elms_to_pop.append(i)
+            
+    output_list = np.delete(input_list,elms_to_pop)
+    retval = " ".join(output_list)
+
+    return retval
