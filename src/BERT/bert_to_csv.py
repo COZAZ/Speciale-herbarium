@@ -1,3 +1,4 @@
+from curses.ascii import isdigit
 import json
 import csv
 import unicodedata
@@ -191,6 +192,15 @@ def createCSV():
 
         if coord_score >= threshold:
             coord_csv = ocr_object[coord_correct_index]
+            
+            if "LAT" in coord_csv.upper():
+                coord_index = coord_csv.upper().find("LAT")
+                coord_csv = coord_csv[coord_index:]
+            
+            coord_csv = ' '.join(coord_csv.split())
+            coord_csv = removeCoordFiller(coord_csv)
+            coord_csv = addMissingWords(coord_csv)
+            
             data[i+1][6] = coord_csv        
 
     data_slice = data[1:]
@@ -211,7 +221,7 @@ def createCSV():
         csv_writer.writerow(data[0])
         for row in unique_data:
             clean_row = []
-            #row = [row[0], row[5]]
+            row = [row[0], row[6]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -327,3 +337,64 @@ def clean_dates(input_string):
     retval = " ".join(output_list)
 
     return retval
+
+def removeCoordFiller(input):
+    coords_no_words = removeWords(input)
+    coords_no_words = coords_no_words.split()
+
+    WE_occurences = []
+    for i, w in enumerate(coords_no_words):
+        if ('W' in w) or ('E' in w):
+            WE_occurences.append(i)
+    
+    if WE_occurences != []:
+        last_WE = WE_occurences[-1]
+        coords_no_words = coords_no_words[:last_WE+1]
+        
+    res = ' '.join(coords_no_words)
+
+    return res
+
+def countAlpha(input):
+    c = 0
+    for char in input:
+        if char.isalpha():
+            c += 1
+
+    return c
+
+def removeWords(input):
+    words = input.split()
+    keep_words = []
+    for w in words:
+        if ("LAT" not in w.upper()) and ("LONG" not in w.upper()):
+            alpha_count = countAlpha(w)
+            
+            if (alpha_count < 2):
+                keep_words.append(w)
+        else:
+            keep_words.append(w)
+    
+    keep_words = ' '.join(keep_words)
+
+    return keep_words
+
+def addMissingWords(input):
+    coord = input
+    if coord[0].upper() != 'L':
+        coord = "Lat " + coord
+    
+    if "LONG" not in coord.upper():
+        coord = coord.split()
+        new_coord = []
+        for w in coord:
+            if (('N' in w) or ('S' in w)):
+                    new_coord.append(w)
+                    new_coord.append("Long")
+            else:
+                if not ((len(w) == 1) and (w in [',','\'',':','.'])):
+                    new_coord.append(w)
+
+        coord = ' '.join(new_coord)
+    
+    return coord
