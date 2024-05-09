@@ -1,4 +1,3 @@
-from curses.ascii import isdigit
 import json
 import csv
 import unicodedata
@@ -20,6 +19,23 @@ def createCSV():
 
     data = predicted.copy()
     data.insert(0, ['Catalog number', 'Specimen', 'Location', 'Legit', 'Determinant', 'Date', 'Coordinates', "Label Type"])
+
+    data_slice1 = data[1:]
+    sorted_data1 = sorted(data_slice1, key=lambda x: int(x[0]))
+
+    unique_BERT_data = removeDuplicates(sorted_data1)
+
+    with open("herbarium_BERT.csv", 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(data[0])
+        for row in unique_BERT_data:
+            clean_row = []
+            for string in row:
+                current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
+                clean_row.append(current_clean_string)
+            csv_writer.writerow(clean_row)
+
+    print("CSV without postprocessing created.")
 
     with open('ocr_post.json', 'r') as f:
         ocr_text = json.load(f)
@@ -83,8 +99,8 @@ def createCSV():
                 det_score = det_calc
                 det_correct_index = j
             # If Det never found in OCR reading
-            if len(pred_det) == 0:
-                det_score = 100
+            #if len(pred_det) == 0:
+            #    det_score = 100
 
             date_calc = fuzz.partial_ratio(text_piece, pred_date)
             if date_calc > date_score:
@@ -203,31 +219,23 @@ def createCSV():
             
             data[i+1][6] = coord_csv        
 
-    data_slice = data[1:]
-    sorted_data = sorted(data_slice, key=lambda x: int(x[0]))
+    data_slice2 = data[1:]
+    sorted_data2 = sorted(data_slice2, key=lambda x: int(x[0]))
+    
+    unique_post_data = removeDuplicates(sorted_data2)
 
-    # We keep only one data entry per catalog number
-    # since images with multiple institutional/annotation labels all describe the same plant
-    unique_data = []
-    encountered_catalog_numbers = []
-    for entry in sorted_data:
-        catalog_number = entry[0]
-        if catalog_number not in encountered_catalog_numbers:
-            unique_data.append(entry)
-            encountered_catalog_numbers.append(catalog_number)
-
-    with open("herbarium_lookback.csv", 'w', newline='') as csvfile:
+    with open("herbarium_post.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(data[0])
-        for row in unique_data:
+        for row in unique_post_data:
             clean_row = []
-            row = [row[0], row[6]]
+            #row = [row[0], row[6]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
             csv_writer.writerow(clean_row)
 
-    print("CSV created")
+    print("CSV with postprocessing created")
 
 def is_species_name(s):
     words = s.split()
@@ -398,3 +406,16 @@ def addMissingWords(input):
         coord = ' '.join(new_coord)
     
     return coord
+
+def removeDuplicates(data):
+    # We keep only one data entry per catalog number
+    # since images with multiple institutional/annotation labels all describe the same plant
+    unique_data = []
+    encountered_catalog_numbers = []
+    for entry in data:
+        catalog_number = entry[0]
+        if catalog_number not in encountered_catalog_numbers:
+            unique_data.append(entry)
+            encountered_catalog_numbers.append(catalog_number)
+    
+    return unique_data

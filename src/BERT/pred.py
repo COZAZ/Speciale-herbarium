@@ -80,6 +80,7 @@ def parse_ocr_text(text_to_predict=None, use_custom_text=False):
         
             # strip hastags from each string
             for i, elm in enumerate(interests):
+                elm = elm.replace(" ##", "")
                 elm = elm.replace('#', "")
                 interests[i] = elm
 
