@@ -1,10 +1,14 @@
 import os
+import pandas as pd
 from YOLO.label_detection import get_label_info, evaluate_label_detection_performance, compute_avr_conf
 from OCR.output_handler import evaluate_craft_ocr
 from BERT.testing_BERT import testBERTAccuracy
+from final_output_test import compare_csv
 
 def runTests():
     ### Show performance scores of all components ###
+
+    """
     print("Running performance tests...\n")
 
     image_directory = "linas_images"
@@ -87,17 +91,22 @@ def runTests():
 
     print("\nCorrect Coordinate count low threshold: {0}/{1}".format(coord_count[1], coord_count[2]))
     print("Correct Coordinate count high threshold: {0}/{1}".format(coord_count[0], coord_count[2]))
+    """
 
-    """
-    print("\nSpecific cases that the model struggled with in particular:\n")
-    print("Amount of hard cases: ", len(hardcases))
-    for i in hardcases:
-        print(i)
+    # Comparison of final CSV files
+    bert_csv = pd.read_csv("../herbarium_BERT.csv")
+    post_csv = pd.read_csv("../herbarium_post.csv")
+    true_csv = pd.read_csv("../herb_images_1980_true.csv", sep=',', quotechar='"', skipinitialspace=True)
+
+    avg_specimen_similarity, avg_location_similarity, avg_legit_similarity, avg_determinant_similarity, avg_date_similarity, avg_coordinates_similarity, avg_total = compare_csv(post_csv, true_csv)
     
-    print("Amount of easy cases: ", len(easycases))
-    for i in easycases:
-        print(i)
-    print("\nTesting complete")
-    """
+    print("Average Specimen ground truth CSV Similarity:", avg_specimen_similarity)
+    print("Average Location grounf truth CSV Similarity:", avg_location_similarity)
+    print("Average Legit ground truth CSV Similarity:", avg_legit_similarity)
+    print("Average Determinant ground truth CSV Similarity:", avg_determinant_similarity)
+    print("Average Date ground truth CSV Similarity:", avg_date_similarity)
+    print("Average Coordinates ground truth CSV Similarity:", avg_coordinates_similarity)
+
+    print("\nAverage ground truth total Fuzz similarity:", avg_total)
 
 runTests()

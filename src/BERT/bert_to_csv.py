@@ -99,8 +99,8 @@ def createCSV():
                 det_score = det_calc
                 det_correct_index = j
             # If Det never found in OCR reading
-            #if len(pred_det) == 0:
-            #    det_score = 100
+            if pred_det == "":
+                det_score = 101
 
             date_calc = fuzz.partial_ratio(text_piece, pred_date)
             if date_calc > date_score:

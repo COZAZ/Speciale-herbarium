@@ -1,7 +1,7 @@
-Catalog,Specimen,Location,Leg,Det,Date,Coordinates,labeltype
-680736,Sibbaldia procumbens,"Colony of two sterile large leaved plants with several flowering small leaved cushion like plants all within area of 2 x 2 m at a distance of 10m from the large leaved plants. The site was just b elow a very steep section of the south facing side of the main western tributary valley of Sillerendal irrigated from above by a very large snow patch several hundred metres away.",,,3.8.02,Lat. 74° 37.783' N. Long. 20° 20.623'W., a
-681130,Carex stans Drej.,"Mire above Majhytten hut, Syttendemajfjorden, Adolph S. Jensens Land.", Leg: R.W.M. Corner., Det: R.W.M. Corner., 18.8.06., Lat. 76°17'N, Long. 21°06'W., i
-681366,Potentilla tridentata Sol. in Ait.,Loc. Præstefjord,Leg: Inger Hauge, Det: Bent Fredskild, "Date 1989, July 30", "Lat. 64°01' N., Long. 51°14-18' W.",i
+Catalog number,Specimen,Location,Legit,Determinant,Date,Coordinates,Label Type
+680736,Sibbaldia procumbens,"Colony of two sterile large leaved plants with several flowering small leaved cushion like plants all within area of 2 x 2 m at a distance of 10m from the large leaved plants. The site was just below a very steep section of the south facing side of the main western tributary valley of Sillerendal irrigated from above by a very large snow patch several hundred metres away.",,,3.8.02,Lat. 74° 37.783' N. Long. 20° 20.623'W.,a
+681130,Carex stans Drej.,"Mire above Majhytten hut, Syttendemajfjorden, Adolph S. Jensens Land.",Leg: R.W.M. Corner.,Det: R.W.M. Corner.,18.8.06.,"Lat. 76°17'N, Long. 21°06'W.",i
+681366,Potentilla tridentata Sol. in Ait.,Loc. Præstefjord,Leg: Inger Hauge,Det: Bent Fredskild,"Date 1989,July 30","Lat. 64°01' N.,Long. 51°14-18' W.",i
 681520,Potentilla tridentata Sol. in Ait.,Loc. Utoqait kingingnerat,Leg: Villy Blom, Det: Bent Fredskild, "Date 1990, August 4","Lat. 66°59' N., Long 52°50-58' W",i
 682207,Juncus castaneus Sm., "Moist runnel area on south side of Ravnedalen, Rechnitzers Land.",Leg: R.W.M. Corner, Det: R.W.M. Corner, 12.8.06, Lat. 76° 19.5' N. Long. 21° 42'W.,i
 686164,Dryas integrifolia M.Vahl, "Loc. Qaanaaq, 2km NE of",Leg: Christian Bay, Det: Christian Bay, "Date 1988, August 3", "Lat. 77°28' N., Long. 69°15' W.",i
@@ -22,31 +22,31 @@ Catalog,Specimen,Location,Leg,Det,Date,Coordinates,labeltype
 725328,Cassiope tetragona (L.)Don,"Loc. Dove Bugt, Godfred Hansen Ø",Leg.: Christian Bay, Det.: Christian Bay,"Date 1989, July 27-31",Lat. 76°23' N.' Long. 20°53' W.,i
 726264,Salix glauca L.,Loc. SE of Ilivilik,Leg.:Mette Felbo et al.,Det.: Bent Fredskild,"Date 1990, June 20","Lat. 67°07' N,Long 51°15' W.",i
 730877,Draba arctica J.Vahl, "Loc. Nansen Land, Brainard Sund",Leg.: Ole Bennike, Det.: Ole Bennike,"Date 1984, July 3","Lat. 82°53' N., Long. 41°12' W.",i
-733026,Cardamine bellidiflora L.,"Stony slope on south of Ravnedalen, Rechnitzers Land",Leg. R.W.M. Corner.,Det. R.W.M. Corner.,9.8.06.,"Lat. 76°19.5'N. Long. 31°42' W.,i
+733026,Cardamine bellidiflora L.,"Stony slope on south of Ravnedalen, Rechnitzers Land",Leg. R.W.M. Corner.,Det. R.W.M. Corner.,9.8.06.,"Lat. 76°19.5'N. Long. 31°42' W.",i
 733727,Braya thorild-wulffii Ostf., "Loc. N Greenland, Kilen, Dome S of camp 1", Leg: Christian Hjort E. Håkansson, Det: Christian Hjort E. Håkansson, "1985, August 7", Lat.app.81°13' N. Long.app.13°50'W.,i
 735705,Antennaria angustata Greene, "Loc.: Lersletten, point 160 m, sw. of Qaersulik.", Leg: Jon Feilberg, Det: Jon Feilberg, Date: 910718, "68°21'N, 52°10'W",i
 736355,Campramida mrejleza L., "Loc. 980122: E-slope of the Zackenberg mountain", Leg: F.H. Schwarzenbach, Det: F.H. Schwarzenbach, Date 11.08.1998, Lat. 74°29'N Long. 20°42' W, i
-737440,Trenervet Snerre Galium boreale L., "1-2 km "Ø for Signalhøjen, Narsarsuaq, Grønland,iLeg. Mogens Thornberg,,19-7-2010,,
+737440,Trenervet Snerre Galium boreale L., "1-2 km Ø for Signalhøjen, Narsarsuaq, Grønland",Leg: Mogens Thornberg,Det: Mogens Thornberg,19-7-2010,,i
 780468,Puccinellia phryganodes (Trin.)Schribn.& Merr., "Loc. W Greenland, Sydostbugten, Inlet W of Pulasaritsoq",Leg.: Morten Strandberg, Det.: Morten Strandberg, "Date 1986, July 22", Lat 51°14' N. Long 68°33' W.,i
-781238,Puccinellia coarctata Fern.& Weath., Loc. Qeqertarssuateieq, Taslussaq. E side,Leg: Bent Fredskild & Vilhelm Dalgaard, Det: Bent Fredskild & Vilhelm Dalgaard, "Date 1987, August 8", "Lat. 68°28' N., Long. 53°02' W.",i
+781238,Puccinellia coarctata Fern.& Weath.,"Loc. Qeqertarssuateieq, Taslussaq. E side",Leg: Bent Fredskild & Vilhelm Dalgaard,Det: Bent Fredskild & Vilhelm Dalgaard,"Date 1987, August 8","Lat. 68°28' N., Long. 53°02' W.",i
 787259,Næbstar Carex rostrata Stokes, "Den store sø langs vejen mod Nunataaq, Quassiarsuk, Narsarsuaq-området, Grønland", Leg: Mogens Thornberg, Det: Mogens Thornberg, 20-7-2010,,i
-788507,Carex norvegica Retz., "Loc. Disko Bugt, Sydostbugten, Umangaq, "Leg.: Minna Møller, Ella Pedersen, Alice Wilquin", "Det.: Minna Møller, Ella Pedersen, Alice Wilquin", "1980, August 10", "Lat. 68°28' N., Long. 51°56' W.",i
-790819,Trisetum spicatum (L.) Richt., "Loc. Ndr. Strømfjord, S of Sarfarssuaq", Leg: Jon Feilberg, Det: Jon Feilberg,"1981, September 20", "Lat. 67°48' N., Long. 50°42' W.",i
+788507,Carex norvegica Retz.,"Loc. Disko Bugt, Sydostbugten, Umangaq","Leg.: Minna Møller, Ella Pedersen, Alice Wilquin","Det.: Minna Møller, Ella Pedersen, Alice Wilquin","1980, August 10","Lat. 68°28' N., Long. 51°56' W.",i
+790819,Trisetum spicatum (L.) Richt.,"Loc. Ndr. Strømfjord, S of Sarfarssuaq", Leg: Jon Feilberg, Det: Jon Feilberg,"1981, September 20", "Lat. 67°48' N., Long. 50°42' W.",i
 791271,Udspærret annelgræs Puccinellia distans (Jacq.) Parl. GRAMINEAE,"Kysten syd for lufthavnen, Narsarsuaq, Grønland", Leg. Mogens Thornberg, Det: Mogens Thornberg, 18-7-2010,,i
-798779,Triglochin plaustre L., "Sides of runnel from melting snow field, north end of Søryggen.", Leg. R.W.M. Corner, Det. R.W.M. Corner, 16.7.04, Lat. 74° 0.788' N. Long 23° 54.700'W.,i
+798779,Triglochin plaustre L.,"Sides of runnel from melting snow field, north end of Søryggen.", Leg. R.W.M. Corner, Det. R.W.M. Corner, 16.7.04, Lat. 74° 0.788' N. Long 23° 54.700'W.,i
 799321,Cassiope tetragona (L.) D.Don, Loc. Kangaatsiaq, Leg: Eric Steen Hansen, Det: Bent Fredskild, "Date 1992, July 6-11", "68°19' N., Long. 53°27' W.",i
 801325,Lychnis Alpina L. ssp. americana (Fern.) Feilberg, Loc.: Umivik, Leg.: K. Gormsen, Det.: Bent Fredskild, "Date: 1968, August 4", 64°18'20''N 40°42'30''W,i
-801818,Viscaria aplina (L.) G.don,Loc. Holsteinsborg, Leg.: Villy Blom, Det.: Bent Fredskild, "Date 1990, July 25", Lat. 66°56-57' N., Long 53°35-40'W.,i
-802530,Poa arctica R.Br., "Loc. Thule district, Olrik Fjord", Leg.: R. & S. David, Det.: C. Bay, "Date 1989, August 8", Lat. 77°13-18'N, Long. 67°40'-68°45' W.,i
-803347,Poa alpina L., Loc.: Werner Bjerge first valley on the southern side of the Pingo Dal, Leg.: Fritz Hans Schwarzenbach, Det.: Fritz Hans Schwarzenbach,"Date 1991, August 1", "Lat. 71°46' N., Long. 24°09' W.", i
+801818,Viscaria aplina (L.) G.don,Loc. Holsteinsborg, Leg.: Villy Blom, Det.: Bent Fredskild, "Date 1990, July 25", "Lat. 66°56-57' N., Long 53°35-40'W.",i
+802530,Poa arctica R.Br.,"Loc. Thule district, Olrik Fjord", Leg.: R. & S. David, Det.: C. Bay, "Date 1989, August 8", "Lat. 77°13-18'N, Long. 67°40'-68°45' W.",i
+803347,Poa alpina L.,Loc.: Werner Bjerge first valley on the southern side of the Pingo Dal, Leg.: Fritz Hans Schwarzenbach, Det.: Fritz Hans Schwarzenbach,"Date 1991, August 1", "Lat. 71°46' N., Long. 24°09' W.", i
 804059,Poa abbreviata R. Br., "Loc.: North Greenland, Kronprins Christian Land, W.side of Hekla Sund", Leg.: T.I.Hauge Andersson, Det.: Christian Bay, "Date: 1993, July 21","80° 02'N, 20°24'W" ,i
 804345,Poa abbreviata R. Br, "Loc.: Kronprins Christian Land, Centrum Sø, N of Fossilfjeld", Leg.: V. Alstrup & F. J. A. Daniels, Det.: B&F,i
 806300,Luzula confusa Lindeb., "Loc. West GreenLand, Grønne Ejland", Leg.: Helle Rasmussen, Det.: Helle Rasmussen, "Date 1980, July 12/13", "Lat. 68°49' N., Long. 51°49' W.",i
 806305,Luzula confusa Lindeb., "Loc. Ikertoq, head of the northern branch of Akugdleq", Leg.: Christian Bay, Det.: Christian Bay, "1978, July 19", "Lat. 66°56' N., Long. 52°16' W.",i
-809437,Carex misandra R.Br., "Loc. Nansen Land, Brainard Sund, Leg.: Ole Bennike, Det.: Ole Bennike, "Date 1984, July 9", "Lat. 82°57' N, Long. 41°28' W.", i
+809437,Carex misandra R.Br., "Loc. Nansen Land, Brainard Sund", Leg.: Ole Bennike, Det.: Ole Bennike, "Date 1984, July 9", "Lat. 82°57' N, Long. 41°28' W.", i
 811429,Festuca brachyphylla Schultes, Solifluction soil on Randen., Leg. R.W.M. Corner, Det. R.W.M. Corner, 25.7.04, Lat. 74° 09'N. Long. 23° 53'W.,i
-811637,Festuca brachyphylla Schult.& Schult., "Loc. Bessel"Fjord, Vandrepasset,, Leg: Christian Bay, Det: Christian Bay, "Date 1989, August 3-8", "Lat. 75°54' N. Long. 22°00' W.", i
-811833,Festuca brachyphylla Schult.& Schult., "Loc. Nansen Land, Brainard Sund, 3 km W of the hut", Leg: Christian Bay, Det: Christi,n Bay, "Date 1991, August 6", "Lat 82°56-58' N., Long. 41°10' W."i
+811637,Festuca brachyphylla Schult.& Schult., "Loc. BesselFjord, Vandrepasset", Leg: Christian Bay, Det: Christian Bay, "Date 1989, August 3-8", "Lat. 75°54' N. Long. 22°00' W.", i
+811833,Festuca brachyphylla Schult.& Schult., "Loc. Nansen Land, Brainard Sund, 3 km W of the hut", Leg: Christian Bay, Det: Christian Bay, "Date 1991, August 6", "Lat 82°56-58' N., Long. 41°10' W.",i
 812770,Elymus mollis Trin.,"Loc W Greenland, Disko. Skansen (Aumarûtigssat) , W of",Leg.: Bent Fredskild,Det.: Bent Fredskild,"Date 1986, August 3","Lat. 59°25' N, Long. 52°32' W.",i
 813557,Deschampsia flexuosa (L.)Trin.,Loc. Maniitsoq,Leg.:Eric Steen Hansen,Det.: Bent Fredskild,"Date 1991, July 9 - 22","Lat. 65°25' N,. Long. 52°55' W.",i
 816397,Bromus inermis Leysser,"Langs lufthavnen, Narsarsuaq, Grønland",Leg. Mogens Thornberg,Det. Mogens Thornberg,19-7-2010,,i
@@ -60,15 +60,15 @@ Catalog,Specimen,Location,Leg,Det,Date,Coordinates,labeltype
 827633,Hierochloe alpina (Sw.) R.&S.,"Dry slope on south side of Ravnedalen, Rechnitzers Land.",Leg. R.W.M. Corner., Det. R.W.M. Corner.,8.8.06.,Lat. 76° 19.5' N. Long.21°42'W.,i
 827983,Hierochloë alpina (Willd.) R.& S., "Loc. Stormlandet, N of Depotnæs", Leg: Christian Bay Bent Fredskild, Det: Christian Bay Bent Fredskild, "Date 1990, August 20", "Lat. 77°36' N, Long. 18°57' W.",i
 829546,Festuca rubra L. coll., "Loc. West Greenland, Kitsigsut", Leg: David Boertmann, Det: Bent Fredskild, "Date 1992, July 9", "Lat. 64°01' N., Long 52°11' W.",i
-830354,Arabis alpina L., "Loc. Disko, Qaslgissat", Leg: Toorben Madsen, Det: Torben Madsen, "1982, August 15", "Lat 69°53' N, Long. 54°49' W."i
+830354,Arabis alpina L., "Loc. Disko, Qaslgissat", Leg: Toorben Madsen, Det: Torben Madsen, "1982, August 15", "Lat 69°53' N, Long. 54°49' W.",i
 831590,Papayer radicatum Rottb. coll., "Loc. Jameson Land, Olympelven, 3 km north of", Leg: Christian Bay & Olsen Jørgensen, Det: Christian Bay, "19883, August 23",,i
 832803,Epilobium hornemannii Rchb.,"Loc, Dronning Maries Dal,",Leg.: Christian Bay,DDet.: Christian Bay,"Date 1992,July 30","Lat, 63°28' N,. Long. 41°55'-42°00' W.",i
 839065,Euphrasia frigida Pugsl.,"Krumme Langsø, Ole Rømers Land.",Leg. R.W.M. Corner.,Det. R.W.M Corner.,"24.7.04","Lat. 74°05'N. Long. 24°11'W.",a
-840795,Carex bigelowii Torr.,Moist runnel area on south side of Ravnedalen, Rechnitzers Land.,Leg. R.W.M. Corner.,Det. R.W.M. Corner.,8.8.06.,"Lat. 76° 19.5'N. Long.21°42'W.",i
-845678,Potentilla nivea L.,"Avannaata Municipality. Uummannaq: rocky hill in townsite",Leg. Roger D. Bull & Bronwyn E. Keatyly,"Det.: P.C Sokoloff","August 18, 2017","70°40'37.74,'N, 52°7'48.54''W."i
-846579,Alopecurus alpinus Sm.,"Loc. Inglefield Land,,at Kap Inglefield Sø","Leg.: Weston Blake, Jr.",Det.: Bent Fredskild,"Date 1986, July 18","Lat. 78°32' N., Long. 72°21' W.,"i
+840795,Carex bigelowii Torr.,"Moist runnel area on south side of Ravnedalen, Rechnitzers Land.",Leg. R.W.M. Corner.,Det. R.W.M. Corner.,8.8.06.,"Lat. 76° 19.5'N. Long.21°42'W.",i
+845678,Potentilla nivea L.,"Avannaata Municipality. Uummannaq: rocky hill in townsite",Leg. Roger D. Bull & Bronwyn E. Keatyly,"Det.: P.C Sokoloff","August 18, 2017","70°40'37.74,'N, 52°7'48.54''W.",i
+846579,Alopecurus alpinus Sm.,"Loc. Inglefield Land,,at Kap Inglefield Sø","Leg.: Weston Blake, Jr.",Det.: Bent Fredskild,"Date 1986, July 18","Lat. 78°32' N., Long. 72°21' W.,",i
 847019,Alopecurus alpinus Sm.,"Loc. Hertugen,af Orleans Land, Nørre Mellemland, S",Leg. & det.: Christian Bay Bent Fredskild,Leg. & det.: Christian Bay Bent Fredskil,"Date 1990, July 29","78°24' N. Long. 21°09' W.",i
-848632,Kobresia simpliciuscula,"Moist runnel area on south side of Ravnedalen, Rechnitzers Land.",Leg. R.W.M. Corner,Det. R.W.M Corner.,8.8.06.,Lat. 76° 19.5' N. L,ng. 21°42'W.i
+848632,Kobresia simpliciuscula,"Moist runnel area on south side of Ravnedalen, Rechnitzers Land.",Leg. R.W.M. Corner,Det. R.W.M Corner.,8.8.06.,Lat. 76° 19.5' N. Long. 21°42'W.,i
 850179,Saxifraga hieraciifolia W.& K.,"Loc. Nansen Land, Brainard Sund",Leg. & det.: Christian Bay,Leg. & det.: Christian Bay,"Date 1991, August 10","82°56 - 58' N., Long. 41°10 - 40' W.",i
 850321,Saxifraga hirculus L.,"Thule District, Saunders Ø, western tip.",Leg. David Boertmann,Det. David Boertmann,7 August 2007,"76°33'59,4''N 70°'12'16,56''W.",i
 850606,Saxifraga cernua L.,"N. Greenland, land behind Sophus Müllers Næs.",Leg. Bent Fredskild,Det. Bent Fredskild,"August 9, 1993.","80°56'N, 15°00'W,",i
