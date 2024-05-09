@@ -25,7 +25,7 @@ def createCSV():
 
     unique_BERT_data = removeDuplicates(sorted_data1)
 
-    with open("herbarium_BERT.csv", 'w', newline='') as csvfile:
+    with open("../herbarium_BERT.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(data[0])
         for row in unique_BERT_data:
@@ -224,7 +224,7 @@ def createCSV():
     
     unique_post_data = removeDuplicates(sorted_data2)
 
-    with open("herbarium_post.csv", 'w', newline='') as csvfile:
+    with open("../herbarium_post.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow(data[0])
         for row in unique_post_data:
