@@ -111,30 +111,13 @@ def createCSV():
             if coord_calc > coord_score:
                 coord_score = coord_calc
                 coord_correct_index = j
-        
-        #print("Predicted specimen:", pred_spec)
-        #print("Found OCR specimen:", ocr_object[spec_correct_index])
-        #print("Predicted Dates:", pred_date)
-        #print("DATE score:", date_score)
 
         if (spec_score >= threshold):
             spec_csv = ocr_object[spec_correct_index]
 
-            matches = re.findall(r'\b[A-Z][a-z]+(?:\s+[a-z]+)*\b', spec_csv)
-            spec_filter = [match for match in matches if is_species_name(match)]
+            spec_csv = cleanSpeciesName(spec_csv)
 
-            if (len(spec_filter) != 0) and (len(spec_filter[0]) <= 50):
-                #print("Current pred:", pred_spec)
-                #print("Current test: ", spec_filter)
-                temp_spec = spec_filter[0].split()
-                if len(temp_spec) > 3:
-                    data[i+1][1] = pred_spec
-
-                else:
-                    #print(spec_filter)
-                    data[i+1][1] = spec_filter[0]
-            else:
-                data[i+1][1] = pred_spec
+            data[i+1][1] = spec_csv
             
         if loc_score >= threshold:
             loc_csv = ocr_object[loc_correct_index]
@@ -155,8 +138,12 @@ def createCSV():
                 # Extract the substring starting from the index of "Loc"
                 loc_csv = loc_csv[index:]
 
-            #print("pRE-loc:", loc_csv)
-            #print("After loc: ", loc_csv)
+            key_words = ["lat", "long"]
+            for elm in key_words:
+                if (loc_csv.lower().find(elm) != -1):
+                    elm_index = loc_csv.lower().find(elm)
+                    loc_csv = loc_csv[:elm_index]
+
             data[i+1][2] = loc_csv
                       
         if leg_score >= threshold:
@@ -229,7 +216,6 @@ def createCSV():
         csv_writer.writerow(data[0])
         for row in unique_post_data:
             clean_row = []
-            #row = [row[0], row[6]]
             for string in row:
                 current_clean_string = unicodedata.normalize("NFKD", string).encode("ascii", "replace").decode()
                 clean_row.append(current_clean_string)
@@ -237,9 +223,18 @@ def createCSV():
 
     print("CSV with postprocessing created")
 
-def is_species_name(s):
-    words = s.split()
-    return len(words) >= 2 and words[0].istitle() and all(word.islower() or word.istitle() for word in words[1:])
+def cleanSpeciesName(species_text):
+    key_words = ["hab", "loc", "date", "alt", "leg", "det", "lat", "long"]
+    for elm in key_words:
+
+        if (species_text.lower().find(elm + " ") != -1) or (species_text.lower().find(elm + ".") != -1) or (species_text.lower().find(elm + ":") != -1) or (species_text.lower().find(elm + ",") != -1):
+            elm_index = species_text.lower().find(elm)
+            species_text = species_text[:elm_index]
+
+    if len(Convert(species_text)) >= 10:
+        species_text = ' '.join(Convert(species_text)[:10])
+    
+    return species_text
 
 def cleanName(name_type, ocr_obj, name_text):
     if name_type not in name_text.upper():

@@ -7,8 +7,6 @@ from final_output_test import compare_csv
 
 def runTests():
     ### Show performance scores of all components ###
-
-    """
     print("Running performance tests...\n")
 
     image_directory = "linas_images"
@@ -25,54 +23,55 @@ def runTests():
 
     # YOLO box accuracy
     if os.path.exists(parent_directory):
-        print("Running accuracy test for YOLO labels...")
+        print("### Running accuracy test for YOLO labels ###")
         institute_label_data, annotation_label_data = get_label_info(parent_directory)
         institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
         if institute_accuracy != None:
-            print("Institution label prediction accuracy: {0}%".format(round(institute_accuracy, 3)))
-            print("Tested on {0} institutional labels".format(len(institute_label_data)))
+            print(" - Institution label prediction accuracy: {0}%".format(round(institute_accuracy, 3)))
+            print(" (Tested on {0} institutional labels)".format(len(institute_label_data)))
         else: print("No institutional labels found.")
 
         if annotation_accuracy != None:
-            print("Annotation label prediction accuracy: {0}%".format(round(annotation_accuracy, 3)))
-            print("Tested on {0} annotation labels".format(len(annotation_label_data)))
+            print(" - Annotation label prediction accuracy: {0}%".format(round(annotation_accuracy, 3)))
+            print(" (Tested on {0} annotation labels)".format(len(annotation_label_data)))
         else: print("No annotation labels found.") 
     else:
         print("Labeled Linas images do not exist. To compute YOLO accuracy, please generate labels for them with YOLO")
     
     # YOLO confidence score
     if os.path.exists(image_dic_conf):
-        print("\nRunning average YOLO confidence score...")
+        print("\n### Running average YOLO confidence score ###")
         i_conf, a_conf, total_conf  = compute_avr_conf(image_dic_conf)
-        print("Average YOLO institutional label confidence score: {0}%".format(round(i_conf[0]*100, 2)))
-        print("Tested on {0} institutional labels".format(i_conf[1]))
-        print("Average YOLO annotation label confidence score: {0}%".format(round(a_conf[0]*100, 2)))
-        print("Tested on {0} annotation labels".format(a_conf[1]))
+        print(" - Average YOLO institutional label confidence score: {0}%".format(round(i_conf[0]*100, 2)))
+        print(" (Tested on {0} institutional labels)".format(i_conf[1]))
+        print(" - Average YOLO annotation label confidence score: {0}%".format(round(a_conf[0]*100, 2)))
+        print(" (Tested on {0} annotation labels)".format(a_conf[1]))
 
-        print("Combined average confidence score: {0}%".format(round(total_conf*100, 2)))
+        print(" - Combined average confidence score: {0}%".format(round(total_conf*100, 2)))
     else:
         print("Labeled machine images not found. Make sure to apply YOLO model on these images")
 
     # OCR accuracy
     if os.path.exists("../ocr_output_test.json"):
-        print("\nRunning accuracy test for OCR output...")
+        print("\n### Running accuracy test for OCR output ###")
         ocr_score, text_amount = evaluate_craft_ocr()
-        print("OCR text prediction accuracy: {0}%".format(round(ocr_score, 3)))
-        print("Tested on {0} labels".format(text_amount))
+        print(" - OCR text prediction accuracy: {0}%".format(round(ocr_score, 3)))
+        print(" (Tested on {0} labels)".format(text_amount))
     else:
         print("OCR output text does not exist. To compute OCR (CRAFT) accuracy, please run OCR on your images")
     
     # BERT accuracy
-    print("\nRunning accuracy test for BERT model...")
+    print("\n### Running accuracy test for BERT model ###")
     data_points = 1000
     label_scores, total_score, specimen_count, location_count, leg_count, det_count, date_count, coord_count, hardcases, easycases = testBERTAccuracy(data_points)
     for elm in label_scores:
-        print("General {0} similarity score: {1}%".format(elm[0], elm[1]))
+        print("  - General {0} similarity score: {1}%".format(elm[0], elm[1]))
         
-    print("Overall BERT model accuracy: {0}%".format(total_score))
-    print("Tested on {0} text objects".format(data_points))
+    print(" - Overall BERT model accuracy: {0}%".format(total_score))
+    print(" (Tested on {0} text objects)".format(data_points))
 
+    """
     print("\nCounting correct class matches...")
     print("Correct Specimen count low threshold: {0}/{1}".format(specimen_count[1], specimen_count[2]))
     print("Correct Specimen count high threshold: {0}/{1}".format(specimen_count[0], specimen_count[2]))
@@ -99,14 +98,19 @@ def runTests():
     true_csv = pd.read_csv("../herb_images_1980_true.csv", sep=',', quotechar='"', skipinitialspace=True)
 
     avg_specimen_similarity, avg_location_similarity, avg_legit_similarity, avg_determinant_similarity, avg_date_similarity, avg_coordinates_similarity, avg_total = compare_csv(post_csv, true_csv)
-    
-    print("Average Specimen ground truth CSV Similarity:", avg_specimen_similarity)
-    print("Average Location grounf truth CSV Similarity:", avg_location_similarity)
-    print("Average Legit ground truth CSV Similarity:", avg_legit_similarity)
-    print("Average Determinant ground truth CSV Similarity:", avg_determinant_similarity)
-    print("Average Date ground truth CSV Similarity:", avg_date_similarity)
-    print("Average Coordinates ground truth CSV Similarity:", avg_coordinates_similarity)
 
-    print("\nAverage ground truth total Fuzz similarity:", avg_total)
+    print("\n### Testing final CSV database output ###")
+    print("Using Fuzz string similarity:")
+    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity, 2)))
+    print(" - Average Location grounf truth CSV Similarity: {0}%".format(round(avg_location_similarity, 2)))
+    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity, 2)))
+    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity, 2)))
+    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity, 2)))
+    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity, 2)))
+
+    print("\n - Average ground truth total Fuzz similarity: {0}%".format(round(avg_total, 2)))
+
+    print("\nUsing character error:")
+    print("TBD")
 
 runTests()
