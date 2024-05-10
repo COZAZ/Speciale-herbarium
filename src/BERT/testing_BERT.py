@@ -271,7 +271,6 @@ def examineBadPredictions(t,p):
 
     largest_s = max(ss, key=lambda x: x[3])
 
-    #print(largest_s)
     return largest_s
 
 def countFPFN(comps, t, p, type):

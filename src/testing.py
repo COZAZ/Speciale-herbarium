@@ -71,7 +71,6 @@ def runTests():
     print(" - Overall BERT model accuracy: {0}%".format(total_score))
     print(" (Tested on {0} text objects)".format(data_points))
 
-    """
     print("\nCounting correct class matches...")
     print("Correct Specimen count low threshold: {0}/{1}".format(specimen_count[1], specimen_count[2]))
     print("Correct Specimen count high threshold: {0}/{1}".format(specimen_count[0], specimen_count[2]))
@@ -90,27 +89,55 @@ def runTests():
 
     print("\nCorrect Coordinate count low threshold: {0}/{1}".format(coord_count[1], coord_count[2]))
     print("Correct Coordinate count high threshold: {0}/{1}".format(coord_count[0], coord_count[2]))
-    """
 
     # Comparison of final CSV files
     bert_csv = pd.read_csv("../herbarium_BERT.csv")
     post_csv = pd.read_csv("../herbarium_post.csv")
     true_csv = pd.read_csv("../herb_images_1980_true.csv", sep=',', quotechar='"', skipinitialspace=True)
 
-    avg_specimen_similarity, avg_location_similarity, avg_legit_similarity, avg_determinant_similarity, avg_date_similarity, avg_coordinates_similarity, avg_total = compare_csv(post_csv, true_csv)
+    avg_specimen_similarity_p_fuzz, avg_location_similarity_p_fuzz, avg_legit_similarity_p_fuzz, avg_determinant_similarity_p_fuzz, avg_date_similarity_p_fuzz, avg_coordinates_similarity_p_fuzz, avg_total_p_fuzz = compare_csv(post_csv, true_csv, "fuzz")
+    avg_specimen_similarity_b_fuzz, avg_location_similarity_b_fuzz, avg_legit_similarity_b_fuzz, avg_determinant_similarity_b_fuzz, avg_date_similarity_b_fuzz, avg_coordinates_similarity_b_fuzz, avg_total_b_fuzz = compare_csv(bert_csv, true_csv, "fuzz")
 
+    avg_specimen_similarity_p_CER, avg_location_similarity_p_CER, avg_legit_similarity_p_CER, avg_determinant_similarity_p_CER, avg_date_similarity_p_CER, avg_coordinates_similarity_p_CER, avg_total_p_CER = compare_csv(post_csv, true_csv, "char")
+    avg_specimen_similarity_b_CER, avg_location_similarity_b_CER, avg_legit_similarity_b_CER, avg_determinant_similarity_b_CER, avg_date_similarity_b_CER, avg_coordinates_similarity_b_CER, avg_total_b_CER = compare_csv(bert_csv, true_csv, "char")
+    
     print("\n### Testing final CSV database output ###")
-    print("Using Fuzz string similarity:")
-    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity, 2)))
-    print(" - Average Location grounf truth CSV Similarity: {0}%".format(round(avg_location_similarity, 2)))
-    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity, 2)))
-    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity, 2)))
-    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity, 2)))
-    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity, 2)))
+    print("Using FUZZ STRING SIMILARITY (Without Post-proccesing):")
+    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity_b_fuzz, 2)))
+    print(" - Average Location ground truth CSV Similarity: {0}%".format(round(avg_location_similarity_b_fuzz, 2)))
+    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity_b_fuzz, 2)))
+    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity_b_fuzz, 2)))
+    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity_b_fuzz, 2)))
+    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity_b_fuzz, 2)))
+    print("\n - Average ground truth total Fuzz similarity: {0}%".format(round(avg_total_b_fuzz, 2)))
 
-    print("\n - Average ground truth total Fuzz similarity: {0}%".format(round(avg_total, 2)))
+    print("\nUsing FUZZ STRING SIMILARITY (With Post-processing):")
+    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity_p_fuzz, 2)))
+    print(" - Average Location ground truth CSV Similarity: {0}%".format(round(avg_location_similarity_p_fuzz, 2)))
+    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity_p_fuzz, 2)))
+    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity_p_fuzz, 2)))
+    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity_p_fuzz, 2)))
+    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity_p_fuzz, 2)))
+    print("\n - Average ground truth total Fuzz similarity: {0}%".format(round(avg_total_p_fuzz, 2)))
 
-    print("\nUsing character error:")
-    print("TBD")
+    print("\nUsing CHARACTER ERROR RATE (Without Post-proccesing):")
+    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity_b_CER, 2)))
+    print(" - Average Location ground truth CSV Similarity: {0}%".format(round(avg_location_similarity_b_CER, 2)))
+    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity_b_CER, 2)))
+    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity_b_CER, 2)))
+    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity_b_CER, 2)))
+    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity_b_CER, 2)))
+    print("\n - Average ground truth total CER similarity: {0}%".format(round(avg_total_b_CER, 2)))
+
+    print("\nUsing CHARACTER ERROR RATE (With Post-processing):")
+    print(" - Average Specimen ground truth CSV Similarity: {0}%".format(round(avg_specimen_similarity_p_CER, 2)))
+    print(" - Average Location ground truth CSV Similarity: {0}%".format(round(avg_location_similarity_p_CER, 2)))
+    print(" - Average Legit ground truth CSV Similarity: {0}%".format(round(avg_legit_similarity_p_CER, 2)))
+    print(" - Average Determinant ground truth CSV Similarity: {0}%".format(round(avg_determinant_similarity_p_CER, 2)))
+    print(" - Average Date ground truth CSV Similarity: {0}%".format(round(avg_date_similarity_p_CER, 2)))
+    print(" - Average Coordinates ground truth CSV Similarity: {0}%".format(round(avg_coordinates_similarity_p_CER, 2)))
+    print("\n - Average ground truth total CER similarity: {0}%".format(round(avg_total_p_CER, 2)))
+
+    print("\nTesting complete")
 
 runTests()
