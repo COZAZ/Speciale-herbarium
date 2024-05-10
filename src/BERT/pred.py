@@ -1,7 +1,13 @@
 import torch
+import json
 from transformers import AutoTokenizer, AutoModelForTokenClassification
-from json_loader import load_json_file
 from OCR.ocr_converter import removeCoords
+
+def load_json_file(json_file):
+    with open(json_file, 'r') as file:
+        data = json.load(file)
+
+    return data
 
 # Function to tokenize new sentences and perform predictions
 def predict_new_sentence(sentence, tokenizer, model, label_to_id):
