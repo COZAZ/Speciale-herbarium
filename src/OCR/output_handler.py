@@ -1,5 +1,5 @@
 import json
-from difflib import SequenceMatcher
+from thefuzz import fuzz
 from numpy import mean
 
 # Save the OCR output text as a JSON file
@@ -41,13 +41,13 @@ def evaluate_craft_ocr():
             full_true_text = entry_true["text"]
 
             if entry_true["image"] == entry_pred["image"]:
-                new_similarity = SequenceMatcher(None, full_pred_text, full_true_text).ratio()
+                new_similarity = fuzz.ratio(full_pred_text, full_true_text)
 
                 if new_similarity > current_highest_similarity:
                     current_highest_similarity = new_similarity
                 
         similarity_scores.append(current_highest_similarity)
     
-    total_similarity_score = mean(similarity_scores) * 100
+    total_similarity_score = mean(similarity_scores)
     
     return round(total_similarity_score, 2), number_of_text

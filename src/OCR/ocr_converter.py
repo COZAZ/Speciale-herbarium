@@ -28,14 +28,11 @@ def AdjustTextLayout():
             if set_continue:
                 continue
             curr_line = text_ocr[j][1]
-            curr_left_x = text_ocr[j][0][0][0]
             curr_right_x = text_ocr[j][0][1][0]
             curr_top_y = text_ocr[j][0][0][1]
             curr_bottom_y = text_ocr[j][0][3][1]
-            curr_text = text_ocr[j][1]
             for k in range(j+1, len(text_ocr)):
                 new_left_x = text_ocr[k][0][0][0]
-                new_right_x = text_ocr[k][0][1][0]
                 new_top_y = text_ocr[k][0][0][1]
                 new_bottom_y = text_ocr[k][0][3][1]
                 new_text = text_ocr[k][1]

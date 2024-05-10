@@ -9,6 +9,7 @@ def runTests():
     ### Show performance scores of all components ###
     print("Running performance tests...\n")
 
+    #TODO: add Linas reference
     image_directory = "linas_images"
     labels_directory = image_directory + "_runs"
 

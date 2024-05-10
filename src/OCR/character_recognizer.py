@@ -1,6 +1,14 @@
 import cv2
 import easyocr
-from helperfuncs import resize_image
+
+def resize_image(image, scale=35):
+    scale_percent = scale  # percent of original size
+    width = int(image.shape[1] * scale_percent / 100)
+    height = int(image.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    resized_image = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+    
+    return resized_image
 
 def load_and_preprocess_image(image_path):
     """Load and preprocess the image."""
@@ -82,7 +90,6 @@ def perform_ocr(label_data, annotation_type, im_dir, counter, label_total):
 
         predicted_text = process_cropped_image(image, bbox)
 
-        #TODO: add $€$ space in string????
         processed_image_info_annotate = (label[1], annotation_type, predicted_text)
 
         ocr_results.append(processed_image_info_annotate)

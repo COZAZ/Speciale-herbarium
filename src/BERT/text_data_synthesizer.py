@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-from BERT.text_utility import is_below_percentage, get_random_noise, shuffle_content, get_random_lat, get_random_lon
+from BERT.text_utility import is_below_percentage, get_random_noise, get_random_lat, get_random_lon
 
 default_probability = 3
 
@@ -28,12 +28,7 @@ def load_text_data():
   filtered_lats = lats[['°' in lat for lat in lats]]
   filtered_longs = longs[['°' in lon for lon in longs]]
 
-  # Cleaning some locations
-  #print("OG len:", len(locations))
-
   locations = cleanLocations(locations)
-
-  #print("New len:", len(locations))
 
   data_columns = [dates, species, dets, locations, legs, filtered_lats, filtered_longs]
 

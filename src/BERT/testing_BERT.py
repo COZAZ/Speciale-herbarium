@@ -207,7 +207,7 @@ def testBERTAccuracy(data_points):
     average_recall = np.mean([specimen_scores[1], location_scores[1], leg_scores[1], det_scores[1], date_scores[1], coord_scores[1]])
     average_f1 = np.mean([specimen_scores[2], location_scores[2], leg_scores[2], det_scores[2], date_scores[2], coord_scores[2]])
   
-    print("Precsion scores:")
+    print("Precision scores:")
     print(" - SPECIMEN: {0}%".format(round(specimen_scores[0]*100, 2)))
     print(" - LOCATION: {0}%".format(round(location_scores[0]*100, 2)))
     print(" - LEG: {0}%".format(round(leg_scores[0]*100, 2)))
