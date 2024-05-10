@@ -10,7 +10,7 @@ def runTests():
     print("Running performance tests...\n")
 
     image_directory = "linas_images"
-    parent_directory = image_directory + "_runs"
+    labels_directory = image_directory + "_runs"
 
     image_dic_conf = "herb_images_1980_runs"
 
@@ -22,9 +22,9 @@ def runTests():
     ocr_score = 0
 
     # YOLO box accuracy
-    if os.path.exists(parent_directory):
-        print("### Running accuracy test for YOLO labels ###")
-        institute_label_data, annotation_label_data = get_label_info(parent_directory)
+    if os.path.exists(labels_directory):
+        print("### Testing YOLO bounding box accuracy ###")
+        institute_label_data, annotation_label_data = get_label_info(labels_directory)
         institute_accuracy, annotation_accuracy = evaluate_label_detection_performance(institute_label_data, annotation_label_data)
 
         if institute_accuracy != None:
@@ -41,7 +41,7 @@ def runTests():
     
     # YOLO confidence score
     if os.path.exists(image_dic_conf):
-        print("\n### Running average YOLO confidence score ###")
+        print("\n### Testing YOLO confidence scores ###")
         i_conf, a_conf, total_conf  = compute_avr_conf(image_dic_conf)
         print(" - Average YOLO institutional label confidence score: {0}%".format(round(i_conf[0]*100, 2)))
         print(" (Tested on {0} institutional labels)".format(i_conf[1]))
@@ -54,7 +54,7 @@ def runTests():
 
     # OCR accuracy
     if os.path.exists("../ocr_output_test.json"):
-        print("\n### Running accuracy test for OCR output ###")
+        print("\n### Testing OCR output accuracy ###")
         ocr_score, text_amount = evaluate_craft_ocr()
         print(" - OCR text prediction accuracy: {0}%".format(round(ocr_score, 3)))
         print(" (Tested on {0} labels)".format(text_amount))
@@ -62,7 +62,7 @@ def runTests():
         print("OCR output text does not exist. To compute OCR (CRAFT) accuracy, please run OCR on your images")
     
     # BERT accuracy
-    print("\n### Running accuracy test for BERT model ###")
+    print("\n### Testing BERT text prediction accuracy ###")
     data_points = 1000
     label_scores, total_score, specimen_count, location_count, leg_count, det_count, date_count, coord_count, hardcases, easycases = testBERTAccuracy(data_points)
     for elm in label_scores:

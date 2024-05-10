@@ -57,7 +57,7 @@ def get_label_info(parent_directory, image_file_extension=".jpg", test_images=No
 
     return all_data_with_digit_9, all_data_with_digit_3
    
-def evaluate_label_detection_performance(institute_data, annotation_data, detail=True):
+def evaluate_label_detection_performance(institute_data, annotation_data):
     institute_label_data = institute_data
     annotation_label_data = annotation_data
 
