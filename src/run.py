@@ -14,15 +14,15 @@ def main():
     run_all = True
 
     if run_all:
-        print("\nRunning Analysis...")
+        print("\nRunning pipeline...")
 
         ### Perform label detection ###
-        predict_labels(image_directory)
-        institute_label_data, annotation_label_data = get_label_info(labels_directory)
+        #predict_labels(image_directory)
+        #institute_label_data, annotation_label_data = get_label_info(labels_directory)
 
         ### Perform OCR ###
-        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-        save_ocr_output(processed_images_data)
+        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        #save_ocr_output(processed_images_data)
 
         ### Perform NER to parse output text ###
         createCSV()
