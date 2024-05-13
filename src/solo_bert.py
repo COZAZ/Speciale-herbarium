@@ -20,7 +20,6 @@ f = open('synth_data.json')
 dataset = json.load(f)
 
 ## Encoing the examples
-
 def encode_examples(examples, label_to_id, max_length=512):
     input_ids = []
     attention_masks = []
@@ -37,11 +36,11 @@ def encode_examples(examples, label_to_id, max_length=512):
                 break  # Stop adding tokens for this example if max_length is reached
 
             tokens.extend(word_tokens)
-            # Use the first label (e.g., B-LOCATION) for the first token of the word, and padding labels (e.g., -100) for the remaining tokens
+            # Use the initial label for all sub-tokens of the word.
             label_ids_example.extend([label_to_id[label]] + [-100] * (len(word_tokens) - 1))
 
         tokens.append("[SEP]")
-        label_ids_example.append(-100)  # Using -100 for [SEP] to ignore it in loss calculation
+        label_ids_example.append(-100)
 
         input_ids_example = tokenizer.convert_tokens_to_ids(tokens)
         attention_mask_example = [1] * len(input_ids_example)
@@ -62,9 +61,11 @@ def encode_examples(examples, label_to_id, max_length=512):
 input_ids, attention_masks, label_ids = encode_examples(dataset, label_to_id)
 
 num_labels = len(label_to_id) - 1  # Subtracting one because -100 is not a real label but a padding token
+
+# Load model from Huggingface: https://huggingface.co/google-bert/bert-base-multilingual-cased
 model = BertForTokenClassification.from_pretrained("google-bert/bert-base-multilingual-cased", num_labels=num_labels)
 
-# Move the model to the selected device
+# Move the model to the selected device (preferably gpu)
 model.to(device)
 
 # Create TensorDataset and DataLoader
@@ -76,11 +77,12 @@ input_ids, attention_masks, label_ids = encode_examples(testset, label_to_id)
 testdata = TensorDataset(input_ids, attention_masks, label_ids)
 testloader = DataLoader(testdata, sampler=RandomSampler(testdata), batch_size=32)
 
-# Optimizer
+# Optimizer. Adam as recommended by original BERT paper.
 optimizer = torch.optim.Adam(params=model.parameters(), lr=2e-5)
 
-loss_values = []  # Initialize a list to save the loss values
+loss_values = []  # hold loss values
 
+# Training loop
 def train_model(model, optimizer, dataloader, epoch):
     model.train()
     total_loss = 0
@@ -99,9 +101,10 @@ def train_model(model, optimizer, dataloader, epoch):
         optimizer.step()
 
     avg_loss = total_loss / len(dataloader)
-    loss_values.append(avg_loss)  # Append the average loss to the list
+    loss_values.append(avg_loss)
     print(f"Average Training Loss: {avg_loss}")
 
+# For validation purposes only: Not sure if works as intended.
 def compute_accuracy(predictions, labels, mask):
     with torch.no_grad():
         predictions = predictions[mask].flatten()
@@ -111,6 +114,7 @@ def compute_accuracy(predictions, labels, mask):
 
     return correct_predictions / total_predictions if total_predictions > 0 else 0
 
+# Validation loop
 def validate_model(model, dataloader, epoch):
     model.eval()
     total_loss = 0
@@ -128,7 +132,7 @@ def validate_model(model, dataloader, epoch):
             logits = outputs.logits
             predictions = torch.argmax(logits, dim=-1)
             labels = inputs["labels"]
-            mask = labels != -100  # Ensure we're only calculating accuracy on non-masked tokens
+            mask = labels != -100  # Ensure we're only calculating accuracy on non-seperator tokens
 
             accuracy = compute_accuracy(predictions, labels, mask)
             total_accuracy += accuracy
@@ -137,12 +141,12 @@ def validate_model(model, dataloader, epoch):
     avg_accuracy = total_accuracy / len(dataloader)
     print(f"Average Validation Loss: {avg_loss} Accuracy: {avg_accuracy}")
 
-# train the model
+# Train the model, currently 4 epochs.
 for epoch in range(4):
     train_model(model, optimizer, dataloader, epoch)
     validate_model(model, testloader, epoch)
 
-# After the training loop
+# Plot loss as a function of epochs
 plt.plot(loss_values, label='Training Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
@@ -150,5 +154,6 @@ plt.title('Training Loss as a function of Epochs')
 plt.legend()
 plt.show()
 
+# Save model for prediction usage
 tokenizer.save_pretrained('BERT_model')
 model.save_pretrained('BERT_model')

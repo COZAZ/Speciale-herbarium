@@ -289,6 +289,12 @@ def selectAndFormatCoords(dict, filtered_lats, filtered_longs):
     dict["labels"].append("B-COORD")
 
 def synthesize_text_data(amount, asJson=False):
+  """
+  Synthesizes text data to be used to train BERT model
+
+  :amount: Number of randomly generated strings to synthesize
+  :asJson: Determines if the output should be json
+  """
   data_columns = load_text_data()
   synthesized_text_data = np.zeros(amount)
   synthesized_text_data = list(map(lambda _: createSingleLine(data_columns), synthesized_text_data))

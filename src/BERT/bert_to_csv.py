@@ -40,6 +40,8 @@ def createCSV():
     with open('ocr_post.json', 'r') as f:
         ocr_text = json.load(f)
 
+    # Every predicted text piece is compared with the OCR output. If the text piece is within a set treshold of the OCR,
+    # the predicted text is replaced with OCR output. 
     for i, elm in enumerate(predicted):
         threshold = 75
         ocr_object = ocr_text[i]["text"]
@@ -84,16 +86,19 @@ def createCSV():
                 spec_score = spec_calc
                 spec_correct_index = j
             
+            # Find matching location from OCR
             loc_calc = fuzz.partial_ratio(text_piece, pred_loc)
             if loc_calc > loc_score:
                 loc_score = loc_calc
                 loc_correct_index = j
 
+            # Find matching Leg from OCR
             leg_calc = fuzz.partial_ratio(text_piece, pred_leg)
             if leg_calc > leg_score:
                 leg_score = leg_calc
                 leg_correct_index = j
 
+            # Find matching Det from OCR
             det_calc = fuzz.partial_ratio(text_piece, pred_det)
             if det_calc > det_score:
                 det_score = det_calc
@@ -102,11 +107,13 @@ def createCSV():
             if pred_det == "":
                 det_score = 101
 
+            # Find matching date from OCR
             date_calc = fuzz.partial_ratio(text_piece, pred_date)
             if date_calc > date_score:
                 date_score = date_calc
                 date_correct_index = j
 
+            # Find matching coordinates from OCR
             coord_calc = fuzz.partial_ratio(text_piece, pred_coord)
             if coord_calc > coord_score:
                 coord_score = coord_calc
@@ -224,13 +231,17 @@ def createCSV():
     print("CSV with postprocessing created")
 
 def cleanSpeciesName(species_text):
+    """
+    Function to clean the species name received from OCR, e.g. cases where the species name contains more than just the species name
+    An example of these cases could be: 'Saxifragilla Albus hab: above the hill
+    """
     key_words = ["hab", "loc", "date", "alt", "leg", "det", "lat", "long"]
     for elm in key_words:
-
         if (species_text.lower().find(elm + " ") != -1) or (species_text.lower().find(elm + ".") != -1) or (species_text.lower().find(elm + ":") != -1) or (species_text.lower().find(elm + ",") != -1):
             elm_index = species_text.lower().find(elm)
             species_text = species_text[:elm_index]
 
+    # If the species name is longer or equal to 10 words, we only take the first 9 words in the species text.
     if len(Convert(species_text)) >= 10:
         species_text = ' '.join(Convert(species_text)[:10])
     
@@ -252,7 +263,9 @@ def cleanName(name_type, ocr_obj, name_text):
     return name_text
 
 def findAndFormatLeg(text):
-    #Find first match for "Leg" and then filters out the next characters until an UPPER CHARACTER is reached (beginning of name)
+    """
+    Find first match for "Leg" and then filters out the next characters until an UPPER CHARACTER is reached (beginning of name)
+    """
     match = re.search(r'Leg[^A-Z]*(?P<first_upper>[A-Z]).*', text)
     if match:
         extracted_text = "Leg: " + match.group('first_upper') + re.sub(r'\s+', ' ', match.group()[(match.start('first_upper')+1):])
@@ -260,7 +273,7 @@ def findAndFormatLeg(text):
     else: return text
 
 def findAndFormatDet(text):
-    #Find first match for "Leg" and then filters out the next characters until an UPPER CHARACTER is reached (beginning of name)
+    """Find first match for "Leg" and then filters out the next characters until an UPPER CHARACTER is reached (beginning of name)
     #Breakdown:
     #r'Leg searches for the pattern 'Leg'
     #[^A-Z] searches for any characters that are NOT uppercase - ^ is a negation * gobbles it up
@@ -268,7 +281,7 @@ def findAndFormatDet(text):
     #.* gobbles up all characters after the first upper case letter after 'Leg'
     #match.group('first_upper'): This retrieves the uppercase letter captured by the named group "first_upper" in the regular expression.
     #match.group()[(match.start('first_upper')+1):]: This retrieves the substring following the first uppercase letter in the matched text. (match.start('first_upper')+1) gets the index position of the character following the first uppercase letter, and match.group()[(match.start('first_upper')+1):] retrieves the substring from that index position to the end of the matched text.
-
+    """
     #Match for 'Leg' (uppercase L)
     match = re.search(r'Leg[^A-Z]*(?P<first_upper>[A-Z]).*', text)
     #Match for 'Det' (uppercase D)

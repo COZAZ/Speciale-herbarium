@@ -1,7 +1,13 @@
 import pandas as pd
 from thefuzz import fuzz
 
-def compare_csv(input_csv, true_csv, metric): 
+def compare_csv(input_csv, true_csv, metric):
+    """
+    Compares the output CSV from the pipeline to the true annotated CSV
+    :input_csv: The output of our pipeline
+    :true_csv: The true annotated CSV
+    :metric: Choose between fuzz or CER. Fuzz compares the strings using ratio and CER compares the strings character-wise.
+    """ 
     specimen_similarity = 0
     location_similarity = 0
     legit_similarity = 0
@@ -118,6 +124,13 @@ def compare_csv(input_csv, true_csv, metric):
     return avg_specimen_similarity, avg_location_similarity, avg_legit_similarity, avg_determinant_similarity, avg_date_similarity, avg_coordinates_similarity, avg_total
 
 def character_error_rate(string1, string2):
+    """
+    Calculates the precise character error rate given two strings. (Harsh metric)
+    Example usage:
+    string1: 'Test'
+    string2: 'Tes'
+    'T' matches, 'e' matches, 's' matches, 't' did not match, so the output would be 75%
+    """
     longest_string = ""
     shortest_string = ""
     if len(str(string1)) > len(str(string2)):
