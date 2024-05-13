@@ -69,6 +69,9 @@ def testBERTAccuracy(data_points):
     det_scores = [0,0,0]
     date_scores = [0,0,0]
     coord_scores = [0,0,0]
+
+    low_treshold = 0.85
+    high_treshold = 0.95
     
     for i in range(data_points):
         current_true_text = trueText[i]
@@ -92,84 +95,84 @@ def testBERTAccuracy(data_points):
             if current_class == "B-SPECIMEN":
                 specimen_total += 1
 
-            if current_class == "B-SPECIMEN" and current_similarity >= 0.75:
+            if current_class == "B-SPECIMEN" and current_similarity >= low_treshold:
                 correct_specimens_low += 1
                 specimen_comparisons[0] += 1 # TP
 
-            elif current_class == "B-SPECIMEN" and current_similarity < 0.75:
+            elif current_class == "B-SPECIMEN" and current_similarity < low_treshold:
                 specimen_comparisons = countFPFN(specimen_comparisons, current_true_text, pred_token, "B-SPECIMEN")
 
-            if current_class == "B-SPECIMEN" and current_similarity >= 0.9:
+            if current_class == "B-SPECIMEN" and current_similarity >= high_treshold:
                 correct_specimens_high += 1
             
             # Counting Locations
             if current_class == "B-LOCATION":
                 location_total += 1
 
-            if current_class == "B-LOCATION" and current_similarity >= 0.75:
+            if current_class == "B-LOCATION" and current_similarity >= low_treshold:
                 correct_locations_low += 1
                 location_comparisons[0] += 1 # TP
 
-            elif current_class == "B-LOCATION" and current_similarity < 0.75:
+            elif current_class == "B-LOCATION" and current_similarity < low_treshold:
                 location_comparisons = countFPFN(location_comparisons, current_true_text, pred_token, "B-LOCATION")
 
-            if current_class == "B-LOCATION" and current_similarity >= 0.9:
+            if current_class == "B-LOCATION" and current_similarity >= high_treshold:
                 correct_locations_high += 1
             
             # Counting leg
             if current_class == "B-LEG":
                 leg_total += 1
 
-            if current_class == "B-LEG" and current_similarity >= 0.75:
+            if current_class == "B-LEG" and current_similarity >= low_treshold:
                 correct_legs_low += 1
                 leg_comparisons[0] += 1 # TP
             
-            elif current_class == "B-LEG" and current_similarity < 0.75:
+            elif current_class == "B-LEG" and current_similarity < low_treshold:
                 leg_comparisons = countFPFN(leg_comparisons, current_true_text, pred_token, "B-LEG")
 
-            if current_class == "B-LEG" and current_similarity >= 0.9:
+            if current_class == "B-LEG" and current_similarity >= high_treshold:
                 correct_legs_high += 1
             
             # Counting det
             if current_class == "B-DET":
                 det_total += 1
 
-            if current_class == "B-DET" and current_similarity >= 0.75:
+            if current_class == "B-DET" and current_similarity >= low_treshold:
                 correct_dets_low += 1
                 det_comparisons[0] += 1 # TP
             
-            elif current_class == "B-DET" and current_similarity < 0.75:
+            elif current_class == "B-DET" and current_similarity < low_treshold:
                 det_comparisons = countFPFN(det_comparisons, current_true_text, pred_token, "B-DET")
 
-            if current_class == "B-DET" and current_similarity >= 0.9:
+            if current_class == "B-DET" and current_similarity >= high_treshold:
                 correct_dets_high += 1
             
             # Counting date
             if current_class == "B-DATE":
                 date_total += 1
 
-            if current_class == "B-DATE" and current_similarity >= 0.75:
+            if current_class == "B-DATE" and current_similarity >= low_treshold:
                 correct_dates_low += 1
                 date_comparisons[0] += 1 # TP
             
-            elif current_class == "B-DATE" and current_similarity < 0.75:
+            elif current_class == "B-DATE" and current_similarity < low_treshold:
                 date_comparisons = countFPFN(date_comparisons, current_true_text, pred_token, "B-DATE")
 
-            if current_class == "B-DATE" and current_similarity >= 0.9:
+            if current_class == "B-DATE" and current_similarity >= high_treshold:
                 correct_dates_high += 1
 
             # Counting coords
             if current_class == "B-COORD":
                 coord_total += 1
 
-            if current_class == "B-COORD" and current_similarity >= 0.75:
+            if current_class == "B-COORD" and current_similarity >= low_treshold:
                 correct_coords_low += 1
                 coord_comparisons[0] += 1 # TP
             
-            elif current_class == "B-COORD" and current_similarity < 0.75:
+            elif current_class == "B-COORD" and current_similarity < low_treshold:
                 coord_comparisons = countFPFN(coord_comparisons, current_true_text, pred_token, "B-COORD")
 
-            if current_class == "B-COORD" and current_similarity >= 0.9:
+            if current_class == "B-COORD" and current_similarity >= high_treshold:
                 correct_coords_high += 1
 
     overall_score = 0
@@ -276,7 +279,7 @@ def examineBadPredictions(t,p):
 def countFPFN(comps, t, p, type):
     comps[2] += 1 # FN
     other_match = examineBadPredictions(t, p)
-    if other_match[2] != type and other_match[3] >= 0.75:
+    if other_match[2] != type and other_match[3] >= 0.85:
         comps[1] += 1 # FP
     
     return comps
