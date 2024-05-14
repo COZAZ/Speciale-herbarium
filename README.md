@@ -5,10 +5,10 @@ Step 1:
 To execute the pipeline, you must have a directory of .jpg files ready.
 
 Step 2:
-For this prototype, you must then place this folder inside our **Speciale-herbarium** repo.
+For this prototype, you must then place your folder of images inside our **Speciale-herbarium** repo.
 
 Step 3:
-Within **src**, inside our **run.py** file, set the **image_directory** variable to the name of your folder with images.
+Within **src**, inside our **run.py** file, set the **image_directory** variable in the main function to the name of your folder with images.
 
 Step 4:
 In your terminal, navigate to to the **src** directory of our codebase and run the command **python3 run.py** to start the pipeline process.
@@ -22,22 +22,23 @@ If the need to train a new NER model arises, please follow the steps below.
 
 ## Step 1:
 Go into gen_data.py and modify the amount according to the number of training samples wanted.
-Set the 'asJson' parameter to 'True'.
+Set the 'asJson' parameter to 'True'.\
 $ python gen_data.py 
 
 ## Step 2:
 Train the model. The .json file for training data should be in the right folder from step 1.
-Uses the pre-trained model: https://huggingface.co/google-bert/bert-base-multilingual-cased
+Uses the pre-trained model: https://huggingface.co/google-bert/bert-base-multilingual-cased\
 $ python solo_bert.py
 
 ## Step 3 (Optional):
 The model has now been trained, it will test YOLO, OCR and BERT steps. It requires them all to be completed, to produce test results.
-Specifically, the testing of BERT will include validation on synthetic data, but also predictions on OCR produced data from the output CSV files.
+Specifically, the testing of BERT will include validation on synthetic data, but also predictions on OCR produced data from the output CSV files.\
 $ python testing.py
 
 # Aknowledgements:
-YOLO testing: the herbarium sheet images used to test the YOLO model's bounding box accuracy originate from the thesis
-* *Herbarium sheet label data digitisation using handwritten text recognition, Linas Einikis, May 30, 2023* *
+### YOLO testing:
+The herbarium sheet images used to test the YOLO model's bounding box accuracy originate from the thesis
+*Herbarium sheet label data digitisation using handwritten text recognition, Linas Einikis, May 30, 2023*.
 
-Herbarium database:
-All other images gathered for this project were downloaded from the Natural History Museum of Denmark (NHMD)
+### Herbarium database:
+All other images gathered for this project were downloaded from the Natural History Museum of Denmark (NHMD).
