@@ -34,3 +34,10 @@ $ python solo_bert.py
 The model has now been trained, it will test YOLO, OCR and BERT steps. It requires them all to be completed, to produce test results.
 Specifically, the testing of BERT will include validation on synthetic data, but also predictions on OCR produced data from the output CSV files.
 $ python testing.py
+
+# Aknowledgements:
+YOLO testing: the herbarium sheet images used to test the YOLO model's bounding box accuracy originate from the thesis
+* *Herbarium sheet label data digitisation using handwritten text recognition, Linas Einikis, May 30, 2023* *
+
+Herbarium database:
+All other images gathered for this project were downloaded from the Natural History Museum of Denmark (NHMD)

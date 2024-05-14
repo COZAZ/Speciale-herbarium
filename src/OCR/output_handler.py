@@ -41,7 +41,7 @@ def evaluate_craft_ocr():
             full_true_text = entry_true["text"]
 
             if entry_true["image"] == entry_pred["image"]:
-                new_similarity = fuzz.ratio(full_pred_text, full_true_text)
+                new_similarity = fuzz.ratio(full_pred_text.replace(" ", ""), full_true_text.replace(" ", ""))
 
                 if new_similarity > current_highest_similarity:
                     current_highest_similarity = new_similarity

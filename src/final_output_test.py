@@ -29,85 +29,85 @@ def compare_csv(input_csv, true_csv, metric):
         current_true_entry = true_csv[true_csv["Catalog number"] == post_id]
 
         # Specimen
-        post_specimen = current_post_entry["Specimen"]
-        true_specimen = current_true_entry["Specimen"].iloc[0]
+        post_specimen = str(current_post_entry["Specimen"]).replace(" ", "")
+        true_specimen = str(current_true_entry["Specimen"].iloc[0]).replace(" ", "")
         if pd.isna(post_specimen) == True and pd.isna(true_specimen) == True:
             spec_skips += 1
         else:
             if metric == "fuzz":
                 spec_ratio = fuzz.ratio(post_specimen, true_specimen)
             elif metric == "char":
-                spec_ratio = character_error_rate(post_specimen, true_specimen)
+                spec_ratio = character_correct_rate(post_specimen, true_specimen)
             else: print("Error: no metric")
 
             specimen_similarity += spec_ratio
 
         # Location
-        post_location = current_post_entry["Location"]
-        true_location = current_true_entry["Location"].iloc[0]
+        post_location = str(current_post_entry["Location"])
+        true_location = str(current_true_entry["Location"].iloc[0]).replace(" ", "")
         if pd.isna(post_location) == True and pd.isna(true_location) == True:
             loc_skips += 1
         else:
             if metric == "fuzz":
                 loc_ratio = fuzz.ratio(post_location, true_location)
             elif metric == "char":
-                loc_ratio = character_error_rate(post_location, true_location)
+                loc_ratio = character_correct_rate(post_location, true_location)
             else: print("Error: no metric")
             
             location_similarity += loc_ratio
 
         # Legit
-        post_legit = current_post_entry["Legit"]
-        true_legit = current_true_entry["Legit"].iloc[0]
+        post_legit = str(current_post_entry["Legit"]).replace(" ", "")
+        true_legit = str(current_true_entry["Legit"].iloc[0]).replace(" ", "")
         if pd.isna(post_legit) == True and pd.isna(true_legit) == True:
             leg_skips += 1
         else:
             if metric == "fuzz":
                 leg_ratio = fuzz.ratio(post_legit, true_legit)
             elif metric == "char":
-                leg_ratio = character_error_rate(post_legit, true_legit)
+                leg_ratio = character_correct_rate(post_legit, true_legit)
             else: print("Error: no metric")
             
             legit_similarity += leg_ratio
         
         # Determinant
-        post_determinant = current_post_entry["Determinant"]
-        true_determinant = current_true_entry["Determinant"].iloc[0]
+        post_determinant = str(current_post_entry["Determinant"]).replace(" ", "")
+        true_determinant = str(current_true_entry["Determinant"].iloc[0]).replace(" ", "")
         if pd.isna(post_determinant) == True and pd.isna(true_determinant) == True:
             det_skips += 1
         else:
             if metric == "fuzz":
                 det_ratio = fuzz.ratio(post_determinant, true_determinant)
             elif metric == "char":
-                det_ratio = character_error_rate(post_determinant, true_determinant)
+                det_ratio = character_correct_rate(post_determinant, true_determinant)
             else: print("Error: no metric")
             
             determinant_similarity += det_ratio
         
         # Date
-        post_date = current_post_entry["Date"]
-        true_date = current_true_entry["Date"].iloc[0]
+        post_date = str(current_post_entry["Date"]).replace(" ", "")
+        true_date = str(current_true_entry["Date"].iloc[0]).replace(" ", "")
         if pd.isna(post_date) == True and pd.isna(true_date) == True:
             date_skips += 1
         else:
             if metric == "fuzz":
                 date_ratio = fuzz.ratio(post_date, true_date)
             elif metric == "char":
-                date_ratio = character_error_rate(post_date, true_date)
+                date_ratio = character_correct_rate(post_date, true_date)
             else: print("Error: no metric")
             
             date_similarity += date_ratio
         
         # Coordinates
-        post_coordinates = current_post_entry["Coordinates"]
-        true_coordinates = current_true_entry["Coordinates"].iloc[0]
+        post_coordinates = str(current_post_entry["Coordinates"]).replace(" ", "")
+        true_coordinates = str(current_true_entry["Coordinates"].iloc[0]).replace(" ", "")
         if pd.isna(post_coordinates) == True and pd.isna(true_coordinates) == True:
             coord_skips += 1
         else:
             if metric == "fuzz":
                 coord_ratio = fuzz.ratio(post_coordinates, true_coordinates)
             elif metric == "char":
-                coord_ratio = character_error_rate(post_coordinates, true_coordinates)
+                coord_ratio = character_correct_rate(post_coordinates, true_coordinates)
             else: print("Error: no metric")
             
             coordinates_similarity += coord_ratio
@@ -123,9 +123,9 @@ def compare_csv(input_csv, true_csv, metric):
 
     return avg_specimen_similarity, avg_location_similarity, avg_legit_similarity, avg_determinant_similarity, avg_date_similarity, avg_coordinates_similarity, avg_total
 
-def character_error_rate(string1, string2):
+def character_correct_rate(string1, string2):
     """
-    Calculates the precise character error rate given two strings. (Harsh metric)
+    Calculates the precise character correct rate given two strings.
     Example usage:
     string1: 'Test'
     string2: 'Tes'
@@ -133,13 +133,17 @@ def character_error_rate(string1, string2):
     """
     longest_string = ""
     shortest_string = ""
-    if len(str(string1)) > len(str(string2)):
+
+    string1 = str(string1).replace(" ", "")
+    string2 = str(string2).replace(" ", "")
+
+    if len(string1) > len(string2):
         longest_string = string1
         shortest_string = string2
     else:
         longest_string = string2
         shortest_string = string1
-
+ 
     matches = 0
     for i, char in enumerate(str(shortest_string)):
         if char == longest_string[i]:
