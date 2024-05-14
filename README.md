@@ -27,7 +27,7 @@ $ python gen_data.py
 
 ## Step 2:
 Train the model. The .json file for training data should be in the right folder from step 1.
-Uses the pre-trained model: https://huggingface.co/google-bert/bert-base-multilingual-cased\
+Uses the pre-trained model: https://huggingface.co/google-bert/bert-base-multilingual-cased \
 $ python solo_bert.py
 
 ## Step 3 (Optional):
