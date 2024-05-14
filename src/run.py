@@ -5,11 +5,8 @@ from OCR.output_handler import save_ocr_output
 from BERT.bert_to_csv import createCSV
 
 def main():
-    machine = ["689351.txt", "704605.txt", "859622.txt"]
 
-    test_specific_paths = machine
     image_directory = "herb_images_1980"
-    labels_directory = image_directory + "_runs"
 
     run_all = True
 
