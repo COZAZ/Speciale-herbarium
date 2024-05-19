@@ -59,7 +59,6 @@ def createCSV():
         leg_correct_index = 0
         
         pred_det = elm[4]
-       
         det_score = 0
         det_correct_index = 0
         
@@ -287,7 +286,7 @@ def findAndFormatDet(text):
     #Match for 'Det' (uppercase D)
     match2 = re.search(r'Det[^A-Z]*(?P<first_upper>[A-Z]).*', text)
     #Match for 'det' (lowercase D) 
-    match3 = re.search(r'det[^A-Z]*(?P<first_upper>[A-Z]).*', text) #:OOOOO
+    match3 = re.search(r'det[^A-Z]*(?P<first_upper>[A-Z]).*', text)
     if match:
         extracted_text = "Det: " + match.group('first_upper') + match.group()[(match.start('first_upper')+1):]
         return extracted_text
