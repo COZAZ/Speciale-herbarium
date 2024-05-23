@@ -7,6 +7,7 @@ from BERT.bert_to_csv import createCSV
 def main():
 
     image_directory = "herb_images_1980"
+    labels_directory = image_directory + "_runs"
 
     run_all = True
 
@@ -15,13 +16,13 @@ def main():
 
         ### Perform label detection ###
         print("\nPredicting labels...")
-        #predict_labels(image_directory)
-        #institute_label_data, annotation_label_data = get_label_info(labels_directory)
+        predict_labels(image_directory)
+        institute_label_data, annotation_label_data = get_label_info(labels_directory)
 
         ### Perform OCR ###
         print("\nPerforming OCR on images...")
-        #processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
-        #save_ocr_output(processed_images_data)
+        processed_images_data = process_image_data(institute_label_data, annotation_label_data, image_directory)
+        save_ocr_output(processed_images_data)
 
         ### Perform NER to parse output text ###
         print("\nParsing text to output...")
